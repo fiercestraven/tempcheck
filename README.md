@@ -1,5 +1,4 @@
-# light
-MSc Software Development capstone project
+MSc Software Development capstone project 2022-2023
 
 **DESCRIPTION**
 This is the software piece of the dissertation project for the completion of the MSc in Software Development at Queen's University Belfast. 
@@ -10,5 +9,3 @@ This is the software piece of the dissertation project for the completion of the
 
 **CONTACT**
 Frances Veit: fveit01@qub.ac.uk
-
-Created in 2022
