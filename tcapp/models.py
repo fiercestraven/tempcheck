@@ -1,4 +1,6 @@
+import datetime
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -50,5 +52,6 @@ class Ping(models.Model):
     # create foreign keys to both student_id and lecture_id
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
-    def __str__(self):
-        return self.ping_date
+    # fv - come up with something useable here?
+    # def __str__(self):
+    #     return 
