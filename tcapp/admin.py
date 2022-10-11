@@ -7,5 +7,19 @@ admin.site.register(Module)
 admin.site.register(Lecture)
 admin.site.register(Student)
 admin.site.register(Ping)
-admin.site.register(Question)
-admin.site.register(Choice)
+
+class ChoiceInline(admin.TabularInline):
+    model = Choice
+    extra = 3
+
+class QuestionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['question_text']}),
+        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+        # (None,               {'fields': ['lecture.module_id']}),
+        (None,               {'fields': ['lecture_id']}),
+    ]
+    inlines = [ChoiceInline]
+    list_display = ('question_text', 'lecture_id', 'pub_date')
+
+admin.site.register(Question, QuestionAdmin)

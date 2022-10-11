@@ -3,40 +3,47 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.template import loader
 
-from .models import Choice, Question
+from .models import Choice, Question, Lecture, Module
 
 # Create your views here.
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the index for the temperature check app.")
-    # fv - figure out how to display lectures here as dropdown or buttons or whatever
+    module_list = Module.objects.order_by('module_name')
+    lecture_list = Lecture.objects.order_by('lecture_name')
+    template = loader.get_template('tcapp/index.html')
+    context = {
+        'module_list': module_list,
+        'lecture_list': lecture_list,
+    }
+    return HttpResponse(template.render(context, request))
 
-def students(request, lecture_id):
-    response = "Welcome to lecture %s."
-    return HttpResponse(response  % lecture_id)
+def students(request, module_name, lecture_id):
+    module = get_object_or_404(Module, module_name=module_name)
+    lecture = get_object_or_404(Lecture, pk=lecture_id)
+    return render(request, 'tcapp/students.html', {'module': module, 'lecture': lecture})
 
-# fv - it looks like anything other than index may have to take an argument... figure out how to do stats page later
+# fv - it looks like anything other than index may have to take an argument... do stats page later
 # def stats(request):
 #     return HttpResponse("The stats page is still under construction. Check back later!")
 
-def module(request, module_id):
-    return HttpResponse("You're looking at module %s." % module_id)
+def module(request, module_name):
+    return HttpResponse(request, "You're looking at module {0}.".format(module_name))
     # fv - insert list of lectures here
+    # fv - fix this so that if there's no module by that name, it returns an error
 
-# fv - can't currently access lectures - need to figure out how to chain module_id/lecture_id (and how to still be able to access modules after)
-# def lecture(request, lecture_id):
-#     return HttpResponse("You're looking at lecture %s." % lecture_id)
+def lecture(request, module_name, lecture_id):
+    return HttpResponse(request, "You're looking at module {0}, lecture {1}.".format(module_name, lecture_id))
 
-def questiondetail(request, question_id):
+def question(request, question_id):
     # shortcut version using get_object_or_404
     question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'tcapp/questiondetail.html', {'question': question})
+    return render(request, 'tcapp/question.html', {'question': question})
 
 def results(request, question_id):
-    # dummy placeholder
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'tcapp/results.html', {'question': question})
 
 def vote(request, question_id):
     # initial dummy response
@@ -45,7 +52,7 @@ def vote(request, question_id):
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the question voting form.
-        return render(request, 'tcapp/questiondetail.html', {
+        return render(request, 'tcapp/question.html', {
             'question': question,
             'error_message': "You didn't select a choice.",
         })
