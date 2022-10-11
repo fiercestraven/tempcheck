@@ -29,12 +29,12 @@ def students(request, module_name, lecture_id):
 #     return HttpResponse("The stats page is still under construction. Check back later!")
 
 def module(request, module_name):
-    return HttpResponse(request, "You're looking at module {0}.".format(module_name))
+    return HttpResponse("You're looking at module {0}.".format(module_name))
     # fv - insert list of lectures here
     # fv - fix this so that if there's no module by that name, it returns an error
 
 def lecture(request, module_name, lecture_id):
-    return HttpResponse(request, "You're looking at module {0}, lecture {1}.".format(module_name, lecture_id))
+    return HttpResponse("You're looking at module {0}, lecture {1}.".format(module_name, lecture_id))
 
 def question(request, question_id):
     # shortcut version using get_object_or_404
