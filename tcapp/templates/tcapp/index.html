@@ -2,15 +2,16 @@
 <html lang="en">
 
 <!-- fv - figure out how to display lectures here as dropdown or buttons or whatever -->
-{% if lecture_list %}
-<ul>
-    {% for lecture in lecture_list %}
-    <li><a href="{% url 'tcapp:lecture' module_name=lecture.module.module_name lecture_id=lecture.id %}">Module {{
-            lecture.module.module_name }}, Lecture {{ lecture.id }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No lectures are available.</p>
-{% endif %}
-
+<body>
+    <h2>Please select from the following modules</h2>
+    {% if module_list %}
+    <ul>
+        {% for module in module_list %}
+        <li><a href="{% url 'tcapp:module' module_name=module.module_name %}">Module {{ module.module_name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No modules are available.</p>
+    {% endif %}
+</body>
 </html>

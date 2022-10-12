@@ -3,21 +3,27 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from django.template import loader
+# from django.template import loader
 
 from .models import Choice, Question, Lecture, Module
 
 # Create your views here.
 
-def index(request):
-    module_list = Module.objects.order_by('module_name')
-    lecture_list = Lecture.objects.order_by('lecture_name')
-    template = loader.get_template('tcapp/index.html')
-    context = {
-        'module_list': module_list,
-        'lecture_list': lecture_list,
-    }
-    return HttpResponse(template.render(context, request))
+class IndexView(generic.ListView):
+    template_name = 'tcapp/index.html'
+    # don't need context_object_name = 'module_list' here because blank_list is the default
+    def get_queryset(self):
+        """Return the list of modules."""
+        return Module.objects.order_by('module_name')
+# def index(request):
+#     module_list = Module.objects.order_by('module_name')
+#     lecture_list = Lecture.objects.order_by('lecture_name')
+#     template = loader.get_template('tcapp/index.html')
+#     context = {
+#         'module_list': module_list,
+#         'lecture_list': lecture_list,
+#     }
+#     return HttpResponse(template.render(context, request))
 
 def students(request, module_name, lecture_id):
     module = get_object_or_404(Module, module_name=module_name)
@@ -36,14 +42,21 @@ def module(request, module_name):
 def lecture(request, module_name, lecture_id):
     return HttpResponse("You're looking at module {0}, lecture {1}.".format(module_name, lecture_id))
 
-def question(request, question_id):
-    # shortcut version using get_object_or_404
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'tcapp/question.html', {'question': question})
 
-def results(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'tcapp/results.html', {'question': question})
+class QuestionView(generic.DetailView):
+    model = Question
+    template_name = 'tcapp/question.html'
+# def question(request, question_id):
+#     # shortcut version using get_object_or_404
+#     question = get_object_or_404(Question, pk=question_id)
+#     return render(request, 'tcapp/question.html', {'question': question})
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'tcapp/results.html'
+# def results(request, question_id):
+#     question = get_object_or_404(Question, pk=question_id)
+#     return render(request, 'tcapp/results.html', {'question': question})
 
 def vote(request, question_id):
     # initial dummy response
