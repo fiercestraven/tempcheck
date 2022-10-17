@@ -18,8 +18,8 @@ class Instructor(models.Model):
 class Module(models.Model):
     module_name = models.CharField(max_length=200)
     module_description = models.TextField(default = "")
-    # insert foreign key to instructor_id
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
     def __str__(self):
         return self.module_name
 

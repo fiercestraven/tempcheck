@@ -6,9 +6,7 @@ from django.urls import reverse
 
 from .models import Module
 
-# Create your tests here.
-
-
+# Create your tests here
 def create_module(module_name, module_description):
     """
     Create a module with the given name and description.
