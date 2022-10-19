@@ -11,7 +11,8 @@ from .models import Choice, Question, Lecture, Module
 
 class IndexView(generic.ListView):
     template_name = 'tcapp/index.html'
-    # don't need context_object_name = 'module_list' here because blank_list is the default
+    context_object_name = 'module_list'
+    # may not need context_object_name = 'module_list' here because blank_list is the default
     def get_queryset(self):
         """Return the list of modules."""
         return Module.objects.order_by('module_name')
@@ -35,7 +36,7 @@ def students(request, module_name, lecture_id):
 #     return HttpResponse("The stats page is still under construction. Check back later!")
 
 def module(request, module_name):
-    return HttpResponse("You're looking at module {0}.".format(module_name))
+    return HttpResponse("You're looking at {0}.".format(module_name))
     # fv - insert list of lectures here
     # fv - fix this so that if there's no module by that name, it returns an error
 
