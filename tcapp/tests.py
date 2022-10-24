@@ -38,7 +38,7 @@ class ModuleIndexViewTests(TestCase):
         """
         create_module(name="testmodule", desc="test", isactive=False)
         response = self.client.get(reverse('tcapp:index'))
-        self.assertContains(response, "No active modules to display.")
+        self.assertContains(response, "No modules to display.")
 
     def test_active_module_display(self):
         """
@@ -58,9 +58,8 @@ class ModuleIndexViewTests(TestCase):
         # self.assertContains(response, "No results are available.")
 
 
-# fv - next steps: test that only active modules are displayed.
 # https://docs.djangoproject.com/en/4.1/intro/tutorial05/
-# fv - after that, add a similar get_queryset method to ResultsView and create a new test class for that view.
+# fv - add a similar get_queryset method to ResultsView and create a new test class for that view.
 # fv - then, Questions can be published on the site that have no Choices. So, our views could check for this, and exclude such Questions. Our tests would create a Question without Choices and then test that it’s not published, as well as create a similar Question with Choices, and test that it is published.
 # fv - future tests might include making sure only pings in the relevant time frame are included. Make sure no pages are returning 404 that shouldn't be.
 # fv - note - have a separate TestClass for each model or view, and a separate test method for each set of conditions you want to test

@@ -1,3 +1,5 @@
+from datetime import datetime
+from pickle import PicklingError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -5,17 +7,16 @@ from django.views import generic
 from django.utils import timezone
 # from django.template import loader
 
-from .models import Choice, Question, Lecture, Module
+from .models import Choice, Ping, Question, Lecture, Module, Student, Instructor
 
 # Create your views here.
 
 class IndexView(generic.ListView):
     template_name = 'tcapp/index.html'
     context_object_name = 'module_list'
-    # may not need context_object_name = 'module_list' here because blank_list is the default
     def get_queryset(self):
         """Return the list of modules."""
-        return Module.objects.order_by('module_name')
+        return Module.objects.order_by('module_name').filter(is_active = True)
 # def index(request):
 #     module_list = Module.objects.order_by('module_name')
 #     lecture_list = Lecture.objects.order_by('lecture_name')
@@ -31,6 +32,19 @@ def students(request, module_name, lecture_id):
     lecture = get_object_or_404(Lecture, pk=lecture_id)
     return render(request, 'tcapp/students.html', {'module': module, 'lecture': lecture})
 
+def submit(request, module_name, lecture_id):
+    if request.method=="POST":
+        pdate=timezone.now()
+        module = get_object_or_404(Module, module_name=module_name)
+        lecture = get_object_or_404(Lecture, pk=lecture_id)
+        # fv - do something here to give the ping an actual student (from login info), and a lecture (from url)
+        pstudent = Student.objects.create(first_name="Lira", last_name="Learner", username="llearner", student_password="thinks33")
+        Ping.objects.create(ping_date=pdate, student=pstudent, lecture=lecture)
+        return render(request, 'tcapp/submit.html', {'module': module, 'lecture': lecture})
+    else:
+        return HttpResponseRedirect(reverse('tcapp:students', module=module, lecture_id=lecture.id))
+
+
 # fv - it looks like anything other than index may have to take an argument... do stats page later
 # def stats(request):
 #     return HttpResponse("The stats page is still under construction. Check back later!")
@@ -42,7 +56,6 @@ def module(request, module_name):
 
 def lecture(request, module_name, lecture_id):
     return HttpResponse("You're looking at module {0}, lecture {1}.".format(module_name, lecture_id))
-
 
 class QuestionView(generic.DetailView):
     model = Question

@@ -4,8 +4,10 @@
         <h1>Welcome, Students!</h1>
         <p>You are at Module {{ module.module_name }}, lecture number {{ lecture.id }}</p>
 
-        {# <!-- <form action="{%  %}" method="post"> --> #}
-            <input type="submit" value="Ping">
-        <!-- </form> -->
+        <form action="{% url 'tcapp:submit' module_name=module.module_name lecture_id=lecture.id%}" method="post">
+            {% csrf_token %}
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            <input type="submit" name="ping" id="ping" value="Ping">
+        </form>
     </body>
 </html>

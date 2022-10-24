@@ -51,7 +51,6 @@ class Student_Lecture(models.Model):
 
 class Ping(models.Model):
     ping_date = models.DateTimeField('date and time of ping')
-    # create foreign keys to both student_id and lecture_id
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
     # fv - come up with something useable here?
