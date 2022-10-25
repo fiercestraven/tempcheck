@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 {% extends 'tcapp/base.html' %}
+
+    <head>
+        <title>Temperature Check</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'tcapp/style.css' %}">
+    </head>
+
     <body>
+        {% block content %}
         <h3>Thanks for submitting a ping.</h3>
         <a href="{% url 'tcapp:students' module_name=module.module_name lecture_id=lecture.id%}">Submit another?</a>
-
+        {% endblock %}
     </body>
 </html>

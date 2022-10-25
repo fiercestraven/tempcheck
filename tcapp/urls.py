@@ -9,7 +9,7 @@ app_name ="tcapp"
 urlpatterns = [
     path('', include("django.contrib.auth.urls")),
     path('', TemplateView.as_view(template_name='tcapp/index.html'), name='index'),
-    path('lectures', views.LecturesView.as_view(), name='lectures'),
+    path('lectures/', views.LecturesView.as_view(), name='lectures'),
     # fv - revisit path names below for students. Not sure what makes sense here.
     path('<str:module_name>/', views.module_detail, name='module_detail'),
     path('<str:module_name>/lecture/<int:lecture_id>/', views.lecture_detail, name='lecture_detail'),

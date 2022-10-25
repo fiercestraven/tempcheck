@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 {% extends 'tcapp/base.html' %}
+
+    <head>
+        <title>Temperature Check</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'tcapp/style.css' %}">
+    </head>
+
     <body>
+        {% block content %}
         <h1>Welcome, Students!</h1>
         <p>You are at Module {{ module.module_name }}, lecture number {{ lecture.id }}</p>
 
@@ -10,5 +18,6 @@
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
             <input type="submit" name="ping" id="ping" value="Ping">
         </form>
+        {% endblock %}
     </body>
 </html>
