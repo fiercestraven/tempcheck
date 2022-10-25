@@ -1,14 +1,23 @@
-
 <!DOCTYPE HTML>
 <html lang="en">
 
+<head>
+    {% extends 'tcapp/base.html' %}
+    {% block title %}Temperature Check Login{% endblock %}
+    <title>Temperature Check Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tcapp/style.css' %}">
+</head>
+
 <body>
-    <h2>Log In</h2>
+    {% block content %}
+    <h1>Welcome to Temperature Check!</h1>
+    <p>Please log in to select a module and lecture.</p>
     <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Log In</button>
     </form>
-
+    {% endblock %}
 </body>
 </html>

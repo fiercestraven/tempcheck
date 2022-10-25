@@ -7,10 +7,11 @@ from . import views
 app_name ="tcapp"
 urlpatterns = [
     path('', include("django.contrib.auth.urls")),
-    path('', views.IndexView.as_view(), name='index'),
-        # fv - revisit path names below for students. Not sure what makes sense here.
-    path('<str:module_name>/', views.module, name='module'),
-    path('<str:module_name>/lecture/<int:lecture_id>/', views.lecture, name='lecture'),
+    path('', views.index, name='index'),
+    path('lectures', views.LecturesView.as_view(), name='lectures'),
+    # fv - revisit path names below for students. Not sure what makes sense here.
+    path('<str:module_name>/', views.module_detail, name='module_detail'),
+    path('<str:module_name>/lecture/<int:lecture_id>/', views.lecture_detail, name='lecture_detail'),
     path('<str:module_name>/lecture/<int:lecture_id>/students/', views.students, name='students'),
     path('<str:module_name>/lecture/<int:lecture_id>/submit/', views.submit, name='submit'),
     path('question/<int:pk>/', views.QuestionView.as_view(), name='question'),

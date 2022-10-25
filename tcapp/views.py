@@ -11,21 +11,8 @@ from .models import Choice, Ping, Question, Lecture, Module, Student, Instructor
 
 # Create your views here.
 
-class IndexView(generic.ListView):
-    template_name = 'tcapp/index.html'
-    context_object_name = 'module_list'
-    def get_queryset(self):
-        """Return the list of modules."""
-        return Module.objects.order_by('module_name').filter(is_active = True)
-# def index(request):
-#     module_list = Module.objects.order_by('module_name')
-#     lecture_list = Lecture.objects.order_by('lecture_name')
-#     template = loader.get_template('tcapp/index.html')
-#     context = {
-#         'module_list': module_list,
-#         'lecture_list': lecture_list,
-#     }
-#     return HttpResponse(template.render(context, request))
+def index(request):
+    return render(request, 'tcapp/index.html')
 
 def students(request, module_name, lecture_id):
     module = get_object_or_404(Module, module_name=module_name)
@@ -44,17 +31,32 @@ def submit(request, module_name, lecture_id):
     else:
         return HttpResponseRedirect(reverse('tcapp:students', module=module, lecture_id=lecture.id))
 
-
 # fv - it looks like anything other than index may have to take an argument... do stats page later
 # def stats(request):
 #     return HttpResponse("The stats page is still under construction. Check back later!")
 
-def module(request, module_name):
+class LecturesView(generic.ListView):
+    template_name = 'tcapp/lectures.html'
+    context_object_name = 'module_list'
+    def get_queryset(self):
+        """Return the list of modules."""
+        return Module.objects.order_by('module_name').filter(is_active = True)
+# def lectures(request):
+#     module_list = Module.objects.order_by('module_name')
+#     lecture_list = Lecture.objects.order_by('lecture_name')
+#     template = loader.get_template('tcapp/lectures.html')
+#     context = {
+#         'module_list': module_list,
+#         'lecture_list': lecture_list,
+#     }
+#     return HttpResponse(template.render(context, request))
+
+def module_detail(request, module_name):
     return HttpResponse("You're looking at {0}.".format(module_name))
     # fv - insert list of lectures here
     # fv - fix this so that if there's no module by that name, it returns an error
 
-def lecture(request, module_name, lecture_id):
+def lecture_detail(request, module_name, lecture_id):
     return HttpResponse("You're looking at module {0}, lecture {1}.".format(module_name, lecture_id))
 
 class QuestionView(generic.DetailView):

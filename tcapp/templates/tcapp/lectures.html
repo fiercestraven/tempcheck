@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% extends 'tcapp/base.html' %}
+
+<head>
+    <title>Temperature Check</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tcapp/style.css' %}">
+</head>
+
+<!-- fv - figure out how to display lectures here as dropdown or buttons or whatever -->
+
+<body>
+    {% block content %}
+    {% if user.is_authenticated %}
+        Hi {{ user.username }}!
+        <h2>Please select a module:</h2>
+        {% if module_list %}
+            <ul>
+                {% for module in module_list %}
+                        <li><a href="{% url 'tcapp:module_detail' module_name=module.module_name %}">Module {{ module.module_name }}</a></li>
+                {% endfor %}
+            </ul>
+            <!-- fv - add logout feature here -->
+           <a href="{% url 'tcapp:logout' %}">Log Out</a>
+        {% else %}
+            <p>No modules to display.</p>
+        {% endif %}
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'tcapp:login' %}">Log In</a>
+    {% endif %}
+    {% endblock %}
+
+</body>
+
+</html>

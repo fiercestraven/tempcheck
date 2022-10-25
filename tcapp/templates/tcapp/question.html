@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% extends 'tcapp/base.html' %}
 
     <form action="{% url 'tcapp:vote' question.id %}" method="post">
         {% csrf_token %}

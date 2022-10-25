@@ -1,0 +1,11 @@
+<!DOCTYPE HTML>
+<html lang="en">
+{% extends 'tcapp/base.html' %}
+{% block title %}Log Out{% endblock %}
+<body>
+    {% block content %}
+    <h2>Log Back In?</h2>
+    <a href="{% url 'login' %}">Log In</a>
+    {% endblock %}
+</body>
+</html>
