@@ -15,6 +15,7 @@
     {% block content %}
     {% if user.is_authenticated %}
         Hi {{ user.username }}!
+        <a href="{% url 'tcapp:logout' %}">Log Out</a>
         <h2>Please select a module:</h2>
         {% if module_list %}
             <ul>
@@ -22,8 +23,6 @@
                         <li><a href="{% url 'tcapp:module_detail' module_name=module.module_name %}">Module {{ module.module_name }}</a></li>
                 {% endfor %}
             </ul>
-            <!-- fv - add logout feature here -->
-           <a href="{% url 'tcapp:logout' %}">Log Out</a>
         {% else %}
             <p>No modules to display.</p>
         {% endif %}

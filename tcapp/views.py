@@ -1,18 +1,19 @@
-from datetime import datetime
-from pickle import PicklingError
+# from datetime import datetime
+# from pickle import PicklingError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from django.template import loader
+# from django.template import loader
 
 from .models import Choice, Ping, Question, Lecture, Module, Student, Instructor
 
 # Create your views here.
 
-def index(request):
-    return render(request, 'tcapp/index.html')
+# can omit below thanks to template view in urls
+# def index(request):
+#     return render(request, 'tcapp/index.html')
 
 def students(request, module_name, lecture_id):
     module = get_object_or_404(Module, module_name=module_name)
@@ -24,7 +25,7 @@ def submit(request, module_name, lecture_id):
         pdate=timezone.now()
         module = get_object_or_404(Module, module_name=module_name)
         lecture = get_object_or_404(Lecture, pk=lecture_id)
-        # fv - do something here to give the ping an actual student (from login info), and a lecture (from url)
+        # fv - do something here to give the ping an actual student (from login info)
         pstudent = Student.objects.create(first_name="Lira", last_name="Learner", username="llearner", student_password="thinks33")
         Ping.objects.create(ping_date=pdate, student=pstudent, lecture=lecture)
         return render(request, 'tcapp/submit.html', {'module': module, 'lecture': lecture})
