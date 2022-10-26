@@ -12,7 +12,9 @@
 <body>
     {% block content %}
         <h1>Welcome to Temperature Check!</h1>
-        <!-- <p>Insert login buttons for admin and students here, as well as a brief overview and nifty logo and whatnot.</p> -->
+        <p><a href="{% url 'tcapp:login' %}">Log In</a></p>
+        <p><a href="{% url 'admin:index' %}">Admin</a></p>
+        <!-- <p>Insert a brief overview and nifty logo and whatnot.</p> -->
     {% endblock %}
 
 </body>
