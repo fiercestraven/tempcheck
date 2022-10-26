@@ -15,10 +15,11 @@ from .models import Choice, Ping, Question, Lecture, Module, Student
 # def index(request):
 #     return render(request, 'tcapp/index.html')
 
-def students(request, module_name, lecture_id):
-    module = get_object_or_404(Module, module_name=module_name)
-    lecture = get_object_or_404(Lecture, pk=lecture_id)
-    return render(request, 'tcapp/students.html', {'module': module, 'lecture': lecture})
+# fv - should be able to omit students view
+# def students(request, module_name, lecture_id):
+#     module = get_object_or_404(Module, module_name=module_name)
+#     lecture = get_object_or_404(Lecture, pk=lecture_id)
+#     return render(request, 'tcapp/students.html', {'module': module, 'lecture': lecture})
 
 def submit(request, module_name, lecture_id):
     if request.method=="POST":
@@ -54,12 +55,14 @@ class LecturesView(generic.ListView):
 #     return HttpResponse(template.render(context, request))
 
 # fv - should be able to omit this view
-def module_detail(request, module_name):
-    return HttpResponse("You're looking at {0}.".format(module_name))
+# def module_detail(request, module_name):
+#     return HttpResponse("You're looking at {0}.".format(module_name))
     # fv - fix this so that if there's no module by that name, it returns an error
 
 def lecture_detail(request, module_name, lecture_id):
-    return HttpResponse("You're looking at module {0}, lecture {1}.".format(module_name, lecture_id))
+    module = get_object_or_404(Module, module_name=module_name)
+    lecture = get_object_or_404(Lecture, pk=lecture_id)
+    return render(request, 'tcapp/lecture.html', {'module': module, 'lecture': lecture})
 
 class QuestionView(generic.DetailView):
     model = Question
