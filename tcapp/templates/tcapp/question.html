@@ -2,6 +2,14 @@
 <html lang="en">
 {% extends 'tcapp/base.html' %}
 
+<head>
+    <title>Temperature Check</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tcapp/style.css' %}">
+</head>
+
+<body>
+    {% block content %}
     <form action="{% url 'tcapp:vote' question.id %}" method="post">
         {% csrf_token %}
         <fieldset>
@@ -14,5 +22,7 @@
         </fieldset>
         <input type="submit" value="Vote">
     </form>
+    {% endblock %}
+</body>
 
 </html>

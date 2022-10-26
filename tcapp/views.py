@@ -7,7 +7,7 @@ from django.views import generic
 from django.utils import timezone
 # from django.template import loader
 
-from .models import Choice, Ping, Question, Lecture, Module, Student, Instructor
+from .models import Choice, Ping, Question, Lecture, Module, Student
 
 # Create your views here.
 
@@ -25,12 +25,13 @@ def submit(request, module_name, lecture_id):
         pdate=timezone.now()
         module = get_object_or_404(Module, module_name=module_name)
         lecture = get_object_or_404(Lecture, pk=lecture_id)
+        # student = get_object_or_404(Student, pk=Student.id)
         # fv - do something here to give the ping an actual student (from login info)
         pstudent = Student.objects.create(first_name="Lira", last_name="Learner", username="llearner", student_password="thinks33")
         Ping.objects.create(ping_date=pdate, student=pstudent, lecture=lecture)
         return render(request, 'tcapp/submit.html', {'module': module, 'lecture': lecture})
     else:
-        return HttpResponseRedirect(reverse('tcapp:students', module=module, lecture_id=lecture.id))
+        return HttpResponseRedirect(reverse('tcapp:students', args=(module.module_name, lecture.id)))
 
 # fv - it looks like anything other than index may have to take an argument... do stats page later
 # def stats(request):
@@ -40,7 +41,7 @@ class LecturesView(generic.ListView):
     template_name = 'tcapp/lectures.html'
     context_object_name = 'module_list'
     def get_queryset(self):
-        """Return the list of modules."""
+        """Return the lists of modules."""
         return Module.objects.order_by('module_name').filter(is_active = True)
 # def lectures(request):
 #     module_list = Module.objects.order_by('module_name')
@@ -52,9 +53,9 @@ class LecturesView(generic.ListView):
 #     }
 #     return HttpResponse(template.render(context, request))
 
+# fv - should be able to omit this view
 def module_detail(request, module_name):
     return HttpResponse("You're looking at {0}.".format(module_name))
-    # fv - insert list of lectures here
     # fv - fix this so that if there's no module by that name, it returns an error
 
 def lecture_detail(request, module_name, lecture_id):
