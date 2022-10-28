@@ -7,6 +7,7 @@ from django.views import generic
 from django.utils import timezone
 # from django.template import loader
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
 from .models import Choice, Ping, Question, Lecture, Module, Student
 
@@ -26,15 +27,15 @@ def signup(request):
 #     lecture = get_object_or_404(Lecture, pk=lecture_id)
 #     return render(request, 'tcapp/students.html', {'module': module, 'lecture': lecture})
 
+@login_required
 def submit(request, module_name, lecture_id):
     if request.method=="POST":
         pdate=timezone.now()
         module = get_object_or_404(Module, module_name=module_name)
         lecture = get_object_or_404(Lecture, pk=lecture_id)
-        # student = get_object_or_404(Student, pk=Student.id)
-        # fv - do something here to give the ping an actual student (from login info)
-        pstudent = Student.objects.create(first_name="Lira", last_name="Learner", username="llearner", student_password="thinks33")
-        Ping.objects.create(ping_date=pdate, student=pstudent, lecture=lecture)
+        student = request.user
+        # pstudent = Student.objects.create(first_name="Lira", last_name="Learner", username="llearner", student_password="thinks33")
+        Ping.objects.create(ping_date=pdate, student=student, lecture=lecture)
         return render(request, 'tcapp/submit.html', {'module': module, 'lecture': lecture})
     else:
         return HttpResponseRedirect(reverse('tcapp:students', args=(module.module_name, lecture.id)))
