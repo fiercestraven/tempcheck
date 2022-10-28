@@ -10,6 +10,7 @@ urlpatterns = [
     # fv - should be able to omit module_detail and students
     path('', include("django.contrib.auth.urls")),
     path('', TemplateView.as_view(template_name='tcapp/index.html'), name='index'),
+    path('signup/', views.signup, name='signup'),
     path('lectures/', views.LecturesView.as_view(), name='lectures'),
     # fv - revisit path names below for students. Not sure what makes sense here.
     # path('<str:module_name>/', views.module_detail, name='module_detail'),

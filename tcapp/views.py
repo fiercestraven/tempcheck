@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 # from django.template import loader
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import Choice, Ping, Question, Lecture, Module, Student
 
@@ -14,6 +15,10 @@ from .models import Choice, Ping, Question, Lecture, Module, Student
 # can omit below thanks to template view in urls
 # def index(request):
 #     return render(request, 'tcapp/index.html')
+
+def signup(request):
+    form = UserCreationForm()
+    return render(request, 'tcapp/signup.html', {'form': form})
 
 # fv - should be able to omit students view
 # def students(request, module_name, lecture_id):
