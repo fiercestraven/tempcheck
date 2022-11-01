@@ -1,12 +1,6 @@
 from django.contrib import admin
-from .models import Instructor, Module, Lecture, Student, Ping, Question, Choice
-
-# Register your models here.
-admin.site.register(Instructor)
-admin.site.register(Module)
-admin.site.register(Lecture)
-admin.site.register(Student)
-admin.site.register(Ping)
+from django.contrib.auth.admin import UserAdmin
+from .models import Module, Lecture, Ping, Question, Choice, User
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -22,4 +16,14 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
     list_display = ('question_text', 'lecture_id', 'pub_date')
 
+class UserAdmin(admin.ModelAdmin):
+    fields = ['first_name', 'last_name', 'username', 'email', 'password', 'is_staff']
+    list_filter = ('is_staff',)
+
+# Register your models here.
+admin.site.register(Module)
+admin.site.register(Lecture)
+admin.site.register(Ping)
 admin.site.register(Question, QuestionAdmin)
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)

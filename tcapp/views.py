@@ -9,17 +9,27 @@ from django.utils import timezone
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
-from .models import Choice, Ping, Question, Lecture, Module, Student
+from .models import Choice, Ping, Question, Lecture, Module
 
-# Create your views here.
+# Views
 
 # can omit below thanks to template view in urls
 # def index(request):
 #     return render(request, 'tcapp/index.html')
 
-def signup(request):
-    form = UserCreationForm()
-    return render(request, 'tcapp/signup.html', {'form': form})
+def signup(request): 
+    if request.POST == 'POST':  
+        form = UserCreationForm()  
+        if form.is_valid():  
+            form.save()    
+    else:  
+        form = UserCreationForm()  
+    context = {  
+        'form':form  
+    }  
+    return render(request, 'tcapp/signup.html', context)  
+    # form = UserCreationForm()
+    # return render(request, 'tcapp/signup.html', {'form': form})
 
 # fv - should be able to omit students view
 # def students(request, module_name, lecture_id):
