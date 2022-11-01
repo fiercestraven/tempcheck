@@ -3,7 +3,8 @@
 {% extends 'tcapp/base.html' %}
 
     <head>
-        <title>Temperature Check</title>
+        {% block title %}Ping Submit{% endblock %}
+        <title>Ping Submission</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'tcapp/style.css' %}">
     </head>
