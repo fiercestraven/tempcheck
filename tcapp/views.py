@@ -1,12 +1,13 @@
-# from datetime import datetime
-# from pickle import PicklingError
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 # from django.template import loader
-from django.contrib.auth.forms import UserCreationForm
+from .forms import SignUpForm
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
 from .models import Choice, Ping, Question, Lecture, Module
@@ -18,18 +19,42 @@ from .models import Choice, Ping, Question, Lecture, Module
 #     return render(request, 'tcapp/index.html')
 
 def signup(request): 
-    if request.POST == 'POST':  
-        form = UserCreationForm()  
+    if request.user.is_authenticated:
+        return redirect('tcapp:lectures')
+
+    if request.method == 'POST':  
+        form = SignUpForm(request.POST)  
         if form.is_valid():  
-            form.save()    
+            form.save()  
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            authenticate(username = username,password = password)
+            # add message to the login page here to show it was a successful signup
+            return redirect('tcapp:lectures') 
+        else:
+            return render(request,'tcapp/signup.html',{'form':form})
     else:  
-        form = UserCreationForm()  
-    context = {  
-        'form':form  
-    }  
-    return render(request, 'tcapp/signup.html', context)  
-    # form = UserCreationForm()
-    # return render(request, 'tcapp/signup.html', {'form': form})
+        form = SignUpForm()  
+        return render(request, 'tcapp/signup.html', {'form':form})  
+
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('tcapp:lectures')
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username =username, password = password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('tcapp:lectures')
+        else:
+            form = AuthenticationForm()
+            return render(request,'tcapp:login',{'form':form})
+    else:
+        form = AuthenticationForm()
+        return render(request, 'tcapp:login', {'form':form})
 
 # fv - should be able to omit students view
 # def students(request, module_name, lecture_id):

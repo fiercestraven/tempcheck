@@ -11,12 +11,16 @@
 
 <body>
     {% block content %}
-    <p>Please log in to select a module and lecture.</p>
+    <h2>Please log in to select a module and lecture.</h2>
     <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Log In</button>
     </form>
+
+    <br>
+    <h3>Don't have an account?</h3>
+    <a href = "{% url 'tcapp:signup' %}">Sign Up Here</a>
     {% endblock %}
 </body>
 </html>
