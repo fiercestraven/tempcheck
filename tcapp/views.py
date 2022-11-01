@@ -25,10 +25,16 @@ def signup(request):
     if request.method == 'POST':  
         form = SignUpForm(request.POST)  
         if form.is_valid():  
-            form.save()  
+            user = form.save()  
+            user.refresh_from_db()
+            # fv - if I get profile stuff to work, change the 3 lines below to match: user.profile.first_name = form.cleaned_data.get('first_name')
+            user.first_name = form.cleaned_data.get('first_name')
+            user.last_name = form.cleaned_data.get('last_name')
+            user.email = form.cleaned_data.get('email')
+            user.save()
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            authenticate(username = username,password = password)
+            user = authenticate(username=username, password=password)
             # add message to the login page here to show it was a successful signup
             return redirect('tcapp:lectures') 
         else:

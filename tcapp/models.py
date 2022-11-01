@@ -1,9 +1,9 @@
-import datetime
 
 from django.db import models
-from django.utils import timezone
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -19,6 +19,22 @@ from django.contrib.auth.models import User
 #     instructor_password = models.CharField(max_length=200)
 #     def __str__(self):
 #         return self.username
+
+# fv - maybe implement profile later. https://dev.to/thepylot/create-advanced-user-sign-up-view-in-django-step-by-step-k9m Problem it caused was that admin login no longer worked-- said that user had no profile.
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     first_name = models.CharField(max_length=100, blank=True)
+#     last_name = models.CharField(max_length=100, blank=True)
+#     email = models.EmailField(max_length=150)
+#     # bio = models.TextField()
+#     def __str__(self):
+#         return self.user.username
+    
+# @receiver(post_save, sender=User)
+# def update_profile_signal(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
+#     instance.profile.save()
 
 class Module(models.Model):
     module_name = models.CharField(max_length=200)
