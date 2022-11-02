@@ -23,7 +23,7 @@
                     {% if module.lecture_set.all %}
                         {% for lecture in module.lecture_set.all %}
                             <ul>
-                                <li>Lecture <a href="{% url 'tcapp:lecture_detail' module_name=module.module_name lecture_id=lecture.id%}">{{ lecture.lecture_name }}</a></li>
+                                <li>Lecture <a href="{% url 'tcapp:lecture_detail' module_name=module.module_name lecture_name=lecture.lecture_name %}">{{ lecture.lecture_name }}</a></li>
                             </ul>
                         {% endfor %}
                     {% else %}

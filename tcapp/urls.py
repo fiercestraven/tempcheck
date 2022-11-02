@@ -1,22 +1,26 @@
 # fv - below admin part is from tutorial https://learndjango.com/tutorials/django-login-and-logout-tutorial; not sure if needed
-# from django.contrib import admin
+from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
-
 from . import views
+# fv - can remove below 5 lines if not using for stats view
+# from django.contrib import admin
+# from adminplus.sites import AdminSitePlus
+
+# admin.site = AdminSitePlus()
+# admin.sites.site = admin.site
+# admin.autodiscover()
 
 app_name ="tcapp"
 urlpatterns = [
-    # fv - should be able to omit module_detail and students
     path('', include("django.contrib.auth.urls")),
     path('', TemplateView.as_view(template_name='tcapp/index.html'), name='index'),
     path('signup/', views.signup, name='signup'),
-    path('lectures/', views.LecturesView.as_view(), name='lectures'),
-    # fv - revisit path names below for students. Not sure what makes sense here.
+    # fv - revisit module detail view - keep?
     # path('<str:module_name>/', views.module_detail, name='module_detail'),
-    path('<str:module_name>/lecture/<int:lecture_id>/', views.lecture_detail, name='lecture_detail'),
-    # path('<str:module_name>/lecture/<int:lecture_id>/students/', views.students, name='students'),
-    path('<str:module_name>/lecture/<int:lecture_id>/submit/', views.submit, name='submit'),
+    path('lectures/', views.LecturesView.as_view(), name='lectures'),
+    path('lectures/<str:module_name>/<str:lecture_name>/', views.lecture_detail, name='lecture_detail'),
+    path('lectures/<str:module_name>/<str:lecture_name>/submit/', views.submit, name='submit'),
     path('question/<int:pk>/', views.QuestionView.as_view(), name='question'),
     path('question/<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     path('question/<int:question_id>/vote/', views.vote, name='vote'),

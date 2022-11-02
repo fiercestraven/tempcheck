@@ -35,8 +35,9 @@ def signup(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
-            # add message to the login page here to show it was a successful signup
-            return redirect('tcapp:lectures') 
+            # fv - add message to the login page here to show it was a successful signup
+            # fv - is below line working?
+            return redirect('tcapp/lectures') 
         else:
             return render(request,'tcapp/signup.html',{'form':form})
     else:  
@@ -45,7 +46,8 @@ def signup(request):
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('tcapp:lectures')
+        return HttpResponseRedirect(reverse('tcapp:lectures'))
+        # return redirect('tcapp/lectures')
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -54,7 +56,7 @@ def login(request):
 
         if user is not None:
             login(request, user)
-            return redirect('tcapp:lectures')
+            return redirect('tcapp/lectures')
         else:
             form = AuthenticationForm()
             return render(request,'tcapp:login',{'form':form})
@@ -62,24 +64,18 @@ def login(request):
         form = AuthenticationForm()
         return render(request, 'tcapp:login', {'form':form})
 
-# fv - should be able to omit students view
-# def students(request, module_name, lecture_id):
-#     module = get_object_or_404(Module, module_name=module_name)
-#     lecture = get_object_or_404(Lecture, pk=lecture_id)
-#     return render(request, 'tcapp/students.html', {'module': module, 'lecture': lecture})
-
 @login_required
-def submit(request, module_name, lecture_id):
+def submit(request, module_name, lecture_name):
     if request.method=="POST":
         pdate=timezone.now()
         module = get_object_or_404(Module, module_name=module_name)
-        lecture = get_object_or_404(Lecture, pk=lecture_id)
+        lecture = get_object_or_404(Lecture, lecture_name=lecture_name)
         student = request.user
         # pstudent = Student.objects.create(first_name="Lira", last_name="Learner", username="llearner", student_password="thinks33")
         Ping.objects.create(ping_date=pdate, student=student, lecture=lecture)
         return render(request, 'tcapp/submit.html', {'module': module, 'lecture': lecture})
     else:
-        return HttpResponseRedirect(reverse('tcapp:students', args=(module.module_name, lecture.id)))
+        return HttpResponseRedirect(reverse('tcapp:lectures', args=(module.module_name, lecture.lecture_name)))
 
 # fv - it looks like anything other than index may have to take an argument... do stats page later
 # def stats(request):
@@ -106,9 +102,9 @@ class LecturesView(generic.ListView):
 #     return HttpResponse("You're looking at {0}.".format(module_name))
     # fv - fix this so that if there's no module by that name, it returns an error
 
-def lecture_detail(request, module_name, lecture_id):
+def lecture_detail(request, module_name, lecture_name):
     module = get_object_or_404(Module, module_name=module_name)
-    lecture = get_object_or_404(Lecture, pk=lecture_id)
+    lecture = get_object_or_404(Lecture, lecture_name=lecture_name)
     return render(request, 'tcapp/lecture.html', {'module': module, 'lecture': lecture})
 
 class QuestionView(generic.DetailView):

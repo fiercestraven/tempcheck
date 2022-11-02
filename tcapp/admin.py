@@ -21,13 +21,13 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ('username', 'first_name', 'last_name', 'email', 'is_staff')
 
 class ModuleAdmin(admin.ModelAdmin):
-    fields = ['module_name', 'instructor', 'is_active']
+    fields = ['module_name', 'module_description', 'instructor', 'is_active']
     list_filter = ('is_active',)
-    list_display = ('module_name', 'instructor', 'is_active')
+    list_display = ('module_name', 'module_description', 'instructor', 'is_active')
 
 class LectureAdmin(admin.ModelAdmin):
-    fields = ['module', 'lecture_name', 'lecture_date']
-    list_display = ('module', 'lecture_name', 'lecture_date')
+    fields = ['module', 'lecture_name', 'lecture_description', 'lecture_date']
+    list_display = ('module', 'lecture_name', 'lecture_description', 'lecture_date')
 
 class PingAdmin(admin.ModelAdmin):
     fields = ['student', 'lecture', 'ping_date']

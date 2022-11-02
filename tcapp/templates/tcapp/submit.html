@@ -12,7 +12,7 @@
     <body>
         {% block content %}
         <h3>Thanks for submitting a ping.</h3>
-        <a href="{% url 'tcapp:lecture_detail' module_name=module.module_name lecture_id=lecture.id %}">Submit another?</a>
+        <a href="{% url 'tcapp:lecture_detail' module_name=module.module_name lecture_name=lecture.lecture_name %}">Submit another?</a>
         {% endblock %}
     </body>
 </html>
