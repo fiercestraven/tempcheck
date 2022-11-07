@@ -15,8 +15,12 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
     list_display = ('question_text', 'lecture', 'pub_date')
 
-class UserAdmin(admin.ModelAdmin):
-    fields = ['first_name', 'last_name', 'username', 'email', 'password', 'is_staff']
+class UserAdmin(UserAdmin):
+    # have to use UserAdmin instead of modelAdmin and add_fieldsets because of overriding the built-in User model forms: https//docs.djangoproject.com/en/4.1/topics/auth/customizing/
+    add_fieldsets = [
+        ('Account info', {'fields': ['username', 'password1', 'password2', 'is_staff']}),
+        ('Personal info', {"fields": ("first_name", "last_name", "email")}),
+    ]
     list_filter = ('is_staff',)
     list_display = ('username', 'first_name', 'last_name', 'email', 'is_staff')
 

@@ -45,14 +45,16 @@ def signup(request):
         return render(request, 'tcapp/signup.html', {'form':form})  
 
 def login(request):
+    print('foo')
     if request.user.is_authenticated:
+        print('bah')
         return HttpResponseRedirect(reverse('tcapp:lectures'))
         # return redirect('tcapp/lectures')
-
+    print('huh')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username =username, password = password)
+        user = authenticate(request, username = username, password = password)
 
         if user is not None:
             login(request, user)
