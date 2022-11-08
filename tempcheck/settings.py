@@ -31,16 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # fv - remove commented out ones if not using for stats page view
     'tcapp.apps.TcappConfig',
     'django.contrib.admin',
-    # 'django.contrib.admin.apps.SimpleAdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'adminplus',
 ]
 
 MIDDLEWARE = [
@@ -130,5 +127,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "/tcapp/lectures"
+LOGIN_URL = "/tcapp/accounts/login/"
+LOGIN_REDIRECT_URL = "/tcapp/lectures/"
 LOGOUT_REDIRECT_URL = "/tcapp/"
