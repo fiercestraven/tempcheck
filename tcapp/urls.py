@@ -24,6 +24,5 @@ urlpatterns = [
     path('question/<int:pk>/', views.QuestionView.as_view(), name='question'),
     path('question/<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     path('question/<int:question_id>/vote/', views.vote, name='vote'),
-    # fv - implement stats view later
-    # path('', views.stats, name='stats'),
+    path('stats/', TemplateView.as_view(template_name='tcapp/stats.html'), name='stats'),
 ]

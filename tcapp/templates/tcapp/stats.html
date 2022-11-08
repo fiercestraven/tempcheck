@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'tcapp/base.html' %}
+
+<body>
+    {% block content %}
+    <h3>You've landed on the stats page.</h3>
+    <a href="{% url 'admin:index' %}">Return to admin</a>
+    {% endblock %}
+</body>
+</html>

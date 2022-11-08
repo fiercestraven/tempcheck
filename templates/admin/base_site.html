@@ -10,4 +10,9 @@
 
 {% block nav-global %}{% endblock %}
 
+{% block userlinks %}
+    <a href="{% url 'tcapp:stats' %}">Stats</a> /
+    {{ block.super }}
+{% endblock %}
+
 </html>
