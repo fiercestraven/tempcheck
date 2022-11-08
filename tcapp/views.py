@@ -18,6 +18,12 @@ from .models import Choice, Ping, Question, Lecture, Module
 # def index(request):
 #     return render(request, 'tcapp/index.html')
 
+def index(request):
+    if request.user.is_authenticated:
+        return redirect('tcapp:lectures')
+    else:
+        return render(request, 'tcapp/index.html',)
+
 def signup(request): 
     if request.user.is_authenticated:
         return redirect('tcapp:lectures')
@@ -44,44 +50,37 @@ def signup(request):
         form = SignUpForm()  
         return render(request, 'tcapp/signup.html', {'form':form})  
 
-def login(request):
-    print('foo')
-    if request.user.is_authenticated:
-        print('bah')
-        return HttpResponseRedirect(reverse('tcapp:lectures'))
-        # return redirect('tcapp/lectures')
-    print('huh')
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username = username, password = password)
+# def login(request):
+#     if request.user.is_authenticated:
+#         return redirect('tcapp/lectures')
 
-        if user is not None:
-            login(request, user)
-            return redirect('tcapp/lectures')
-        else:
-            form = AuthenticationForm()
-            return render(request,'tcapp:login',{'form':form})
-    else:
-        form = AuthenticationForm()
-        return render(request, 'tcapp:login', {'form':form})
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username = username, password = password)
+
+#         if user is not None:
+#             login(request, user)
+#             return redirect('tcapp/lectures')
+#         else:
+#             form = AuthenticationForm()
+#             return render(request,'tcapp:login',{'form':form})
+#     else:
+#         form = AuthenticationForm()
+#         return render(request, 'tcapp:login', {'form':form})
 
 @login_required
 def submit(request, module_name, lecture_name):
+    pdate=timezone.now()
+    module = get_object_or_404(Module, module_name=module_name)
+    lecture = get_object_or_404(Lecture, lecture_name=lecture_name)
+    student = request.user
     if request.method=="POST":
-        pdate=timezone.now()
-        module = get_object_or_404(Module, module_name=module_name)
-        lecture = get_object_or_404(Lecture, lecture_name=lecture_name)
-        student = request.user
-        # pstudent = Student.objects.create(first_name="Lira", last_name="Learner", username="llearner", student_password="thinks33")
         Ping.objects.create(ping_date=pdate, student=student, lecture=lecture)
         return render(request, 'tcapp/submit.html', {'module': module, 'lecture': lecture})
     else:
-        return HttpResponseRedirect(reverse('tcapp:lectures', args=(module.module_name, lecture.lecture_name)))
-
-# fv - it looks like anything other than index may have to take an argument... do stats page later
-# def stats(request):
-#     return HttpResponse("The stats page is still under construction. Check back later!")
+        # fv - is this working?
+        return HttpResponseRedirect(reverse('tcapp:lecture_detail', args=(module.module_name, lecture.lecture_name)))
 
 class LecturesView(generic.ListView):
     template_name = 'tcapp/lectures.html'

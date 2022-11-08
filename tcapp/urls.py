@@ -3,18 +3,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
 from . import views
-# fv - can remove below 5 lines if not using for stats view
-# from django.contrib import admin
-# from adminplus.sites import AdminSitePlus
-
-# admin.site = AdminSitePlus()
-# admin.sites.site = admin.site
-# admin.autodiscover()
+from django.contrib.auth import views as auth_views
 
 app_name ="tcapp"
 urlpatterns = [
-    path('', include("django.contrib.auth.urls")),
-    path('', TemplateView.as_view(template_name='tcapp/index.html'), name='index'),
+    path('', views.index, name='index'),
+    # https://docs.djangoproject.com/en/4.1/topics/auth/default/#django.contrib.auth.views.LoginView
+    path('accounts/login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
+    path('accounts/', include("django.contrib.auth.urls")),
     path('signup/', views.signup, name='signup'),
     # fv - revisit module detail view - keep?
     # path('<str:module_name>/', views.module_detail, name='module_detail'),
