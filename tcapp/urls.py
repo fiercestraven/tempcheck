@@ -4,6 +4,18 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView
 from . import views
 from django.contrib.auth import views as auth_views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'modules', views.ModuleViewSet)
+router.register(r'lectures', views.LectureViewSet)
+# router.register(r'student_modules', views.Student_ModuleViewSet)
+#pick up here!!!
+router.register(r'pings', views.PingViewSet)
+router.register(r'questions', views.QuestionViewSet)
+router.register(r'choices', views.ChoiceViewSet)
+
 
 app_name ="tcapp"
 urlpatterns = [
@@ -21,4 +33,6 @@ urlpatterns = [
     path('question/<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     path('question/<int:question_id>/vote/', views.vote, name='vote'),
     path('stats/', TemplateView.as_view(template_name='tcapp/stats.html'), name='stats'),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

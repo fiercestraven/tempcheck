@@ -11,15 +11,6 @@ from django.dispatch import receiver
 # fv - see if I can subclass Instructor and Student users... have two user types. OR look into super admin and what that can do. 
 # There already is an is_staff and is_superuser - may be fine. Type something up for report.
 
-# class Instructor(models.Model):
-#     first_name = models.CharField(max_length=200)
-#     last_name = models.CharField(max_length=200)
-#     username = models.CharField(max_length=200)
-#     # fv - figure out how to add security here
-#     instructor_password = models.CharField(max_length=200)
-#     def __str__(self):
-#         return self.username
-
 # fv - maybe implement profile later. https://dev.to/thepylot/create-advanced-user-sign-up-view-in-django-step-by-step-k9m Problem it caused was that admin login no longer worked-- said that user had no profile.
 # class Profile(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -53,16 +44,6 @@ class Lecture(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
     def __str__(self):
         return self.lecture_name
-
-# fv - nix this and use Django built in User model? ADD EMAIL
-# class Student(models.Model):
-#     first_name = models.CharField(max_length=200)
-#     last_name = models.CharField(max_length=200)
-#     username = models.CharField(max_length=200)
-#     # fv - figure out how to add security here
-#     student_password = models.CharField(max_length=200)
-#     def __str__(self):
-#         return self.username
 
 class Student_Module(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE)

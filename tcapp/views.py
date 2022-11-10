@@ -9,6 +9,10 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
+from rest_framework import permissions
+# fv - add Student_ModuleSerializer back in if using
+from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer, QuestionSerializer, ChoiceSerializer
 
 from .models import Choice, Ping, Question, Lecture, Module
 
@@ -141,3 +145,62 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('tcapp:results', args=(question.id,)))
+
+
+# API views #
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class ModuleViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows modules to be viewed or edited.
+    """
+    queryset = Module.objects.all().order_by('module_name')
+    serializer_class = ModuleSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class LectureViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows lectures to be viewed or edited.
+    """
+    queryset = Lecture.objects.all().order_by('lecture_name')
+    serializer_class = LectureSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+# fv - implement later if needed; see serializers.py for issue
+# class Student_ModuleViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows student_modules to be viewed or edited.
+#     """
+#     queryset = Module.objects.all()
+#     serializer_class = Student_ModuleSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+class PingViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows pings to be viewed or edited.
+    """
+    queryset = Ping.objects.all().order_by('ping_date')
+    serializer_class = PingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows questions to be viewed or edited.
+    """
+    queryset = Question.objects.select_related('lecture').all().order_by('lecture__lecture_name')
+    serializer_class = QuestionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class ChoiceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows question choices to be viewed or edited.
+    """
+    queryset = Choice.objects.select_related('question').all().order_by('question__question_text')
+    serializer_class = ChoiceSerializer
+    permission_classes = [permissions.IsAuthenticated]
