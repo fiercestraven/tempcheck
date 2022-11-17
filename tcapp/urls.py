@@ -6,6 +6,7 @@ from . import views
 from django.contrib.auth import views as auth_views
 from rest_framework import routers
 
+# api endpoints
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'modules', views.ModuleViewSet)
@@ -15,7 +16,6 @@ router.register(r'lectures', views.LectureViewSet)
 router.register(r'pings', views.PingViewSet)
 router.register(r'questions', views.QuestionViewSet)
 router.register(r'choices', views.ChoiceViewSet)
-
 
 app_name ="tcapp"
 urlpatterns = [

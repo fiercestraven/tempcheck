@@ -7,13 +7,12 @@ from django.utils import timezone
 from .forms import SignUpForm
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm
+# from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from rest_framework import permissions
 # fv - add Student_ModuleSerializer back in if using
 from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer, QuestionSerializer, ChoiceSerializer
-
 from .models import Choice, Ping, Question, Lecture, Module
 
 # Views
