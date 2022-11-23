@@ -16,10 +16,8 @@ from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerialize
 from .models import Choice, Ping, Question, Lecture, Module
 
 # Views
-
-# can omit below thanks to template view in urls
-# def index(request):
-#     return render(request, 'tcapp/index.html')
+def react(request):
+    return render(request, 'tcapp/reactbase.html',)
 
 def index(request):
     if request.user.is_authenticated:

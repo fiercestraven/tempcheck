@@ -20,6 +20,7 @@ router.register(r'choices', views.ChoiceViewSet)
 app_name ="tcapp"
 urlpatterns = [
     path('', views.index, name='index'),
+    path('react/', views.react, name='react'),
     # https://docs.djangoproject.com/en/4.1/topics/auth/default/#django.contrib.auth.views.LoginView
     path('accounts/login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('accounts/', include("django.contrib.auth.urls")),

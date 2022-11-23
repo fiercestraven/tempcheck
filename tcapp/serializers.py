@@ -7,18 +7,23 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'is_staff']
 
-class ModuleSerializer(serializers.ModelSerializer):
+class ModuleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Module
-        fields = ['id', 'module_name', 'module_description', 'instructor', 'is_active']
+        fields = ['url', 'id', 'module_name', 'module_description', 'instructor', 'is_active']
+        extra_kwargs = {
+            'url': {'view_name': 'tcapp:module-detail'},
+            'instructor': {'view_name': 'tcapp:user-detail'},
+        }
 
-class LectureSerializer(serializers.ModelSerializer):
-    # module = serializers.HyperlinkedIdentityField(view_name='module', format='html')
-    # module = serializers.HyperlinkedRelatedField(many=True, view_name='modules', read_only=True)
-
+class LectureSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Lecture
-        fields = ['id', 'lecture_name', 'lecture_description', 'lecture_date', 'module']
+        fields = ['url', 'id', 'lecture_name', 'lecture_description', 'lecture_date', 'module']
+        extra_kwargs = {
+            'url': {'view_name': 'tcapp:lecture-detail'},
+            'module': {'view_name': 'tcapp:module-detail'},
+        }
 
 # class Student_ModuleSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
@@ -26,39 +31,30 @@ class LectureSerializer(serializers.ModelSerializer):
         # model = Module, User
         # fields = ['id', 'module', 'student']
 
-class PingSerializer(serializers.ModelSerializer):
+class PingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Ping
-        fields = ['id', 'ping_date', 'student', 'lecture']
+        fields = ['url', 'id', 'ping_date', 'student', 'lecture']
+        extra_kwargs = {
+            'url': {'view_name': 'tcapp:ping-detail'},
+            'student': {'view_name': 'tcapp:user-detail'},
+            'lecture': {'view_name': 'tcapp:lecture-detail'},
+        }
 
 class QuestionSerializer(serializers.HyperlinkedModelSerializer):
-    # url = serializers.HyperlinkedIdentityField(
-    #     view_name='accounts',
-    #     lookup_field='slug'
-    # )
-    # users = serializers.HyperlinkedRelatedField(
-    #     view_name='user-detail',
-    #     lookup_field='username',
-    #     many=True,
-    #     read_only=True
-    # )
-    url = serializers.HyperlinkedIdentityField(
-        view_name='questions',
-        lookup_field='id'
-    )
-
-    lecture = serializers.HyperlinkedRelatedField(
-        view_name='lectures',
-        lookup_field='id',
-        many=True,
-        read_only=True
-    )
-
     class Meta:
         model = Question
         fields = ['url', 'id', 'question_text', 'pub_date', 'lecture']
+        extra_kwargs = {
+            'url': {'view_name': 'tcapp:question-detail'},
+            'lecture': {'view_name': 'tcapp:lecture-detail'},
+        }
 
-class ChoiceSerializer(serializers.ModelSerializer):
+class ChoiceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Choice
-        fields = ['id', 'choice_text', 'votes', 'question']
+        fields = ['url', 'id', 'choice_text', 'votes', 'question']
+        extra_kwargs = {
+            'url': {'view_name': 'tcapp:choice-detail'},
+            'question': {'view_name': 'tcapp:question-detail'},
+        }
