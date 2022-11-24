@@ -1,6 +1,6 @@
 # fv - below admin part is from tutorial https://learndjango.com/tutorials/django-login-and-logout-tutorial; not sure if needed
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic.base import TemplateView
 from . import views
 from django.contrib.auth import views as auth_views
@@ -20,7 +20,7 @@ router.register(r'choices', views.ChoiceViewSet)
 app_name ="tcapp"
 urlpatterns = [
     path('', views.index, name='index'),
-    path('react/', views.react, name='react'),
+    re_path('react/.*', TemplateView.as_view(template_name='index.html')),
     # https://docs.djangoproject.com/en/4.1/topics/auth/default/#django.contrib.auth.views.LoginView
     path('accounts/login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('accounts/', include("django.contrib.auth.urls")),
