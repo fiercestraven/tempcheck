@@ -1,0 +1,1 @@
+This is a draft template for the Tempcheck application.
