@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
-
+import Layout from '../components/layout';
 
 function Header({title}) {
   return (
@@ -16,15 +16,25 @@ export default function HomePage() {
     setLikes(likes + 1);
   }
 
+
+
   return (
     <div>
-      <Header />
-      <ul>
-        {names.map((name) => (
-          <li key={name}>{name}</li>
-        ))}
-      </ul>
-      <button onClick={handleClick}>Like ({likes})</button>
+      <Layout>
+        <Header />
+        <ul>
+          {names.map((name) => (
+            <li key={name}>{name}</li>
+          ))}
+        </ul>
+        <button onClick={handleClick}>Like ({likes})</button>
+        <h3>
+          <Link href="/modules">Modules</Link>
+        </h3>
+        <h3>
+          <Link href="/lectures">Lectures</Link>
+        </h3>
+      </Layout>
     </div>
   );
 }
