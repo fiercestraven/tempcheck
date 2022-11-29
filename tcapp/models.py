@@ -28,7 +28,7 @@ from django.dispatch import receiver
 #     instance.profile.save()
 
 class Module(models.Model):
-    module_name = models.CharField(max_length=200)
+    module_name = models.CharField(max_length=200, unique=True)
     module_description = models.TextField(default = "", blank=True)
     # fv - look and see if there's a way to restrict the User below to only accept is_staff options. Justify decision either way.
     instructor = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -37,7 +37,7 @@ class Module(models.Model):
         return self.module_name
 
 class Lecture(models.Model):
-    lecture_name = models.CharField(max_length=200)
+    lecture_name = models.CharField(max_length=200, unique=True)
     lecture_description = models.TextField(default = "", blank=True)
     lecture_date = models.DateField('date of lecture', blank=True)
     # insert foreign key to module_id

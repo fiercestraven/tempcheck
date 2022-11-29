@@ -156,6 +156,7 @@ class ModuleViewSet(viewsets.ModelViewSet):
     """
     queryset = Module.objects.all().order_by('module_name')
     serializer_class = ModuleSerializer
+    lookup_field = 'module_name'
     #permission_classes = [permissions.IsAuthenticated]
 
 class LectureViewSet(viewsets.ModelViewSet):
@@ -164,6 +165,7 @@ class LectureViewSet(viewsets.ModelViewSet):
     """
     queryset = Lecture.objects.all().order_by('lecture_name')
     serializer_class = LectureSerializer
+    lookup_field = 'lecture_name'
     #permission_classes = [permissions.IsAuthenticated]
 
 # fv - implement later if needed; see serializers.py for issue

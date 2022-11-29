@@ -17,9 +17,7 @@ export default function ModuleList({ allModuleData }) {
             <Head>
                 <title>Module List</title>
             </Head>
-            <h1>
-                Modules
-            </h1>
+            <h1>Modules</h1>
             <section>
                 <ul>
                     {allModuleData.map(({ id, url, module_name }) => (

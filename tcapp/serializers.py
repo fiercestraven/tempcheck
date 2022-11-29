@@ -10,19 +10,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class ModuleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Module
-        fields = ['url', 'id', 'module_name', 'module_description', 'instructor', 'is_active']
+        fields = ['url', 'module_name', 'module_description', 'instructor', 'is_active']
         extra_kwargs = {
-            'url': {'view_name': 'tcapp:module-detail'},
+            'url': {'view_name': 'tcapp:module-detail', 'lookup_field': 'module_name'},
             'instructor': {'view_name': 'tcapp:user-detail'},
         }
 
 class LectureSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Lecture
-        fields = ['url', 'id', 'lecture_name', 'lecture_description', 'lecture_date', 'module']
+        fields = ['url', 'lecture_name', 'lecture_description', 'lecture_date', 'module']
         extra_kwargs = {
-            'url': {'view_name': 'tcapp:lecture-detail'},
-            'module': {'view_name': 'tcapp:module-detail'},
+            'url': {'view_name': 'tcapp:lecture-detail', 'lookup_field': 'lecture_name'},
+            'module': {'view_name': 'tcapp:module-detail', 'lookup_field': 'module_name'},
         }
 
 # class Student_ModuleSerializer(serializers.HyperlinkedModelSerializer):

@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import Link from 'next/link';
 import Layout from '../components/layout';
 
-function Header({title}) {
+function Header({userName}) {
   return (
-    <h1>{title ? title : 'Tempcheck'}</h1>
+    <h2>Welcome, {userName ? userName : 'Visitor'}!</h2>
   );
 }
 
