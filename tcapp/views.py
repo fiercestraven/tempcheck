@@ -148,7 +148,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 class ModuleViewSet(viewsets.ModelViewSet):
     """
@@ -156,7 +156,7 @@ class ModuleViewSet(viewsets.ModelViewSet):
     """
     queryset = Module.objects.all().order_by('module_name')
     serializer_class = ModuleSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 class LectureViewSet(viewsets.ModelViewSet):
     """
@@ -164,7 +164,7 @@ class LectureViewSet(viewsets.ModelViewSet):
     """
     queryset = Lecture.objects.all().order_by('lecture_name')
     serializer_class = LectureSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 # fv - implement later if needed; see serializers.py for issue
 # class Student_ModuleViewSet(viewsets.ModelViewSet):
@@ -181,7 +181,7 @@ class PingViewSet(viewsets.ModelViewSet):
     """
     queryset = Ping.objects.all().order_by('ping_date')
     serializer_class = PingSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 class QuestionViewSet(viewsets.ModelViewSet):
     """
@@ -189,7 +189,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     """
     queryset = Question.objects.select_related('lecture').all().order_by('lecture__lecture_name')
     serializer_class = QuestionSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
 class ChoiceViewSet(viewsets.ModelViewSet):
     """
@@ -197,4 +197,4 @@ class ChoiceViewSet(viewsets.ModelViewSet):
     """
     queryset = Choice.objects.select_related('question').all().order_by('question__question_text')
     serializer_class = ChoiceSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]

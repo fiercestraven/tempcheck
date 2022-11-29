@@ -1,16 +1,34 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import Layout from '../components/layout';
+import { getModuleData } from '../lib/modules';
 
-export default function ModuleList() {
+export async function getStaticProps() {
+    const allModuleData = await getModuleData();
+    return {
+        props: {
+            allModuleData,
+        },
+    };
+}
+
+export default function ModuleList({ allModuleData }) {
     return (
         <Layout>
             <Head>
                 <title>Module List</title>
             </Head>
             <h1>
-                List of modules
+                Modules
             </h1>
+            <section>
+                <ul>
+                    {allModuleData.map(({ id, url, module_name }) => (
+                        <li key={id}>
+                            <a href={url}>{module_name}</a>
+                        </li>
+                    ))}
+                </ul>
+            </section>
         </Layout>
     );
-  }
+}
