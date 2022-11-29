@@ -20,7 +20,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <Layout>
+      <Layout home>
         <Header />
         <ul>
           {names.map((name) => (
@@ -33,6 +33,10 @@ export default function HomePage() {
         </h3>
         <h3>
           <Link href="/lectures">Lectures</Link>
+        </h3>
+        <break />
+        <h3>
+          <Link href="http://localhost:8000/admin">Admin</Link>
         </h3>
       </Layout>
     </div>
