@@ -9,6 +9,8 @@ export default function Module({ module_detail }) {
             <title>{module_detail.module_name}</title>
         </Head>
         <h1>{module_detail.module_name}</h1>
+        <p>{module_detail.module_description}</p>
+        {/* fv - link to instructor here */}
         <h3><Link href="/modules">Back to Modules</Link></h3>
         <h3><Link href="/lectures">Lectures</Link></h3>
     </Layout>

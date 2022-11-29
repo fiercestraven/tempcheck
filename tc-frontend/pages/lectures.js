@@ -21,9 +21,9 @@ export default function LectureList({ allLectureData }) {
             <h1>Lectures</h1>
             <ul>
                 {/* fv - fix urls to go to correct ones, not api ones - REACT ROUTER - or use event listener which will call a component to create a lecture page */}
-                {allLectureData.map(({ id, url, lecture_name }) => (
+                {allLectureData.map(({ id, lecture_name }) => (
                     <li key={id}>
-                        <a href={url}>{lecture_name}</a>
+                        <a href={`/lectures/${lecture_name}`}>{lecture_name}</a>
                     </li>
                 ))}
             </ul>
