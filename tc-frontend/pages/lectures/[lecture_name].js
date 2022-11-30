@@ -8,7 +8,8 @@ export default function Lecture({ lecture_detail }) {
         <Head>
             <title>{lecture_detail.lecture_name}</title>
         </Head>
-        <h1>{lecture_detail.lecture_name}</h1>
+        <h2>{lecture_detail.lecture_name}</h2>
+        <p>{lecture_detail.lecture_date}: {lecture_detail.lecture_description}</p>
         <h3><Link href="/lectures">Back to Lectures</Link></h3>
 
     </Layout>

@@ -18,9 +18,8 @@ export default function LectureList({ allLectureData }) {
             <Head>
                 <title>Lecture List</title>
             </Head>
-            <h1>Lectures</h1>
+            <h2>Lectures for Module {allLectureData.module_name}</h2>
             <ul>
-                {/* fv - fix urls to go to correct ones, not api ones - REACT ROUTER - or use event listener which will call a component to create a lecture page */}
                 {allLectureData.map(({ id, lecture_name }) => (
                     <li key={id}>
                         <a href={`/lectures/${lecture_name}`}>{lecture_name}</a>
@@ -28,7 +27,7 @@ export default function LectureList({ allLectureData }) {
                 ))}
             </ul>
             <h3>
-                <Link href="/modules">Modules</Link>
+                <Link href="/modules">All Modules</Link>
             </h3>
         </Layout>
     );
