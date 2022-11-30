@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import Layout from '../../components/layout';
+import Layout from '../../../components/layout';
 
 export default function Lecture({ lecture_detail }) {
   return (
@@ -10,7 +10,7 @@ export default function Lecture({ lecture_detail }) {
         </Head>
         <h2>{lecture_detail.lecture_name}</h2>
         <p>{lecture_detail.lecture_date}: {lecture_detail.lecture_description}</p>
-        <h3><Link href="/lectures">Back to Lectures</Link></h3>
+        <h3><Link href={`/modules/${lecture_detail.module.module_name}`}>Back to Module</Link></h3>
 
     </Layout>
 );

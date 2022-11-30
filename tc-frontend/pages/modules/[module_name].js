@@ -11,11 +11,15 @@ export default function Module({ module_detail }) {
       <h1>{module_detail.module_name}</h1>
       <p>{module_detail.module_description}</p>
       <p>Lecturer: {module_detail.instructor.first_name} {module_detail.instructor.last_name}</p>
-      {/* <p>Lectures:</p> */}
-
+      <p>Lectures:</p>
+      <ul>
+        {module_detail.lectures.map(({ id, lecture_name }) => (
+          <li key={id}>
+            <a href={`lectures/${lecture_name}`}>{lecture_name}</a>
+          </li>
+        ))}
+      </ul>
       <Link href="/modules">Back to Modules</Link>
-      <p></p>
-      <Link href="/lectures">All Lectures</Link>
     </Layout>
   );
 }

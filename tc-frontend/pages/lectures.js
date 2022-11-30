@@ -18,7 +18,7 @@ export default function LectureList({ allLectureData }) {
             <Head>
                 <title>Lecture List</title>
             </Head>
-            <h2>Lectures for Module {allLectureData.module_name}</h2>
+            <h2>Lectures</h2>
             <ul>
                 {allLectureData.map(({ id, lecture_name }) => (
                     <li key={id}>
@@ -27,7 +27,7 @@ export default function LectureList({ allLectureData }) {
                 ))}
             </ul>
             <h3>
-                <Link href="/modules">All Modules</Link>
+                <Link href="/modules">Modules</Link>
             </h3>
         </Layout>
     );
