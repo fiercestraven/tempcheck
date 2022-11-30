@@ -8,7 +8,7 @@ export default function Module({ module_detail }) {
       <Head>
         <title>{module_detail.module_name}</title>
       </Head>
-      <h1>{module_detail.module_name}</h1>
+      <h2>{module_detail.module_name}</h2>
       <p>{module_detail.module_description}</p>
       <p>Lecturer: {module_detail.instructor.first_name} {module_detail.instructor.last_name}</p>
       <p>Lectures:</p>

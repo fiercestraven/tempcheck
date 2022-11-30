@@ -25,13 +25,9 @@ export default function HomePage() {
           ))}
         </ul>
         <button onClick={handleClick}>Like ({likes})</button> */}
-        <h3>
           <Link href="/modules">Modules</Link>
-        </h3>
-        <break />
-        <h3>
+        <p></p>
           <Link href="http://localhost:8000/admin">Admin</Link>
-        </h3>
       </Layout>
     </div>
   );
