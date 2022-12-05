@@ -25,9 +25,9 @@ class UserAdmin(UserAdmin):
     list_display = ('username', 'first_name', 'last_name', 'email', 'is_staff')
 
 class ModuleAdmin(admin.ModelAdmin):
-    fields = ['module_name', 'module_description', 'instructor', 'is_active']
+    fields = ['module_shortname', 'module_name', 'module_description', 'instructor', 'is_active']
     list_filter = ('is_active',)
-    list_display = ('module_name', 'module_description', 'instructor', 'is_active')
+    list_display = ('module_shortname', 'module_name', 'module_description', 'instructor', 'is_active')
 
 class LectureAdmin(admin.ModelAdmin):
     fields = ['module', 'lecture_name', 'lecture_description', 'lecture_date']

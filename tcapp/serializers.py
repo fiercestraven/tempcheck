@@ -22,9 +22,9 @@ class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module
         depth = 1
-        fields = ['module_name', 'module_description', 'instructor', 'is_active', 'lectures']
+        fields = ['module_shortname', 'module_name', 'module_description', 'instructor', 'is_active', 'lectures']
         # extra_kwargs = {
-        #     'url': {'view_name': 'tcapp:module-detail', 'lookup_field': 'module_name'},
+        #     'url': {'view_name': 'tcapp:module-detail', 'lookup_field': 'module_shortname'},
         #     'instructor': {'view_name': 'tcapp:user-detail'},
         # }
 

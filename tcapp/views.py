@@ -154,9 +154,9 @@ class ModuleViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows modules to be viewed or edited.
     """
-    queryset = Module.objects.all().order_by('module_name')
+    queryset = Module.objects.all().order_by('module_shortname')
     serializer_class = ModuleSerializer
-    lookup_field = 'module_name'
+    lookup_field = 'module_shortname'
     #permission_classes = [permissions.IsAuthenticated]
 
 class LectureViewSet(viewsets.ModelViewSet):

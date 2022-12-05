@@ -11,7 +11,7 @@ export default function Lecture({ lecture_detail }) {
         <h2>{lecture_detail.lecture_name}</h2>
         <p>{lecture_detail.lecture_date}: {lecture_detail.lecture_description}</p>
         <button>Ping</button>
-        <h3><Link href={`/modules/${lecture_detail.module.module_name}`}>Back to Module</Link></h3>
+        <h3><Link href={`/modules/${lecture_detail.module.module_shortname}`}>Back to Module</Link></h3>
     </Layout>
 );
 }

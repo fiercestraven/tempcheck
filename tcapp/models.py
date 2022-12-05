@@ -28,8 +28,8 @@ from django.dispatch import receiver
 #     instance.profile.save()
 
 class Module(models.Model):
-    # module_shortname = models.CharField(max_length=200, default = "", unique=True)
-    module_name = models.CharField(max_length=200, unique=True)
+    module_shortname = models.CharField(max_length=200, unique=True)
+    module_name = models.CharField(max_length=200)
     module_description = models.TextField(default = "", blank=True)
     # fv - look and see if there's a way to restrict the User below to only accept is_staff options. Justify decision either way.
     instructor = models.ForeignKey(User, on_delete=models.CASCADE)
