@@ -26,9 +26,7 @@ export default function LectureList({ allLectureData }) {
                     </li>
                 ))}
             </ul>
-            <h3>
-                <Link href="/modules">Modules</Link>
-            </h3>
+            <Link href="/modules">← Modules</Link>
         </Layout>
     );
 }

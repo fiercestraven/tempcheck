@@ -34,15 +34,15 @@ class ModuleSerializer(serializers.ModelSerializer):
         # model = Module, User
         # fields = ['id', 'module', 'student']
 
-class PingSerializer(serializers.HyperlinkedModelSerializer):
+class PingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ping
-        fields = ['url', 'id', 'ping_date', 'student', 'lecture']
-        extra_kwargs = {
-            'url': {'view_name': 'tcapp:ping-detail'},
-            'student': {'view_name': 'tcapp:user-detail'},
-            'lecture': {'view_name': 'tcapp:lecture-detail'},
-        }
+        fields = ['id', 'ping_date', 'student', 'lecture']
+        # extra_kwargs = {
+        #     'url': {'view_name': 'tcapp:ping-detail'},
+        #     'student': {'view_name': 'tcapp:user-detail'},
+        #     'lecture': {'view_name': 'tcapp:lecture-detail'},
+        # }
 
 class QuestionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

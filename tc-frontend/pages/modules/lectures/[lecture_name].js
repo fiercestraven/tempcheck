@@ -8,10 +8,25 @@ export default function Lecture({ lecture_detail }) {
         <Head>
             <title>{lecture_detail.lecture_name}</title>
         </Head>
-        <h2>{lecture_detail.lecture_name}</h2>
+        <h2>{lecture_detail.module.module_name}</h2>
+        <h3>Lecture: {lecture_detail.lecture_name}</h3>
         <p>{lecture_detail.lecture_date}: {lecture_detail.lecture_description}</p>
-        <button>Ping</button>
-        <h3><Link href={`/modules/${lecture_detail.module.module_shortname}`}>Back to Module</Link></h3>
+
+        <form action="http://localhost:8000/tcapp/api/pings/" method="post">
+            <input type="submit" name="ping" id="ping" value="Ping" />
+            <input type="text" name="date" value="2022-12-05T12:20:00"></input>
+            <input type="number" name="student" value="16"></input>
+            <input type="number" name="lecture" value="11"></input>
+        </form>
+        
+        {/* <form action="{% url 'tcapp:submit' module_name=module.module_name lecture_name=lecture.lecture_name %}" method="post">
+            {% csrf_token %}
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            <input type="submit" name="ping" id="ping" value="Ping">
+        </form> */}
+
+        <p></p>
+        <Link href={`/modules/${lecture_detail.module.module_shortname}`}>← Back to Module</Link>
     </Layout>
 );
 }

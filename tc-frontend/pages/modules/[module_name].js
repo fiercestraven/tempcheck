@@ -19,7 +19,7 @@ export default function Module({ module_detail }) {
           </li>
         ))}
       </ul>
-      <Link href="/modules">Back to Modules</Link>
+      <Link href="/modules">← Back to Modules</Link>
     </Layout>
   );
 }
