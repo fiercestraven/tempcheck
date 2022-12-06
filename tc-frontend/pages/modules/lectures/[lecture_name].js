@@ -16,9 +16,10 @@ export default function Lecture({ lecture_detail }) {
             <input type="submit" name="ping" id="ping" value="Ping" />
             <input type="text" name="date" value="2022-12-05T12:20:00"></input>
             <input type="number" name="student" value="16"></input>
+            {/* fv - plug in page info below here */}
             <input type="number" name="lecture" value="11"></input>
         </form>
-        
+
         {/* <form action="{% url 'tcapp:submit' module_name=module.module_name lecture_name=lecture.lecture_name %}" method="post">
             {% csrf_token %}
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}

@@ -27,9 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
 # cors: https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework
 INSTALLED_APPS = [
     'tcapp.apps.TcappConfig',

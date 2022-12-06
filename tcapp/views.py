@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -184,6 +185,11 @@ class PingViewSet(viewsets.ModelViewSet):
     queryset = Ping.objects.all().order_by('ping_date')
     serializer_class = PingSerializer
     #permission_classes = [permissions.IsAuthenticated]
+    # on saving/deleting hooks: https://stackoverflow.com/questions/35990589/django-rest-framework-setting-default-primarykeyrelated-field-value/35990729#35990729
+    def perform_create(self, serializer):
+        serializer.save(ping_date=datetime.datetime)
+    def perform_update(self, serializer):
+        serializer.save(ping_date=datetime.datetime)
 
 class QuestionViewSet(viewsets.ModelViewSet):
     """
