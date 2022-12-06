@@ -17,7 +17,7 @@ export default function Lecture({ lecture_detail }) {
             <input type="text" name="date" value="2022-12-05T12:20:00"></input>
             <input type="number" name="student" value="16"></input>
             {/* fv - plug in page info below here */}
-            <input type="number" name="lecture" value="11"></input>
+            <input type="number" name="lecture" value={lecture_detail.id}></input>
         </form>
 
         {/* <form action="{% url 'tcapp:submit' module_name=module.module_name lecture_name=lecture.lecture_name %}" method="post">

@@ -1,4 +1,6 @@
 from datetime import datetime
+# fv - take this and references to @csrf_exempt out once solved
+# from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -143,6 +145,7 @@ def vote(request, question_id):
 
 
 # API views #
+# @csrf_exempt
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -151,6 +154,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     #permission_classes = [permissions.IsAuthenticated]
 
+# @csrf_exempt
 class ModuleViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows modules to be viewed or edited.
@@ -160,6 +164,7 @@ class ModuleViewSet(viewsets.ModelViewSet):
     lookup_field = 'module_shortname'
     #permission_classes = [permissions.IsAuthenticated]
 
+# @csrf_exempt
 class LectureViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows lectures to be viewed or edited.
@@ -178,6 +183,7 @@ class LectureViewSet(viewsets.ModelViewSet):
 #     serializer_class = Student_ModuleSerializer
 #     permission_classes = [permissions.IsAuthenticated]
 
+# @csrf_exempt
 class PingViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows pings to be viewed or edited.
@@ -191,6 +197,7 @@ class PingViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(ping_date=datetime.datetime)
 
+# @csrf_exempt
 class QuestionViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows questions to be viewed or edited.
@@ -199,6 +206,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
     #permission_classes = [permissions.IsAuthenticated]
 
+# @csrf_exempt
 class ChoiceViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows question choices to be viewed or edited.
