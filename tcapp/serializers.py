@@ -37,7 +37,9 @@ class ModuleSerializer(serializers.ModelSerializer):
 class PingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ping
-        fields = ['id', 'ping_date', 'student', 'lecture']
+        # fields = ['id', 'ping_date', 'student', 'lecture']
+        fields = ['id','ping_date', 'student', 'lecture']
+        read_only_fields = ['ping_date', 'lecture']
         # extra_kwargs = {
         #     'url': {'view_name': 'tcapp:ping-detail'},
         #     'student': {'view_name': 'tcapp:user-detail'},
