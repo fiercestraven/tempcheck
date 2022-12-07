@@ -37,8 +37,9 @@ class ModuleSerializer(serializers.ModelSerializer):
 class PingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ping
-        # fields = ['id', 'ping_date', 'student', 'lecture']
         fields = ['id','ping_date', 'student', 'lecture']
+        # put in read-only fields so they're not required at POST but are still included 
+        # https://www.django-rest-framework.org/api-guide/fields/
         read_only_fields = ['ping_date', 'lecture']
         # extra_kwargs = {
         #     'url': {'view_name': 'tcapp:ping-detail'},

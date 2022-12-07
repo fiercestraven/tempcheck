@@ -1,6 +1,4 @@
 from datetime import datetime
-# fv - take this and references to @csrf_exempt out once solved
-# from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -89,20 +87,6 @@ class LecturesView(generic.ListView):
     def get_queryset(self):
         """Return the lists of modules."""
         return Module.objects.order_by('module_name').filter(is_active = True)
-# def lectures(request):
-#     module_list = Module.objects.order_by('module_name')
-#     lecture_list = Lecture.objects.order_by('lecture_name')
-#     template = loader.get_template('tcapp/lectures.html')
-#     context = {
-#         'module_list': module_list,
-#         'lecture_list': lecture_list,
-#     }
-#     return HttpResponse(template.render(context, request))
-
-# fv - should be able to omit this view
-# def module_detail(request, module_name):
-#     return HttpResponse("You're looking at {0}.".format(module_name))
-    # fv - fix this so that if there's no module by that name, it returns an error
 
 def lecture_detail(request, module_name, lecture_name):
     module = get_object_or_404(Module, module_name=module_name)
@@ -112,17 +96,10 @@ def lecture_detail(request, module_name, lecture_name):
 class QuestionView(generic.DetailView):
     model = Question
     template_name = 'tcapp/question.html'
-# def question(request, question_id):
-#     # shortcut version using get_object_or_404
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'tcapp/question.html', {'question': question})
 
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'tcapp/results.html'
-# def results(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'tcapp/results.html', {'question': question})
 
 def vote(request, question_id):
     # initial dummy response
@@ -145,7 +122,6 @@ def vote(request, question_id):
 
 
 # API views #
-# @csrf_exempt
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -154,7 +130,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     #permission_classes = [permissions.IsAuthenticated]
 
-# @csrf_exempt
 class ModuleViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows modules to be viewed or edited.
@@ -164,7 +139,6 @@ class ModuleViewSet(viewsets.ModelViewSet):
     lookup_field = 'module_shortname'
     #permission_classes = [permissions.IsAuthenticated]
 
-# @csrf_exempt
 class LectureViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows lectures to be viewed or edited.
@@ -183,7 +157,6 @@ class LectureViewSet(viewsets.ModelViewSet):
 #     serializer_class = Student_ModuleSerializer
 #     permission_classes = [permissions.IsAuthenticated]
 
-# @csrf_exempt
 class PingViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows pings to be viewed or edited.
@@ -196,9 +169,9 @@ class PingViewSet(viewsets.ModelViewSet):
         lecture = Lecture.objects.get(lecture_name=self.request.data['lecture_name'])
         serializer.save(ping_date=datetime.now(), lecture=lecture)
     def perform_update(self, serializer):
-        serializer.save(ping_date=datetime.now())
+        lecture = Lecture.objects.get(lecture_name=self.request.data['lecture_name'])
+        serializer.save(ping_date=datetime.now(), lecture=lecture)
 
-# @csrf_exempt
 class QuestionViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows questions to be viewed or edited.
@@ -207,7 +180,6 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
     #permission_classes = [permissions.IsAuthenticated]
 
-# @csrf_exempt
 class ChoiceViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows question choices to be viewed or edited.
