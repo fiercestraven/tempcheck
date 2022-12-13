@@ -168,7 +168,7 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 10
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # fv - added this per dj-rest-auth docs; not sure if the session one will break anythihng
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
@@ -184,6 +184,7 @@ SWAGGER_SETTINGS = {
 }
 
 # fv - hope to remove later?
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 # fv - not sure if needed; per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py

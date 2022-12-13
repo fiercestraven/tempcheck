@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Layout from '../components/layout';
+import Login from './login';
 
 function Header({ userName }) {
   return (
@@ -8,20 +9,14 @@ function Header({ userName }) {
 }
 
 export default function HomePage() {
-  // const names = ['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton'];
-  // const [likes, setLikes] = useState(0);
-
-  // function handleClick() {
-  //   setLikes(likes + 1);
-  // }
 
   return (
-
     <div>
       <Layout home>
         <Header />
+        <Login />
         {/* login info */}
-        <form action="http://localhost:8000/tcapp/login/" method="post">
+        {/* <form action="http://localhost:8000/tcapp/dj-rest-auth/login/" method="post">
           <p className="mt-4 mb-1 font-italic">Please sign in</p>
           <div className="form-floating">
             <label for="username" className="form-label">Username</label>
@@ -32,7 +27,7 @@ export default function HomePage() {
             <input type="password" className="form-control" id="password" placeholder="Password" name="password" />
           </div>
           <button className="w-30 mt-2 mb-5 btn btn-lg btn-primary" type="submit">Log In</button>
-        </form>
+        </form> */}
         {/* fv - make below an 'if logged in' display, and if not, display login link/button */}
         <Link href="/modules">Modules</Link>
         <p></p>
