@@ -1,9 +1,9 @@
 
-import { useEffect } from "react";
 // add bootstrap css 
-import 'bootstrap/dist/css/bootstrap.css'// own css files here
+import 'bootstrap/dist/css/bootstrap.css'
 // add own css
 import '../styles/global.css';
+import { useEffect } from "react";
 
 function App({ Component, pageProps }) {
   useEffect(() => {

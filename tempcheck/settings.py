@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth'
 ]
 
 MIDDLEWARE = [
@@ -51,8 +53,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-CORS_ALLOW_CREDENTIALS = True
 # fv - add vercel or fly or whatever here when deploying
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
@@ -96,7 +96,6 @@ DATABASES = {
         "PORT": "",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -147,6 +146,18 @@ LOGIN_URL = "/tcapp/accounts/login/"
 LOGIN_REDIRECT_URL = "/tcapp/lectures/"
 LOGOUT_REDIRECT_URL = "/tcapp/"
 
+# See: https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py
+REST_SESSION_LOGIN = True
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+# See: https://dj-rest-auth.readthedocs.io/en/latest/installation.html
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'tcapp-auth'
+
 REST_FRAMEWORK = {
     # fv - uncomment the permission and pagination classes after setting up authentication w next.js
     # Use Django's standard `django.contrib.auth` permissions, or allow read-only access for unauthenticated users.
@@ -156,9 +167,24 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE': 10
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        # fv - added this per dj-rest-auth docs; not sure if the session one will break anythihng
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
 }
+
+# fv - per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py, not sure if needed?
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': 'login',
+    'LOGOUT_URL': 'logout',
+}
+
+# fv - hope to remove later?
+CORS_ALLOW_CREDENTIALS = True
+
+# fv - not sure if needed; per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

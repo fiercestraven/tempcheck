@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -15,6 +16,7 @@ from rest_framework import permissions
 # fv - add Student_ModuleSerializer back in if using
 from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer, QuestionSerializer, ChoiceSerializer
 from .models import Choice, Ping, Question, Lecture, Module
+from django.views.decorators.csrf import csrf_exempt
 
 # Views
 def index(request):
@@ -23,31 +25,39 @@ def index(request):
     else:
         return render(request, 'tcapp/index.html',)
 
-def signup(request): 
-    if request.user.is_authenticated:
-        return redirect('tcapp:lectures')
+# fv - not currently using signup stuff; remove later
+# def signup(request): 
+#     if request.user.is_authenticated:
+#         return redirect('tcapp:lectures')
 
-    if request.method == 'POST':  
-        form = SignUpForm(request.POST)  
-        if form.is_valid():  
-            user = form.save()  
-            user.refresh_from_db()
-            # fv - if I get profile stuff to work, change the 3 lines below to match: user.profile.first_name = form.cleaned_data.get('first_name')
-            user.first_name = form.cleaned_data.get('first_name')
-            user.last_name = form.cleaned_data.get('last_name')
-            user.email = form.cleaned_data.get('email')
-            user.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(username=username, password=password)
-            # fv - add message to the login page here to show it was a successful signup
-            # fv - is below line working?
-            return redirect('tcapp/lectures') 
-        else:
-            return render(request,'tcapp/signup.html',{'form':form})
-    else:  
-        form = SignUpForm()  
-        return render(request, 'tcapp/signup.html', {'form':form})  
+#     if request.method == 'POST':  
+#         form = SignUpForm(request.POST)  
+#         if form.is_valid():  
+#             user = form.save()  
+#             user.refresh_from_db()
+#             # fv - if I get profile stuff to work, change the 3 lines below to match: user.profile.first_name = form.cleaned_data.get('first_name')
+#             user.first_name = form.cleaned_data.get('first_name')
+#             user.last_name = form.cleaned_data.get('last_name')
+#             user.email = form.cleaned_data.get('email')
+#             user.save()
+#             username = form.cleaned_data['username']
+#             password = form.cleaned_data['password1']
+#             user = authenticate(username=username, password=password)
+#             # fv - add message to the login page here to show it was a successful signup
+#             # fv - is below line working?
+#             return redirect('tcapp/lectures') 
+#         else:
+#             return render(request,'tcapp/signup.html',{'form':form})
+#     else:  
+#         form = SignUpForm()  
+#         return render(request, 'tcapp/signup.html', {'form':form})  
+
+@csrf_exempt
+def api_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        return HttpResponse("Hello, " + username)
 
 # def login(request):
 #     if request.user.is_authenticated:

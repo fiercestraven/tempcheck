@@ -20,11 +20,15 @@ router.register(r'choices', views.ChoiceViewSet)
 app_name ="tcapp"
 urlpatterns = [
     path('', views.index, name='index'),
-    re_path('react/.*', TemplateView.as_view(template_name='index.html')),
+    # fv - below was from having react run in same domain w django. can remove.
+    # re_path('react/.*', TemplateView.as_view(template_name='index.html')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
     # https://docs.djangoproject.com/en/4.1/topics/auth/default/#django.contrib.auth.views.LoginView
     path('accounts/login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
-    path('accounts/', include("django.contrib.auth.urls")),
-    path('signup/', views.signup, name='signup'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', views.api_login, name='api_login'),
+    # fv - not currently using signup view
+    # path('signup/', views.signup, name='signup'),
     # fv - revisit module detail view - keep?
     # path('<str:module_name>/', views.module_detail, name='module_detail'),
     path('lectures/', views.LecturesView.as_view(), name='lectures'),
