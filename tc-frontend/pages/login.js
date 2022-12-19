@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useCurrentUserContext } from '../context/auth';
-
-const {
-    currentUser,
-    setCurrentUser
-} = useCurrentUserContext();
+import React, { useState, useContext } from 'react';
+import { CurrentUserContextProvider } from '../context/auth';
 
 function Login() {
-    const [rawProfile, changeRawProfile] = useState(null);
-    const [loginError, setLoginError] = useState('');
-    const [username, changeUsername] = useState('');
-    const [password, changePassword] = useState('');
+    // const [rawProfile, changeRawProfile] = useState(null);
+    // const [loginError, setLoginError] = useState('');
+    // const [currentUser, setCurrentUser] = CurrentUserContext();
+    // const [username, changeUsername] = useState('');
+    // const [password, changePassword] = useState('');
+    let [loading, setLoading] = useState(false);
+    let [formError, setFormError] = useState(false);
+    const { userData, loginUser } = useContext(CurrentUserContextProvider);
+    const { register, handleSubmit, errors, setError, clearError } = useForm();
+
 
     async function onSubmit(e) {
         e.preventDefault();
+        setLoading(true);
+        setFormError(false);
+        clearError();
         try {
             let res = await fetch('http://localhost:8000/tcapp/dj-rest-auth/login/', {
                 method: 'POST',
@@ -30,34 +34,42 @@ function Login() {
             if (!res.ok) {
                 // fv - could set up error message state variable and change depending on situation
                 // prompt for better inputs
-                throw new Error(`Something went wrong! HTTP Status: ${res.status}`);
+                setError(`Something went wrong! HTTP Status: ${res.status}`);
             }
 
             let data = await res.json();
 
-            // update state
-            changeRawProfile(data);
+            // update user
+            loginUser(data);
+            
+            // fv - add message to user here
 
             // show access token in console
             console.info(data.access_token);
 
-            setCurrentUser({
-                'access_token': data.access_token,
-                'username': data.user.username,
+            // setCurrentUser({
+            //     'access_token': data.access_token,
+            //     'username': data.user.username,
                 // fv - put token expiry here
-            })
+            // })
             // if successful, 'redirect' - change to modules page (make modules & other pages auth restricted)
             // fv - will also need to put api back behind authentication. Then every request will need to include auth by accessing that same Context.
         } catch (error) {
+            const { data } = error.response;
             console.error('error ->', error);
+            console.log(data);
+            data.username && setError("username", "", data.username);
+            data.password && setError("password", "", data.password);
+            setFormError(true);
         }
+        setLoading(false);
     }
 
     // FV START HERE store access token (& set its limit?) 
     // current problem: useEffect must be here for placement, but then it can't access the stuff from the Login function
-    useEffect(() => {
-        localStorage.setCurrentUser('currentUser', JSON.stringify({ currentUser }));
-    }, [currentUser]);
+    // useEffect(() => {
+    //     localStorage.setCurrentUser('currentUser', JSON.stringify({ currentUser }));
+    // }, [currentUser]);
 
     return (
         <div>

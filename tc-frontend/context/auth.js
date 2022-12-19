@@ -1,22 +1,46 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
-const CurrentUserContext = createContext(null);
+export const CurrentUserContext = createContext(null);
 
-export function AppWrapper({ children }) {
-    // will hold properties of access_token, username, token_expiry
-    const [currentUser, setCurrentUser] = useState({});
+export default function CurrentUserContextProvider({ children }) {
+    const currentUser = JSON.parse(localStorage.getItem('userData')) || {};
+    const [userData, setUserData] = useState(currentUser);
+
+    const loginUser = (data) => {
+        // Save the user object in local storage
+        localStorage.setItem('userData', JSON.stringify({
+            access_token: data.access_token,
+            username: data.username,
+        }));
+        // Set user data   
+        setUserData({
+            access_token: data.access_token,
+            username: data.username,
+        });
+    };
+
+    const logoutUser = () => {
+        localStorage.removeItem('userData');
+        // Empty user data state
+        setUserData({});
+        // fv - add user message here
+    };
+
+            // Set user data 
+            setUserData({
+                access_token: localUser.access_token,
+                username: localUser.username,
+            });  
+
 
     return (
         <CurrentUserContext.Provider value={{
-            currentUser,
-            setCurrentUser,
+            userData, 
+            loginUser, 
+            logoutUser, 
             }}
         >
-        { children }
+            {children}
         </CurrentUserContext.Provider>
     );
-}
-
-export function useCurrentUserContext() {
-    return useContext(CurrentUserContext);
 }

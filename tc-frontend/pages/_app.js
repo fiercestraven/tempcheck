@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 // add own css
 import '../styles/global.css';
 import { useEffect, useContext } from "react";
-import { AppWrapper } from '../context/auth';
+import { CurrentUserContextProvider } from '../context/auth';
 
 function App({ Component, pageProps }) {
   useEffect(() => {
@@ -12,9 +12,9 @@ function App({ Component, pageProps }) {
   }, []);
   
   return (
-    <AppWrapper>
+    <CurrentUserContextProvider>
       <Component {...pageProps} />
-    </AppWrapper>
+    </CurrentUserContextProvider>
   );
   }
 
