@@ -3,14 +3,19 @@
 import 'bootstrap/dist/css/bootstrap.css'
 // add own css
 import '../styles/global.css';
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { AppWrapper } from '../context/auth';
 
 function App({ Component, pageProps }) {
   useEffect(() => {
     import('bootstrap/dist/js/bootstrap');
   }, []);
   
-  return <Component {...pageProps} />;
+  return (
+    <AppWrapper>
+      <Component {...pageProps} />
+    </AppWrapper>
+  );
   }
 
 export default App
