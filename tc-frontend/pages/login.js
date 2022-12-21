@@ -1,23 +1,24 @@
 import React, { useState, useContext } from 'react';
-import { CurrentUserContextProvider } from '../context/auth';
+import { CurrentUserContext } from '../context/auth';
 
 function Login() {
-    // const [rawProfile, changeRawProfile] = useState(null);
+    const [rawProfile, changeRawProfile] = useState(null);
     // const [loginError, setLoginError] = useState('');
     // const [currentUser, setCurrentUser] = CurrentUserContext();
-    // const [username, changeUsername] = useState('');
-    // const [password, changePassword] = useState('');
+    const [username, changeUsername] = useState('');
+    const [password, changePassword] = useState('');
     let [loading, setLoading] = useState(false);
     let [formError, setFormError] = useState(false);
-    const { userData, loginUser } = useContext(CurrentUserContextProvider);
-    const { register, handleSubmit, errors, setError, clearError } = useForm();
+    // get user management functions from context
+    const { userData, loginUser, logoutUser } = useContext(CurrentUserContext);
+    // const { register, handleSubmit, errors, setError, clearError } = useForm();
 
 
     async function onSubmit(e) {
         e.preventDefault();
         setLoading(true);
         setFormError(false);
-        clearError();
+        // clearError();
         try {
             let res = await fetch('http://localhost:8000/tcapp/dj-rest-auth/login/', {
                 method: 'POST',
