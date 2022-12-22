@@ -1,8 +1,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/layout';
+import { CurrentUserContext } from '../../context/auth';
+import { useContext } from 'react';
 
 export default function Module({ module_detail }) {
+  const { logoutUser } = useContext(CurrentUserContext);
+
   return (
     <Layout>
       <Head>
@@ -20,6 +24,9 @@ export default function Module({ module_detail }) {
         ))}
       </ul>
       <Link href="/modules">← Back to Modules</Link>
+      <p></p>
+      <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
+
     </Layout>
   );
 }

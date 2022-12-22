@@ -15,14 +15,14 @@ export async function getStaticProps() {
 }
 
 export default function ModuleList({ allModuleData }) {
-    const { userData } = useContext(CurrentUserContext);
+    const { userData, logoutUser } = useContext(CurrentUserContext);
     const router = useRouter();
 
     useEffect(() => {
         if (!userData.username) {
-          router.push('/');
+            router.push('/');
         }
-      }, [userData]);
+    }, [userData]);
 
     return (
         <Layout>
@@ -42,6 +42,8 @@ export default function ModuleList({ allModuleData }) {
                             ))}
                         </ul>
                     </section>
+                    <p></p>
+                    <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
                 </div>
             )}
 
