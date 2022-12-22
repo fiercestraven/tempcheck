@@ -18,7 +18,8 @@ export default function HomePage() {
             <Link href="/modules">Modules</Link>
             <p></p>
             <Link href="http://localhost:8000/admin">Admin</Link>
-            <button onClick={logoutUser}>Log Out</button>
+            <p></p>
+            <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
           </div>
         )}
       </Layout>

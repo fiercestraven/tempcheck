@@ -10,7 +10,7 @@ function Login() {
     let [loading, setLoading] = useState(false);
     let [formError, setFormError] = useState(false);
     // get user management functions from context
-    const { userData, loginUser, logoutUser } = useContext(CurrentUserContext);
+    const { userData, loginUser } = useContext(CurrentUserContext);
     // const { register, handleSubmit, errors, setError, clearError } = useForm();
 
 
@@ -48,12 +48,6 @@ function Login() {
             // show access token in console
             console.info(data.access_token);
 
-            // setCurrentUser({
-            //     'access_token': data.access_token,
-            //     'username': data.user.username,
-                // fv - put token expiry here
-            // })
-            // if successful, 'redirect' - change to modules page (make modules & other pages auth restricted)
             // fv - will also need to put api back behind authentication. Then every request will need to include auth by accessing that same Context.
         } catch (error) {
             const { data } = error.response;
@@ -65,12 +59,6 @@ function Login() {
         }
         setLoading(false);
     }
-
-    // FV START HERE store access token (& set its limit?) 
-    // current problem: useEffect must be here for placement, but then it can't access the stuff from the Login function
-    // useEffect(() => {
-    //     localStorage.setCurrentUser('currentUser', JSON.stringify({ currentUser }));
-    // }, [currentUser]);
 
     return (
         <div>
