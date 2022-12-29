@@ -33,7 +33,6 @@ export default function Module({ module_detail }) {
 
 https://nextjs.org/docs/api-reference/data-fetching/get-initial-props
 Module.getInitialProps = async (ctx) => {
-  //fv - ask Dan about this! Why did replacing module_name with module_shortname in both places not work?
   const { module_name } = ctx.query;
   const res = await fetch(`http://localhost:8000/tcapp/api/modules/${module_name}/`);
   const module_detail = await res.json()
