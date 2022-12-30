@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import Layout from '../components/layout';
 import { getModuleData } from '../lib/modules';
 import { CurrentUserContext } from '../context/auth';
@@ -42,6 +43,8 @@ export default function ModuleList({ allModuleData }) {
                             ))}
                         </ul>
                     </section>
+                    <p></p>
+                    <Link href="/">← Home</Link>
                     <p></p>
                     <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
                 </div>

@@ -25,6 +25,8 @@ export default function Module({ module_detail }) {
       </ul>
       <Link href="/modules">← Back to Modules</Link>
       <p></p>
+      <Link href="/">← Home</Link>
+      <p></p>
       <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
 
     </Layout>

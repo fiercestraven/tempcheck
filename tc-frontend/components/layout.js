@@ -6,7 +6,7 @@ import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 
 const name = 'Tempcheck';
-export const userName = 'Frances';
+export const userName = '';
 
 export default function Layout({ children, home }) {
   return (
@@ -15,20 +15,14 @@ export default function Layout({ children, home }) {
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="Tempcheck"
-          content="Check the mood of a group of students."
+          content="Check the mood of a group of students"
         />
-        {/* <meta
-          property="og:image"
-          content={`https://og-image.vercel.app/${encodeURI(
-            userName,
-          )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
-        /> */}
         <meta name="og:userName" content={userName} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
-        {home ? (
-          <>
+        <>
+          <Link href="/">
             <Image
               priority
               src="/images/thermometerColor.png"
@@ -37,36 +31,16 @@ export default function Layout({ children, home }) {
               width={144}
               alt=""
             />
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
-          </>
-        ) : (
-          <>
-            <Link href="/">
-              <Image
-                priority
-                src="/images/thermometerColor.png"
-                className={utilStyles.borderCircle}
-                height={108}
-                width={108}
-                alt=""
-              />
+          </Link>
+          <h2 className={utilStyles.heading2Xl}>
+            <Link href="/" className={utilStyles.colorInherit}>
+              {name}
             </Link>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/" className={utilStyles.colorInherit}>
-                {name}
-              </Link>
-            </h2>
-          </>
-        )}
+          </h2>
+        </>
       </header>
       <main>{children}</main>
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">← Home</Link>
-        </div>
-      )}
     </div>
   );
 }
 
-  
