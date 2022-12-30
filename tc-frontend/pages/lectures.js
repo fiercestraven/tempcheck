@@ -30,17 +30,21 @@ export default function LectureList({ allLectureData }) {
             <Head>
                 <title>Lecture List</title>
             </Head>
-            <h2>Lectures</h2>
-            <ul>
-                {allLectureData.map(({ id, lecture_name }) => (
-                    <li key={id}>
-                        <a href={`/lectures/${lecture_name}`}>{lecture_name}</a>
-                    </li>
-                ))}
-            </ul>
-            <Link href="/modules">← Modules</Link>
-            <p></p>
-            <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
+            {userData.username && (
+                <div>
+                    <h2>Lectures</h2>
+                    <ul>
+                        {allLectureData.map(({ id, lecture_name }) => (
+                            <li key={id}>
+                                <a href={`/lectures/${lecture_name}`}>{lecture_name}</a>
+                            </li>
+                        ))}
+                    </ul>
+                    <Link href="/modules">← Modules</Link>
+                    <p></p>
+                    <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
+                </div>
+            )}
         </Layout>
     );
 }
