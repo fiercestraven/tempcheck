@@ -2,10 +2,18 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../components/layout';
 import { CurrentUserContext } from '../../../context/auth';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Lecture({ lecture_detail }) {
-    const { logoutUser } = useContext(CurrentUserContext);
+    const { userData, logoutUser } = useContext(CurrentUserContext);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!userData.username) {
+            router.push('/');
+        }
+    }, [userData]);
 
     return (
         <Layout>
@@ -19,8 +27,8 @@ export default function Lecture({ lecture_detail }) {
             {/* fv - do error handling on this form */}
             <form action="http://localhost:8000/tcapp/api/pings/" method="post">
                 <input type="submit" name="ping" id="ping" value="Ping"></input>
-                {/* fv - update below after auth/login finished */}
-                <input type="number" name="student" value="16"></input>
+                {/* fv - see if below student info is working */}
+                <input type="number" name="student" value={userData.pk}></input>
                 <input type="text" name="lecture_name" value={lecture_detail.lecture_name}></input>
             </form>
 

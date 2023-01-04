@@ -33,6 +33,8 @@ export default function ModuleList({ allModuleData }) {
 
             {userData.username && (
                 <div>
+                    {/* fv check line below to see if working 2/1/23 */}
+                    <h3 style='italic'>Welcome, { userData.username }!</h3>
                     <h2>Modules</h2>
                     <section>
                         <ul>

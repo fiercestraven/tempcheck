@@ -2,10 +2,18 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/layout';
 import { CurrentUserContext } from '../../context/auth';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Module({ module_detail }) {
-  const { logoutUser } = useContext(CurrentUserContext);
+  const { userData, logoutUser } = useContext(CurrentUserContext);
+  const router = useRouter();
+
+  useEffect(() => {
+      if (!userData.username) {
+          router.push('/');
+      }
+  }, [userData]);
 
   return (
     <Layout>
