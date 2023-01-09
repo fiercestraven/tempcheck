@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-
 {% extends 'admin/base.html' %}
 
 {% block content %}
 <div>
-    <form action="." method="POST" enctype="multipart/form-data">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button type="submit">Upload File</button>
-    </form>
+    {% if form_errors %}
+        <p>Found errors on line {{ row_count }}:</p>
+        <ul>
+            {% for field, errors in form_errors.items %}
+                {% for error in errors %}
+                <li> {{ field }}: {{ error }} </li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% elif row_count %}
+   <!-- {% comment %} https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#pluralize {% endcomment %} -->
+        <p>Successfully uploaded {{ row_count }} row{{ row_count|pluralize }}!</p>
+    {% endif %}
+        <form action="." method="POST" enctype="multipart/form-data">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit">Upload File</button>
+        </form>
 </div>
 {% endblock %}

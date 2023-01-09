@@ -1,11 +1,17 @@
-import { useState, useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import Link from 'next/link';
 import Layout from '../components/layout';
 import Login from './login';
 import { CurrentUserContext } from '../context/auth';
 
 export default function HomePage() {
-  const { userData, logoutUser } = useContext(CurrentUserContext);
+  const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
+
+  if (!userDataLoaded) {
+    return (
+      <div>Loading...</div>
+    );
+  }
   
   return (
     <div>

@@ -57,11 +57,11 @@ class UserAdmin(UserAdmin):
             for x in csv_data:
                 row_count +=1
                 # fv - note: here, put into a form and then run validation - if working, can delete from fields=x.split(",")
-                # form = csvImportForm(x)
-                # if not form.is_valid():
-                #     form_errors = form.errors
-                #     break
-                # form.save()
+                form = csvImportForm(x)
+                if not form.is_valid():
+                    form_errors = form.errors
+                    break
+                form.save()
                 # below is current code (non-form), working:
                 fields = x.split(",")
                 # note - username in the Django model is unique; will use that and let it auto-fill pk

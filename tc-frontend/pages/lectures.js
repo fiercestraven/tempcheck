@@ -1,52 +1,62 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../components/layout';
-import { getLectureData } from '../lib/lectures';
 import { CurrentUserContext } from '../context/auth';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-export async function getStaticProps() {
-    const allLectureData = await getLectureData();
-    return {
-        props: {
-            allLectureData,
-        },
-    };
-}
-
-export default function LectureList({ allLectureData }) {
-    const { userData, logoutUser } = useContext(CurrentUserContext);
+export default function LectureList() {
+    const [lectureList, setLectureList] = useState([]);
+    const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
     const router = useRouter();
 
     useEffect(() => {
-        if (!userData.username) {
-            router.push('/');
+        async function getLectureList() {
+            let res = await fetch('http://localhost:8000/tcapp/api/lectures/');
+            let data = await res.json();
+            setLectureList(data);
+        }
+
+        if (userDataLoaded && userData) {
+            getLectureList();
         }
     }, [userData]);
+
+    if (!userDataLoaded) {
+        return (
+            <div>Loading...</div>
+        );
+    }
+
+    if (!userData.username) {
+        router.push('/');
+    }
 
     return (
         <Layout>
             <Head>
                 <title>Lecture List</title>
             </Head>
-            {userData.username && (
+
+            {userData.username &&
                 <div>
                     <h2>Lectures</h2>
-                    <ul>
-                        {allLectureData.map(({ id, lecture_name }) => (
-                            <li key={id}>
-                                <a href={`/lectures/${lecture_name}`}>{lecture_name}</a>
-                            </li>
-                        ))}
-                    </ul>
+                    <section>
+                        <ul>
+                            {lectureList.map(({ id, lecture_name }) => (
+                                <li key={id}>
+                                    <a href={`/lectures/${lecture_name}`}>{lecture_name}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
                     <Link href="/modules">← Modules</Link>
                     <p></p>
                     <Link href="/">← Home</Link>
                     <p></p>
                     <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
                 </div>
-            )}
+            }
         </Layout>
     );
 }
