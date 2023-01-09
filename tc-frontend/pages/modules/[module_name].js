@@ -33,11 +33,10 @@ export default function Module() {
     router.push('/');
   }
 
-
   return (
     <Layout>
       <Head>
-        <h3 style={{fontStyle: 'italic'}}>Welcome, { userData.username }!</h3>
+        <h3 style={{fontStyle: 'italic'}}>Welcome, { userData?.username || "Visitor"}!</h3>
         <title>{moduleData?.module_name || "Module Details"}</title>
       </Head>
 
