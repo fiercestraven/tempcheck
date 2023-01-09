@@ -34,12 +34,12 @@ export default function ModuleList({ allModuleData }) {
             {userData.username && (
                 <div>
                     {/* fv check line below to see if working 2/1/23 */}
-                    <h3 style='italic'>Welcome, { userData.username }!</h3>
+                    <h3>Welcome, { userData.username }!</h3>
                     <h2>Modules</h2>
                     <section>
                         <ul>
-                            {allModuleData.map(({ id, module_shortname }) => (
-                                <li key={id}>
+                            {allModuleData.map(({ module_shortname }) => (
+                                <li key={module_shortname}>
                                     <a href={`modules/${module_shortname}`}>{module_shortname}</a>
                                 </li>
                             ))}

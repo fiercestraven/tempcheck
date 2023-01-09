@@ -19,6 +19,14 @@ from .models import Choice, Ping, Question, Lecture, Module
 from django.views.decorators.csrf import csrf_exempt
 
 # Views
+
+# fv - below is part of 8 Jan trial to get the csv uploader working. These weren't helping, so I commented them out.
+# def csv_upload(request):
+#     return render(request, 'admin/csv_upload.html',)
+
+# def stats(request):
+#     return render(request, 'admin/stats.html',)
+
 def index(request):
     if request.user.is_authenticated:
         return redirect('tcapp:lectures')

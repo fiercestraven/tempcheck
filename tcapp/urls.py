@@ -12,10 +12,16 @@ router.register(r'users', views.UserViewSet)
 router.register(r'modules', views.ModuleViewSet)
 router.register(r'lectures', views.LectureViewSet)
 # router.register(r'student_modules', views.Student_ModuleViewSet)
-#pick up here!!!
 router.register(r'pings', views.PingViewSet)
 router.register(r'questions', views.QuestionViewSet)
 router.register(r'choices', views.ChoiceViewSet)
+
+# fv - below is part of 8 Jan trial to get the csv uploader working. This wasn't helping, so I commented it out.
+# urlpatterns = [
+#     path('admin/csv_upload/', views.csv_upload, name='csv_upload'),
+#     path('admin/stats/', views.stats, name='stats'),
+#     path('admin/', admin.site.urls)
+# ]   
 
 app_name ="tcapp"
 urlpatterns = [

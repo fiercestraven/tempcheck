@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'dj_rest_auth'
+    'dj_rest_auth',
+    # https://stackoverflow.com/questions/56711082/reverse-django-admin-urls
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

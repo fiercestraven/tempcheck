@@ -10,9 +10,9 @@ export default function Module({ module_detail }) {
   const router = useRouter();
 
   useEffect(() => {
-      if (!userData.username) {
-          router.push('/');
-      }
+    if (!userData.username) {
+      router.push('/');
+    }
   }, [userData]);
 
   return (
@@ -25,8 +25,8 @@ export default function Module({ module_detail }) {
       <p>Lecturer: {module_detail.instructor.first_name} {module_detail.instructor.last_name}</p>
       <p>Lectures:</p>
       <ul>
-        {module_detail.lectures.map(({ id, lecture_name }) => (
-          <li key={id}>
+        {module_detail.lectures.map(({ lecture_name }) => (
+          <li key={lecture_name}>
             <a href={`lectures/${lecture_name}`}>{lecture_name}</a>
           </li>
         ))}
@@ -41,7 +41,7 @@ export default function Module({ module_detail }) {
   );
 }
 
-https://nextjs.org/docs/api-reference/data-fetching/get-initial-props
+// https://nextjs.org/docs/api-reference/data-fetching/get-initial-props
 Module.getInitialProps = async (ctx) => {
   const { module_name } = ctx.query;
   const res = await fetch(`http://localhost:8000/tcapp/api/modules/${module_name}/`);
