@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { CurrentUserContext } from '../context/auth';
 import { useForm } from "react-hook-form";
 

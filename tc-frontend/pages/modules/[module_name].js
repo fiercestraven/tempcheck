@@ -41,7 +41,7 @@ export default function Module() {
       </Head>
 
       {moduleData?.module_name &&
-        <div>
+        <div class="container">
           <h2>{moduleData.module_name}</h2>
           <p>{moduleData.module_description}</p>
 

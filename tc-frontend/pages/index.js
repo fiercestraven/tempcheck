@@ -20,10 +20,8 @@ export default function HomePage() {
           <Login />
         )}
         {userData.username && (
-          <div>
+          <div class="container">
             <Link href="/modules">Modules</Link>
-            <p></p>
-            <Link href="http://localhost:8000/admin">Admin</Link>
             <p></p>
             <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
           </div>

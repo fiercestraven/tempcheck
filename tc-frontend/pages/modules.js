@@ -40,7 +40,7 @@ export default function ModuleList() {
             </Head>
 
             {userData.username && 
-                <div>
+                <div class="container">
                     {/* <h3 style={{fontStyle: 'italic'}}>Welcome, { userData.username }!</h3> */}
                     <h2>Modules</h2>
                     <section>

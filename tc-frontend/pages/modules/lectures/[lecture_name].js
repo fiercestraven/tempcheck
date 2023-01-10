@@ -40,7 +40,7 @@ export default function Lecture() {
             </Head>
 
             {lectureData?.lecture_name &&
-                <div>
+                <div class="container">
                     <h2>{lectureData.module.module_name}</h2>
                     <h3>Lecture: {lectureData.lecture_name}</h3>
                     <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>

@@ -39,7 +39,7 @@ export default function LectureList() {
             </Head>
 
             {userData.username &&
-                <div>
+                <div class="container">
                     <h2>Lectures</h2>
                     <section>
                         <ul>
