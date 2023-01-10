@@ -32,11 +32,12 @@ export function CurrentUserContextWrapper({ children }) {
         }
 
         let data = await res.json();
+        
         // Save the user object in local storage
-        // localStorage.setItem('userData', JSON.stringify({
-        //     access_token: data.access_token,
-        //     username: data.user.username,
-        // }));
+        localStorage.setItem('userData', JSON.stringify({
+            access_token: data.access_token,
+            username: data.user.username,
+        }));
 
         // Set user data   
         setUserData({
