@@ -4,8 +4,10 @@ import Layout from '../../../components/layout';
 import { CurrentUserContext } from '../../../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useForm } from "react-hook-form";
 
 export default function Lecture() {
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [lectureData, setLectureData] = useState();
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
     const router = useRouter();
@@ -25,7 +27,7 @@ export default function Lecture() {
 
     if (!userDataLoaded) {
         return (
-            <div>Loading...</div>
+            <div>Loading....</div>
         );
     }
 
@@ -33,34 +35,71 @@ export default function Lecture() {
         router.push('/');
     }
 
-    return (
-        <Layout>
-            <Head>
-                <title>{lectureData?.lecture_name || "Lecture Details"}</title>
-            </Head>
+    async function onSubmit(data) {
+        console.log(data);
+        try {
+            let res = await fetch('http://localhost:8000/tcapp/api/pings/', {
+                method: 'POST',
+                credentials: 'omit',
+                headers: {
+                    // what mime type I'm sending & accepting
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify( data )
+            });
+        } catch (e) {
+            console.error("Ping submission failed: ", e.message);
+        }
 
-            {lectureData?.lecture_name &&
-                <div class="container">
-                    <h2>{lectureData.module.module_name}</h2>
-                    <h3>Lecture: {lectureData.lecture_name}</h3>
-                    <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
+        return (
+            <Layout>
+                <Head>
+                    <title>{lectureData?.lecture_name || "Lecture Details"}</title>
+                </Head>
 
-                    {/* fv - do error handling on this form */}
-                    <form action="http://localhost:8000/tcapp/api/pings/" method="post">
-                        <input type="submit" name="ping" id="ping" value="Ping"></input>
-                        {/* fv - see if below student info is working */}
-                        <input type="number" name="student" value={userData.pk}></input>
-                        <input type="text" name="lecture_name" value={lectureData.lecture_name}></input>
-                    </form>
+                {lectureData?.lecture_name &&
+                    <div class="container">
+                        <h2>{lectureData.module.module_name}</h2>
+                        <h3>Lecture: {lectureData.lecture_name}</h3>
+                        <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
-                    <p></p>
-                    <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>
-                    <p></p>
-                    <Link href="/">← Home</Link>
-                    <p></p>
-                    <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
-                </div>
-            }
-        </Layout>
-    );
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div>
+                                <input
+                                    value='16'
+                                    type="hidden"
+                                    id="student"
+                                    name="student"
+                                    {...register("student", { required: true, maxLength: 10 })}
+                                />
+                            </div>
+                            {errors.student && <p>Student not found.</p>}
+
+                            <div>
+                                <input
+                                    value={lectureData.lecture_name}
+                                    type="hidden"
+                                    id="lecture_name"
+                                    name="lecture_name"
+                                    {...register("lecture_name", { required: true, maxLength: 50 })}
+                                />
+                            </div>
+                            {errors.lecture_name && <p>Invalid lecture name submitted.</p>}
+
+                            <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type='submit'>Ping</button>
+                        </form>
+                        <code>{JSON.stringify(userData)}</code>
+
+                        <p></p>
+                        <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>
+                        <p></p>
+                        <Link href="/">← Home</Link>
+                        <p></p>
+                        <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
+                    </div>
+                }
+            </Layout>
+        );
+    }
 }
