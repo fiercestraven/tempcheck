@@ -1,8 +1,10 @@
-import { useContext } from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../components/layout';
 import Login from './login';
 import { CurrentUserContext } from '../context/auth';
+import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function HomePage() {
   const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
@@ -12,10 +14,14 @@ export default function HomePage() {
       <div>Loading...</div>
     );
   }
-  
+
   return (
     <div>
       <Layout home>
+        <Head>
+          <title>Modules</title>
+        </Head>
+
         {!userData.username && (
           <Login />
         )}

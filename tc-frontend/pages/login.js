@@ -45,12 +45,12 @@ export default function Login() {
                         name="password"
                         {...register("password", {
                             required: true,
-                            // pattern to require 1 digit, 1 uppercase, 1 lowercase, and between 8-20 characters
-                            pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/
+                            // pattern to require 1 digit, 1 uppercase letter, and between 8-20 characters
+                            pattern: /^(?=.*\d)(?=.*[A-Z]).{8,20}$/
                         })}
                     />
                 </div>
-                {errors.password && <p>Password required. Your password should be between 8-20 characters and contain at least one number, one uppercase letter and one lowercase letter.</p>}
+                {errors.password && <p>Password required. Your password should be between 8-20 characters and contain at least one number and one uppercase letter.</p>}
                 <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type='submit'>Login</button>
             </form>
         </div>

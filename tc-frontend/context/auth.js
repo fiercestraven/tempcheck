@@ -37,14 +37,12 @@ export function CurrentUserContextWrapper({ children }) {
         localStorage.setItem('userData', JSON.stringify({
             access_token: data.access_token,
             username: data.user.username,
-            // pk: data.user.pk,
         }));
 
         // Set user data   
         setUserData({
             access_token: data.access_token,
             username: data.user.username,
-            // pk: data.user.pk,
         });
     };
 

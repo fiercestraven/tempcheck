@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.urls import path, reverse
 from django.shortcuts import render
 from django import forms
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Module, Lecture, Ping, Question, Choice, User
 
 
@@ -40,6 +40,7 @@ class UserAdmin(UserAdmin):
         return new_urls + urls
 
     def upload_csv(self, request):
+        messages.info(request, "The CSV file should adhere to the following format: username,first_name,last_name,email,is_staff")
         if request.method == "POST":
             # below csv_upload is from the csvImportForm function above
             csv_file = request.FILES["csv_upload"]
@@ -77,6 +78,7 @@ class UserAdmin(UserAdmin):
         form = csvImportForm
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
+
 
 class ModuleAdmin(admin.ModelAdmin):
     fields = ['module_shortname', 'module_name', 'module_description', 'instructor', 'is_active']
