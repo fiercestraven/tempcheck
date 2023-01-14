@@ -184,11 +184,13 @@ class PingViewSet(viewsets.ModelViewSet):
     #permission_classes = [permissions.IsAuthenticated]
     # on saving/deleting hooks: https://stackoverflow.com/questions/35990589/django-rest-framework-setting-default-primarykeyrelated-field-value/35990729#35990729
     def perform_create(self, serializer):
+        student = self.request.user
         lecture = Lecture.objects.get(lecture_name=self.request.data['lecture_name'])
-        serializer.save(ping_date=datetime.now(), lecture=lecture)
+        serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
     def perform_update(self, serializer):
+        student = self.request.user
         lecture = Lecture.objects.get(lecture_name=self.request.data['lecture_name'])
-        serializer.save(ping_date=datetime.now(), lecture=lecture)
+        serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
 
 class QuestionViewSet(viewsets.ModelViewSet):
     """

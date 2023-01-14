@@ -15,7 +15,10 @@ export default function Lecture() {
 
     useEffect(() => {
         async function getLectureData() {
-            const res = await fetch(`http://localhost:8000/tcapp/api/lectures/${lecture_name}/`);
+            const res = await fetch(`http://localhost:8000/tcapp/api/lectures/${lecture_name}/`, {
+                headers: {
+                    'Authorization': `Bearer ${userData.access_token}`,
+                },});
             const data = await res.json();
             setLectureData(data);
         }
@@ -38,16 +41,29 @@ export default function Lecture() {
     async function onSubmit(data) {
         console.log(data);
         try {
+            console.log('fetching');
             let res = await fetch('http://localhost:8000/tcapp/api/pings/', {
                 method: 'POST',
                 credentials: 'omit',
                 headers: {
+                    'Authorization': `Bearer ${userData.access_token}`,
                     // what mime type I'm sending & accepting
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    // student and date/time are completely handled in Django
+                    lecture_name: data.lecture_name,
+                })
             });
+            console.log('checking status');
+            if (res.status == 400) {
+                throw new Error("An error occurred with the Ping submission");
+            }    
+            console.log('reading body');
+            // fv - omit later?
+            const result = await res.json();
+            console.log(result);
         } catch (e) {
             console.error("Ping submission failed: ", e.message);
         }
@@ -60,23 +76,12 @@ export default function Lecture() {
             </Head>
 
             {lectureData?.lecture_name &&
-                <div class="container">
+                <div className="container">
                     <h2>{lectureData.module.module_name}</h2>
                     <h3>Lecture: {lectureData.lecture_name}</h3>
                     <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div>
-                            <input
-                                value='16'
-                                type="hidden"
-                                id="student"
-                                name="student"
-                                {...register("student", { required: true, maxLength: 10 })}
-                            />
-                        </div>
-                        {errors.student && <p>Student not found.</p>}
-
                         <div>
                             <input
                                 value={lectureData.lecture_name}
@@ -90,7 +95,6 @@ export default function Lecture() {
 
                         <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type='submit'>Ping</button>
                     </form>
-                    <code>{JSON.stringify(userData)}</code>
 
                     <p></p>
                     <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>

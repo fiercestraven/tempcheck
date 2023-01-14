@@ -12,7 +12,10 @@ export default function ModuleList() {
 
     useEffect(() => {
         async function getModuleList() {
-            let res = await fetch('http://localhost:8000/tcapp/api/modules/');
+            let res = await fetch('http://localhost:8000/tcapp/api/modules/', {
+                headers: {
+                    'Authorization': `Bearer ${userData.access_token}`,
+                },});
             let data = await res.json();
             setModuleList(data);
         }

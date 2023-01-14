@@ -12,7 +12,10 @@ export default function LectureList() {
 
     useEffect(() => {
         async function getLectureList() {
-            let res = await fetch('http://localhost:8000/tcapp/api/lectures/');
+            let res = await fetch('http://localhost:8000/tcapp/api/lectures/', {
+                headers: {
+                    'Authorization': `Bearer ${userData.access_token}`,
+                },});
             let data = await res.json();
             setLectureList(data);
         }

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -170,13 +171,18 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 10
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # fv - added this per dj-rest-auth docs; not sure if the session one will break anythihng
-        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ],
+}
+
+# https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html#access-token-lifetime
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=300),
 }
 
 # fv - per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py, not sure if needed?

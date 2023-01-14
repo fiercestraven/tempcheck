@@ -17,9 +17,9 @@ export default function Footer() {
             <Link href="http://localhost:8000/admin">Admin</Link>
             <p></p>
 
-            <p>
+            <div>
                 <Copyright />
-            </p>
+            </div>
         </div>
     );
 }
