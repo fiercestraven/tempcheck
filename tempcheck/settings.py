@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 # cors: https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework
 INSTALLED_APPS = [
-    'tcapp.apps.TcappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     # https://stackoverflow.com/questions/56711082/reverse-django-admin-urls
     'django_extensions',
+    'tcapp.apps.TcappConfig',
 ]
 
 MIDDLEWARE = [

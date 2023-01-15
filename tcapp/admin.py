@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django import forms
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Module, Lecture, Ping, Question, Choice, User
-
+from rest_framework.authtoken.models import TokenProxy
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -48,6 +48,7 @@ class UserAdmin(UserAdmin):
                 messages.warning(request, 'The wrong file type was uploaded.')
                 return HttpResponseRedirect(request.path_info)
             # rows = TextIOWrapper(csv_file, encoding="utf-8", newline="")
+            # fix end of line \r and end of file errors
             file_data = csv_file.read().decode("utf-8").replace('\r', '').strip()
             # split into list of lines
             csv_data = file_data.split("\n")
@@ -111,3 +112,6 @@ admin.site.register(Question, QuestionAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 # admin.site.register(Stats, StatsAdmin)
+
+# remove auth token from admin display (https://stackoverflow.com/questions/51710455/hide-the-token-table-from-the-admin-panel-in-django-rest-framework)
+admin.site.unregister(TokenProxy)
