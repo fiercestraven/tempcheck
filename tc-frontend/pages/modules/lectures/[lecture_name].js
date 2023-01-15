@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 export default function Lecture() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [lectureData, setLectureData] = useState();
+    const [submittedText, setSubmittedText] = useState(null);
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
     const router = useRouter();
     const { lecture_name } = router.query;
@@ -52,7 +53,7 @@ export default function Lecture() {
                     'Accept': 'application/json',
                 },
                 body: JSON.stringify({
-                    // student and date/time are completely handled in Django
+                    // student and date/time are completely handled in Django, but lecture_name must be included so Django knows which object to pull
                     lecture_name: data.lecture_name,
                 })
             });
@@ -64,6 +65,7 @@ export default function Lecture() {
             // fv - omit later?
             const result = await res.json();
             console.log(result);
+            setSubmittedText("Ping successfully submitted!");
         } catch (e) {
             console.error("Ping submission failed: ", e.message);
         }
@@ -81,6 +83,8 @@ export default function Lecture() {
                     <h3>Lecture: {lectureData.lecture_name}</h3>
                     <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
+                    {/* fv - insert text styling on p tag below */}
+                    {submittedText && (<p>{submittedText}</p>)}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <input
@@ -95,7 +99,6 @@ export default function Lecture() {
 
                         <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type='submit'>Ping</button>
                     </form>
-
                     <p></p>
                     <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>
                     <p></p>

@@ -191,7 +191,7 @@ SWAGGER_SETTINGS = {
     'LOGOUT_URL': 'logout',
 }
 
-# fv - hope to remove later?
+# fv - hope to remove later? or at least change to localhost:8000 + deployment
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 

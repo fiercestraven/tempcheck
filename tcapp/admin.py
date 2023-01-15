@@ -48,21 +48,21 @@ class UserAdmin(UserAdmin):
                 messages.warning(request, 'The wrong file type was uploaded.')
                 return HttpResponseRedirect(request.path_info)
             # rows = TextIOWrapper(csv_file, encoding="utf-8", newline="")
-            file_data = csv_file.read().decode("utf-8")
+            file_data = csv_file.read().decode("utf-8").replace('\r', '').strip()
             # split into list of lines
             csv_data = file_data.split("\n")
             # iterate over lines and split into fields
             
             row_count = 0
-            form_errors = []
+            # form_errors = []
             for x in csv_data:
                 row_count +=1
                 # fv - note: here, put into a form and then run validation - if working, can delete from fields=x.split(",")
-                form = csvImportForm(x)
-                if not form.is_valid():
-                    form_errors = form.errors
-                    break
-                form.save()
+                # form = csvImportForm(x)
+                # if not form.is_valid():
+                #     form_errors = form.errors
+                #     break
+                # form.save()
                 # below is current code (non-form), working:
                 fields = x.split(",")
                 # note - username in the Django model is unique; will use that and let it auto-fill pk
