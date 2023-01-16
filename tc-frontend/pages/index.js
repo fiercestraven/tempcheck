@@ -1,10 +1,9 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import Layout from '../components/layout';
 import Login from './login';
+import ModuleList from './modules';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
 export default function HomePage() {
   const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
@@ -19,18 +18,15 @@ export default function HomePage() {
     <div>
       <Layout home>
         <Head>
-          <title>Modules</title>
+          <title>Home</title>
         </Head>
 
         {!userData.username && (
           <Login />
         )}
+
         {userData.username && (
-          <div class="container">
-            <Link href="/modules">Modules</Link>
-            <p></p>
-            <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
-          </div>
+          <ModuleList />
         )}
       </Layout>
     </div>

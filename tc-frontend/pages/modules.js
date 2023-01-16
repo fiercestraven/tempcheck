@@ -1,6 +1,4 @@
-import Head from 'next/head';
 import Link from 'next/link';
-import Layout from '../components/layout';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -35,16 +33,11 @@ export default function ModuleList() {
         router.push('/');
     }
     
-
     return (
-        <Layout>
-            <Head>
-                <title>Module List</title>
-            </Head>
-
+        <div>
             {userData.username && 
-                <div class="container">
-                    {/* <h3 style={{fontStyle: 'italic'}}>Welcome, { userData.username }!</h3> */}
+                <div className="container">
+                    <h4 className="mt-4 mb-3" style={{fontStyle: 'italic'}}>Welcome, { userData.username }!</h4>
                     <h2>Modules</h2>
                     <section>
                         <ul>
@@ -56,12 +49,9 @@ export default function ModuleList() {
                         </ul>
                     </section>
                     <p></p>
-                    <Link href="/">← Home</Link>
-                    <p></p>
                     <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
                 </div>
             }
-
-        </Layout>
+        </div>
     );
 }
