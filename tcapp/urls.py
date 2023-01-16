@@ -13,8 +13,8 @@ router.register(r'modules', views.ModuleViewSet)
 router.register(r'lectures', views.LectureViewSet)
 # router.register(r'student_modules', views.Student_ModuleViewSet)
 router.register(r'pings', views.PingViewSet)
-router.register(r'questions', views.QuestionViewSet)
-router.register(r'choices', views.ChoiceViewSet)
+# router.register(r'questions', views.QuestionViewSet)
+# router.register(r'choices', views.ChoiceViewSet)
 
 # fv - below is part of 8 Jan trial to get the csv uploader working. This wasn't helping, so I commented it out.
 # urlpatterns = [
@@ -40,10 +40,12 @@ urlpatterns = [
     path('lectures/', views.LecturesView.as_view(), name='lectures'),
     path('lectures/<str:module_name>/<str:lecture_name>/', views.lecture_detail, name='lecture_detail'),
     path('lectures/<str:module_name>/<str:lecture_name>/submit/', views.submit, name='submit'),
-    path('question/<int:pk>/', views.QuestionView.as_view(), name='question'),
-    path('question/<int:pk>/results/', views.ResultsView.as_view(), name='results'),
-    path('question/<int:question_id>/vote/', views.vote, name='vote'),
+    # path('question/<int:pk>/', views.QuestionView.as_view(), name='question'),
+    # path('question/<int:pk>/results/', views.ResultsView.as_view(), name='results'),
+    # path('question/<int:question_id>/vote/', views.vote, name='vote'),
     path('stats/', TemplateView.as_view(template_name='tcapp/stats.html'), name='stats'),
     path('api/', include(router.urls)),
+    # can't add a generic view in a router, so this api view is here instead of above
+    path('api/lecture_temp/', views.LectureTempView.as_view(), name="lecture_temp"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

@@ -1,10 +1,9 @@
-from io import TextIOWrapper
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from django.urls import path, reverse
 from django.shortcuts import render
 from django import forms
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from .models import Module, Lecture, Ping, Question, Choice, User
 from rest_framework.authtoken.models import TokenProxy
 
@@ -79,7 +78,6 @@ class UserAdmin(UserAdmin):
         form = csvImportForm
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
-
 
 class ModuleAdmin(admin.ModelAdmin):
     fields = ['module_shortname', 'module_name', 'module_description', 'instructor', 'is_active']

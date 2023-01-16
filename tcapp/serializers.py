@@ -47,20 +47,20 @@ class PingSerializer(serializers.ModelSerializer):
         #     'lecture': {'view_name': 'tcapp:lecture-detail'},
         # }
 
-class QuestionSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Question
-        fields = ['url', 'id', 'question_text', 'pub_date', 'lecture']
-        extra_kwargs = {
-            'url': {'view_name': 'tcapp:question-detail'},
-            'lecture': {'view_name': 'tcapp:lecture-detail'},
-        }
+# class QuestionSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Question
+#         fields = ['url', 'id', 'question_text', 'pub_date', 'lecture']
+#         extra_kwargs = {
+#             'url': {'view_name': 'tcapp:question-detail'},
+#             'lecture': {'view_name': 'tcapp:lecture-detail'},
+#         }
 
-class ChoiceSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Choice
-        fields = ['url', 'id', 'choice_text', 'votes', 'question']
-        extra_kwargs = {
-            'url': {'view_name': 'tcapp:choice-detail'},
-            'question': {'view_name': 'tcapp:question-detail'},
-        }
+# class ChoiceSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Choice
+#         fields = ['url', 'id', 'choice_text', 'votes', 'question']
+#         extra_kwargs = {
+#             'url': {'view_name': 'tcapp:choice-detail'},
+#             'question': {'view_name': 'tcapp:question-detail'},
+#         }

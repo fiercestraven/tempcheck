@@ -1,21 +1,23 @@
 from datetime import datetime
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-# from django.template import loader
-from .forms import SignUpForm
+# from .forms import SignUpForm
 from django.contrib.auth import authenticate,login
-from django.contrib.auth.models import User
 # from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from rest_framework import permissions
-# fv - add Student_ModuleSerializer back in if using
-from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer, QuestionSerializer, ChoiceSerializer
-from .models import Choice, Ping, Question, Lecture, Module
+from django.contrib.auth.models import User
+# fv - add back in Choice, Question if using
+from .models import Ping, Lecture, Module
+# fv - add Student_ModuleSerializer, ChoiceSerializer, QuestionSerializer back in if using
+from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer
 from django.views.decorators.csrf import csrf_exempt
 
 # Views
@@ -27,6 +29,7 @@ from django.views.decorators.csrf import csrf_exempt
 # def stats(request):
 #     return render(request, 'admin/stats.html',)
 
+# fv - could remove later now that this is done through Next; leaving for ability to see Django side for now
 def index(request):
     if request.user.is_authenticated:
         return redirect('tcapp:lectures')
@@ -111,32 +114,32 @@ def lecture_detail(request, module_name, lecture_name):
     lecture = get_object_or_404(Lecture, lecture_name=lecture_name)
     return render(request, 'tcapp/lecture.html', {'module': module, 'lecture': lecture})
 
-class QuestionView(generic.DetailView):
-    model = Question
-    template_name = 'tcapp/question.html'
+# class QuestionView(generic.DetailView):
+#     model = Question
+#     template_name = 'tcapp/question.html'
 
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'tcapp/results.html'
+# class ResultsView(generic.DetailView):
+#     model = Question
+#     template_name = 'tcapp/results.html'
 
-def vote(request, question_id):
-    # initial dummy response
-    question = get_object_or_404(Question, pk=question_id)
-    try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'tcapp/question.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
-    else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('tcapp:results', args=(question.id,)))
+# def vote(request, question_id):
+#     # initial dummy response
+#     question = get_object_or_404(Question, pk=question_id)
+#     try:
+#         selected_choice = question.choice_set.get(pk=request.POST['choice'])
+#     except (KeyError, Choice.DoesNotExist):
+#         # Redisplay the question voting form.
+#         return render(request, 'tcapp/question.html', {
+#             'question': question,
+#             'error_message': "You didn't select a choice.",
+#         })
+#     else:
+#         selected_choice.votes += 1
+#         selected_choice.save()
+#         # Always return an HttpResponseRedirect after successfully dealing
+#         # with POST data. This prevents data from being posted twice if a
+#         # user hits the Back button.
+#         return HttpResponseRedirect(reverse('tcapp:results', args=(question.id,)))
 
 
 # API views #
@@ -146,7 +149,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 class ModuleViewSet(viewsets.ModelViewSet):
     """
@@ -155,7 +158,7 @@ class ModuleViewSet(viewsets.ModelViewSet):
     queryset = Module.objects.all().order_by('module_shortname')
     serializer_class = ModuleSerializer
     lookup_field = 'module_shortname'
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 class LectureViewSet(viewsets.ModelViewSet):
     """
@@ -164,7 +167,7 @@ class LectureViewSet(viewsets.ModelViewSet):
     queryset = Lecture.objects.all().order_by('lecture_name')
     serializer_class = LectureSerializer
     lookup_field = 'lecture_name'
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 # fv - implement later if needed; see serializers.py for issue
 # class Student_ModuleViewSet(viewsets.ModelViewSet):
@@ -191,19 +194,29 @@ class PingViewSet(viewsets.ModelViewSet):
         student = self.request.user
         lecture = Lecture.objects.get(lecture_name=self.request.data['lecture_name'])
         serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
+    permission_classes = [permissions.IsAuthenticated]
 
-class QuestionViewSet(viewsets.ModelViewSet):
+class LectureTempView(APIView):
     """
-    API endpoint that allows questions to be viewed or edited.
+    API endpoint for transmitting ping threshold.
     """
-    queryset = Question.objects.select_related('lecture').all().order_by('lecture__lecture_name')
-    serializer_class = QuestionSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, format=None):
+        threshold = 1
+        return Response(threshold)
+    permission_classes = [permissions.IsAuthenticated]
 
-class ChoiceViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows question choices to be viewed or edited.
-    """
-    queryset = Choice.objects.select_related('question').all().order_by('question__question_text')
-    serializer_class = ChoiceSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+# class QuestionViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows questions to be viewed or edited.
+#     """
+#     queryset = Question.objects.select_related('lecture').all().order_by('lecture__lecture_name')
+#     serializer_class = QuestionSerializer
+#     #permission_classes = [permissions.IsAuthenticated]
+
+# class ChoiceViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows question choices to be viewed or edited.
+#     """
+#     queryset = Choice.objects.select_related('question').all().order_by('question__question_text')
+#     serializer_class = ChoiceSerializer
+#     #permission_classes = [permissions.IsAuthenticated]
