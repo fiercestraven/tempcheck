@@ -50,8 +50,14 @@ export default function Login() {
                         })}
                     />
                 </div>
-                {errors.password && <p>Password required. Your password should be between 8-20 characters and contain at least one number and one uppercase letter.</p>}
-                <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type='submit'>Login</button>
+                {errors.password && errors.password.type === "required" && (
+                    <div className="error">Password required</div>
+                )}
+                {errors.password && errors.password.type === "minLength" && (
+                    <div className="error">Your password should be between 8-20 characters and contain at least one number and one uppercase letter.</div>
+                )}
+
+                <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type="submit">Login</button>
             </form>
         </div>
     );

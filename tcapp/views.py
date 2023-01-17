@@ -1,24 +1,21 @@
 from datetime import datetime
-from rest_framework.views import APIView
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
+from rest_framework.status import HTTP_200_OK
+from rest_framework.views import APIView
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.views import generic
 from django.utils import timezone
-# from .forms import SignUpForm
-from django.contrib.auth import authenticate,login
+from django.views import generic
 # from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from rest_framework import viewsets
-from rest_framework import permissions
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 # fv - add back in Choice, Question if using
-from .models import Ping, Lecture, Module
-# fv - add Student_ModuleSerializer, ChoiceSerializer, QuestionSerializer back in if using
-from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer
-from django.views.decorators.csrf import csrf_exempt
+from .models import Ping, Lecture, Module, Student_Module
+# fv - add ChoiceSerializer, QuestionSerializer back in if using
+from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer, Student_ModuleSerializer
 
 # Views
 
@@ -35,33 +32,6 @@ def index(request):
         return redirect('tcapp:lectures')
     else:
         return render(request, 'tcapp/index.html',)
-
-# fv - not currently using signup stuff; remove later
-# def signup(request): 
-#     if request.user.is_authenticated:
-#         return redirect('tcapp:lectures')
-
-#     if request.method == 'POST':  
-#         form = SignUpForm(request.POST)  
-#         if form.is_valid():  
-#             user = form.save()  
-#             user.refresh_from_db()
-#             # fv - if I get profile stuff to work, change the 3 lines below to match: user.profile.first_name = form.cleaned_data.get('first_name')
-#             user.first_name = form.cleaned_data.get('first_name')
-#             user.last_name = form.cleaned_data.get('last_name')
-#             user.email = form.cleaned_data.get('email')
-#             user.save()
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password1']
-#             user = authenticate(username=username, password=password)
-#             # fv - add message to the login page here to show it was a successful signup
-#             # fv - is below line working?
-#             return redirect('tcapp/lectures') 
-#         else:
-#             return render(request,'tcapp/signup.html',{'form':form})
-#     else:  
-#         form = SignUpForm()  
-#         return render(request, 'tcapp/signup.html', {'form':form})  
 
 @csrf_exempt
 def api_login(request):
@@ -169,14 +139,13 @@ class LectureViewSet(viewsets.ModelViewSet):
     lookup_field = 'lecture_name'
     permission_classes = [permissions.IsAuthenticated]
 
-# fv - implement later if needed; see serializers.py for issue
-# class Student_ModuleViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows student_modules to be viewed or edited.
-#     """
-#     queryset = Module.objects.all()
-#     serializer_class = Student_ModuleSerializer
-#     permission_classes = [permissions.IsAuthenticated]
+class StudentModuleViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows student_modules to be viewed or edited.
+    """
+    queryset = Student_Module.objects.all().order_by('module')
+    serializer_class = Student_ModuleSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class PingViewSet(viewsets.ModelViewSet):
     """

@@ -11,6 +11,7 @@ export default function Lecture() {
     const [lectureData, setLectureData] = useState();
     const [submittedText, setSubmittedText] = useState(null);
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
+    const [disable, setDisable] = useState(false);
     const router = useRouter();
     const { lecture_name } = router.query;
 
@@ -61,11 +62,24 @@ export default function Lecture() {
             if (res.status == 400) {
                 throw new Error("An error occurred with the Ping submission");
             }    
-            console.log('reading body');
             // fv - omit later?
             const result = await res.json();
             console.log(result);
-            setSubmittedText("Ping successfully submitted!");
+            setSubmittedText("Ping successfully submitted! You may ping again in two minutes.");
+
+            // var btn = document.getElementById("ping_btn");
+            // // handle button - if already disabled, keep disabled
+            // if (btn.getAttribute('disabled') == 'disabled') {
+            //     return;
+            // }
+                     
+            // Disable the button
+            setDisable(true);
+
+            setTimeout(function () {
+                // Re-enable ping button after set time
+                setDisable(false)
+            }, 120000) // two minutes in milliseconds
         } catch (e) {
             console.error("Ping submission failed: ", e.message);
         }
@@ -97,7 +111,7 @@ export default function Lecture() {
                         </div>
                         {errors.lecture_name && <p>Invalid lecture name submitted.</p>}
 
-                        <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type='submit'>Ping</button>
+                        <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" id="ping_btn" type="submit" disabled={disable}>Ping</button>
                     </form>
                     <p></p>
                     <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>

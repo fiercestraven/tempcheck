@@ -28,11 +28,11 @@ class ModuleSerializer(serializers.ModelSerializer):
         #     'instructor': {'view_name': 'tcapp:user-detail'},
         # }
 
-# class Student_ModuleSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-    # fv - figure out how to base this one on two models...
-        # model = Module, User
-        # fields = ['id', 'module', 'student']
+class Student_ModuleSerializer(serializers.ModelSerializer):
+    class Meta:
+            model = Student_Module
+            # depth = 1
+            fields = ['module', 'student']
 
 class PingSerializer(serializers.ModelSerializer):
     class Meta:

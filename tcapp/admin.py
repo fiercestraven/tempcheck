@@ -4,21 +4,21 @@ from django.urls import path, reverse
 from django.shortcuts import render
 from django import forms
 from django.http import HttpResponseRedirect
-from .models import Module, Lecture, Ping, Question, Choice, User
+from .models import Module, Lecture, Ping, Question, Choice, User, Student_Module
 from rest_framework.authtoken.models import TokenProxy
 
-class ChoiceInline(admin.TabularInline):
-    model = Choice
-    extra = 3
+# class ChoiceInline(admin.TabularInline):
+#     model = Choice
+#     extra = 3
 
-class QuestionAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None,               {'fields': ['question_text']}),
-        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
-        (None,               {'fields': ['lecture']}),
-    ]
-    inlines = [ChoiceInline]
-    list_display = ('question_text', 'lecture', 'pub_date')
+# class QuestionAdmin(admin.ModelAdmin):
+#     fieldsets = [
+#         (None,               {'fields': ['question_text']}),
+#         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+#         (None,               {'fields': ['lecture']}),
+#     ]
+#     inlines = [ChoiceInline]
+#     list_display = ('question_text', 'lecture', 'pub_date')
 
 class csvImportForm(forms.Form):
     csv_upload = forms.FileField()
@@ -58,6 +58,7 @@ class UserAdmin(UserAdmin):
             for x in csv_data:
                 row_count +=1
                 # fv - note: here, put into a form and then run validation - if working, can delete from fields=x.split(",")
+                # fv - could try following this: https://djangosource.com/django-csv-upload.html
                 # form = csvImportForm(x)
                 # if not form.is_valid():
                 #     form_errors = form.errors
@@ -84,6 +85,11 @@ class ModuleAdmin(admin.ModelAdmin):
     list_filter = ('is_active',)
     list_display = ('module_shortname', 'module_name', 'module_description', 'instructor', 'is_active')
 
+class Student_ModuleAdmin(admin.ModelAdmin):
+    fields = ['module', 'student']
+    list_filter = ('module',)
+    list_display = ('module', 'student')
+
 class LectureAdmin(admin.ModelAdmin):
     fields = ['module', 'lecture_name', 'lecture_description', 'lecture_date']
     list_display = ('module', 'lecture_name', 'lecture_description', 'lecture_date')
@@ -106,9 +112,10 @@ class PingAdmin(admin.ModelAdmin):
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(Lecture, LectureAdmin)
 admin.site.register(Ping, PingAdmin)
-admin.site.register(Question, QuestionAdmin)
+# admin.site.register(Question, QuestionAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+admin.site.register(Student_Module, Student_ModuleAdmin)
 # admin.site.register(Stats, StatsAdmin)
 
 # remove auth token from admin display (https://stackoverflow.com/questions/51710455/hide-the-token-table-from-the-admin-panel-in-django-rest-framework)

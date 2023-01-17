@@ -43,7 +43,7 @@ export default function ModuleList() {
                         <ul>
                             {moduleList.map(({ module_shortname, module_name }) => (
                                 <li key={module_shortname}>
-                                    <a href={`modules/${module_shortname}`}>{module_shortname}: {module_name}</a>
+                                        <a href={`modules/${module_shortname}`}>{module_shortname}: {module_name}</a>
                                 </li>
                             ))}
                         </ul>
