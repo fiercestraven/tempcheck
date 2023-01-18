@@ -31,7 +31,7 @@ class ModuleSerializer(serializers.ModelSerializer):
 class Student_ModuleSerializer(serializers.ModelSerializer):
     class Meta:
             model = Student_Module
-            # depth = 1
+            depth = 1
             fields = ['module', 'student']
 
 class PingSerializer(serializers.ModelSerializer):

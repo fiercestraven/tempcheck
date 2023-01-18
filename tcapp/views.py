@@ -143,7 +143,9 @@ class StudentModuleViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows student_modules to be viewed or edited.
     """
-    queryset = Student_Module.objects.all().order_by('module')
+    def get_queryset(self):
+        student =self.request.user
+        return student.student_module_set.all().order_by('module__module_name')
     serializer_class = Student_ModuleSerializer
     permission_classes = [permissions.IsAuthenticated]
 

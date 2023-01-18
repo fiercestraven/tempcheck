@@ -147,7 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = "/tcapp/accounts/login/"
 LOGIN_REDIRECT_URL = "/tcapp/lectures/"
-LOGOUT_REDIRECT_URL = "/tcapp/"
+LOGOUT_REDIRECT_URL = "/admin/"
 
 # See: https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py
 REST_SESSION_LOGIN = True

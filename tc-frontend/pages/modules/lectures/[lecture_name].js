@@ -67,12 +67,6 @@ export default function Lecture() {
             console.log(result);
             setSubmittedText("Ping successfully submitted! You may ping again in two minutes.");
 
-            // var btn = document.getElementById("ping_btn");
-            // // handle button - if already disabled, keep disabled
-            // if (btn.getAttribute('disabled') == 'disabled') {
-            //     return;
-            // }
-                     
             // Disable the button
             setDisable(true);
 
@@ -97,8 +91,7 @@ export default function Lecture() {
                     <h3>Lecture: {lectureData.lecture_name}</h3>
                     <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
-                    {/* fv - insert text styling on p tag below */}
-                    {submittedText && (<p>{submittedText}</p>)}
+                    {submittedText && (<p className="user-message">{submittedText}</p>)}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <input
