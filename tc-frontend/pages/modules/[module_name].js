@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 
 export default function Module() {
   const [moduleData, setModuleData] = useState();
-  const [studentModuleData, setStudentModuleData] = useState([]);
   const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
   const router = useRouter();
   const { module_name } = router.query;
@@ -16,25 +15,15 @@ export default function Module() {
     async function getModuleData() {
       const res = await fetch(`http://localhost:8000/tcapp/api/modules/${module_name}/`, {
         headers: {
-            'Authorization': `Bearer ${userData.access_token}`,
-        },});
+          'Authorization': `Bearer ${userData.access_token}`,
+        },
+      });
       const data = await res.json();
       setModuleData(data);
     }
 
-    // fv - ask Dan best way to pull student_modules api data
-    async function getStudentModuleData() {
-      let res = await fetch('http://localhost:8000/tcapp/api/student_modules/', {
-          headers: {
-              'Authorization': `Bearer ${userData.access_token}`,
-          },});
-      let data = await res.json();
-      setStudentModuleData(data);
-  }
-
     if (userDataLoaded && userData) {
       getModuleData();
-      getStudentModuleData();
     }
   }, [userData, router.query]);
 
@@ -51,11 +40,11 @@ export default function Module() {
   return (
     <Layout>
       <Head>
-        <h3 style={{fontStyle: 'italic'}}>Welcome, { userData?.username || "Visitor"}!</h3>
+        <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
         <title>{moduleData?.module_name || "Module Details"}</title>
       </Head>
 
-      {/* if student is enrolled in module, proceed. Otherwise, error message with link to go back */}
+{/* fv - handle student landing here accidentally or through specific url but not being enrolled */}
 
       {moduleData?.module_name &&
         <div class="container">
@@ -75,7 +64,7 @@ export default function Module() {
           <p></p>
           <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
         </div>
-      } 
+      }
     </Layout>
   );
 }

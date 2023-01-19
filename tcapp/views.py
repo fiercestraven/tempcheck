@@ -139,13 +139,15 @@ class LectureViewSet(viewsets.ModelViewSet):
     lookup_field = 'lecture_name'
     permission_classes = [permissions.IsAuthenticated]
 
+# https://www.django-rest-framework.org/api-guide/generic-views/
 class StudentModuleViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows student_modules to be viewed or edited.
     """
     def get_queryset(self):
         student =self.request.user
-        return student.student_module_set.all().order_by('module__module_name')
+        # return active modules for which the logged-in user is enrolled
+        return student.student_module_set.all().filter(module__is_active=True).order_by('module__module_shortname')
     serializer_class = Student_ModuleSerializer
     permission_classes = [permissions.IsAuthenticated]
 
