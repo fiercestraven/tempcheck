@@ -176,6 +176,7 @@ REST_FRAMEWORK = {
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
+        # fv - check this!! is this going to be a problem if a student is in and React can't access their modules?
         # let only staff view the api: https://www.django-rest-framework.org/api-guide/permissions/
         'rest_framework.permissions.IsAdminUser',
     ],

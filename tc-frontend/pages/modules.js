@@ -3,22 +3,11 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 export default function ModuleList() {
-    // const [moduleList, setModuleList] = useState([]);
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
     const [studentModuleData, setStudentModuleData] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
-        // async function getModuleList() {
-        //     let res = await fetch('http://localhost:8000/tcapp/api/modules/', {
-        //         headers: {
-        //             'Authorization': `Bearer ${userData.access_token}`,
-        //         },});
-        //     let data = await res.json();
-        //     setModuleList(data);
-        //     console.log(moduleList);
-        // }
-
         async function getStudentModuleData() {
             let res = await fetch('http://localhost:8000/tcapp/api/student_modules/', {
                 headers: {
@@ -26,11 +15,10 @@ export default function ModuleList() {
                 },});
             let data = await res.json();
             setStudentModuleData(data);
-            console.log(studentModuleData);
+            console.log(data);
         }
 
         if (userDataLoaded && userData.username) {
-            // getModuleList();
             getStudentModuleData();
         }
     }, [userData]);
@@ -47,22 +35,17 @@ export default function ModuleList() {
     
     return (
         <div>
-            {(userData.username && studentModuleData.module) &&
+            {(userData.username && studentModuleData.length) &&
                 <div className="container">
                     <h4 className="mt-4 mb-3" style={{fontStyle: 'italic'}}>Welcome, { userData.username }!</h4>
                     <h3>Modules</h3>
                     <section>
                         <ul>
-                            {studentModuleData.map(({ module__module_shortname, module__module_name }) => (
-                                <li key={ module__module_shortname }>
-                                    <a href={ `modules/${module__module_shortname}` }>{ module__module_shortname }: { module__module_name }</a>
+                            {studentModuleData.map(({ module }) => (
+                                <li key={ module.module_shortname }>
+                                    <a href={ `modules/${module.module_shortname}` }>{ module.module_shortname }: { module.module_name }</a>
                                 </li>
                             ))}
-                            {/* {moduleList.map(({ module_shortname, module_name }) => (
-                                <li key={module_shortname}>
-                                        <a href={`modules/${module_shortname}`}>{module_shortname}: {module_name}</a>
-                                </li>
-                            ))} */}
                         </ul>
                     </section>
                     <p></p>
@@ -70,9 +53,9 @@ export default function ModuleList() {
                 </div>
             }
 
-            {(!studentModuleData.module &&
+            {!studentModuleData.length &&
                 <div className="container user-message">You are not currently registered for any modules.</div>
-            )}
+            }
         </div>
     );
 }
