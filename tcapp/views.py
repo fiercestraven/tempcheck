@@ -174,7 +174,7 @@ class LectureTempView(APIView):
     API endpoint for transmitting ping threshold.
     """
     def get(self, request, format=None):
-        threshold = 1
+        threshold = 2
         return Response(threshold)
     permission_classes = [permissions.IsAuthenticated]
 
