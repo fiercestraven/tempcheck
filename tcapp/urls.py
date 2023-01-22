@@ -16,13 +16,6 @@ router.register(r'pings', views.PingViewSet)
 # router.register(r'questions', views.QuestionViewSet)
 # router.register(r'choices', views.ChoiceViewSet)
 
-# fv - below is part of 8 Jan trial to get the csv uploader working. This wasn't helping, so I commented it out.
-# urlpatterns = [
-#     path('admin/csv_upload/', views.csv_upload, name='csv_upload'),
-#     path('admin/stats/', views.stats, name='stats'),
-#     path('admin/', admin.site.urls)
-# ]   
-
 app_name ="tcapp"
 urlpatterns = [
     path('', views.index, name='index'),
@@ -45,6 +38,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     # can't add a generic view in a router, so this api views are here instead of above
     path('api/lecture_temp/', views.LectureTempView.as_view(), name='lecture_temp'),
-    # path('api/student_modules/', views.Student_ModuleView.as_view(), name='student_modules'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

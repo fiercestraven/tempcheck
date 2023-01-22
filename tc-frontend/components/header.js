@@ -58,7 +58,7 @@ export default function Header() {
                     alt=""
                 />
             </Link>
-            <h2 className="heading2XL">
+            <h2 className="heading2Xl">
                 <Link href="/">{name}</Link>
             </h2>
         </div>

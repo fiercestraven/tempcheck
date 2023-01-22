@@ -18,6 +18,8 @@ class LectureSerializer(serializers.ModelSerializer):
         # }
 
 class ModuleSerializer(serializers.ModelSerializer):
+    # explicitly using UserSerializer here so that only desired fields are displayed
+    instructor = UserSerializer()
     lectures = LectureSerializer(source='lecture_set', many=True)
     class Meta:
         model = Module
@@ -28,7 +30,15 @@ class ModuleSerializer(serializers.ModelSerializer):
         #     'instructor': {'view_name': 'tcapp:user-detail'},
         # }
 
+
+# class SomeOtherThingSerializer(serializers.ModelSerializer):
+#     user = UserSerializer()  # Declare this field explicitly.
+#     class Meta:
+#         model = SomeOtherThing
+#         depth = 1
+
 class Student_ModuleSerializer(serializers.ModelSerializer):
+    student = UserSerializer()
     class Meta:
             model = Student_Module
             depth = 1
