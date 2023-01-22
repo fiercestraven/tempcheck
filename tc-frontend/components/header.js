@@ -16,6 +16,7 @@ export default function Header() {
                 },
             });
             // use res.text() since output of this api is a single digit and not json
+            // https://developer.mozilla.org/en-US/docs/Web/API/Response/text
             let data = await res.text();
             console.log(data);
 
