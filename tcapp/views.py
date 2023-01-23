@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from django.utils import timezone
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
@@ -161,6 +162,7 @@ class PingViewSet(viewsets.ModelViewSet):
     # on saving/deleting hooks: https://stackoverflow.com/questions/35990589/django-rest-framework-setting-default-primarykeyrelated-field-value/35990729#35990729
     def perform_create(self, serializer):
         student = self.request.user
+        # fv - figure out how to get lecture name from url instead 
         lecture = Lecture.objects.get(lecture_name=self.request.data['lecture_name'])
         serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
     def perform_update(self, serializer):
@@ -169,12 +171,36 @@ class PingViewSet(viewsets.ModelViewSet):
         serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
     permission_classes = [permissions.IsAuthenticated]
 
-class LectureTempView(APIView):
+# class InstructorThresholdView(APIView):
+#     """
+#     API endpoint for transmitting instructor thresholds (and maybe also they could set the ping gray-out duration?).
+#     """
+
+#     permission_classes = [permissions.IsAuthenticated]
+
+class LectureTemperatureView(APIView):
     """
     API endpoint for transmitting ping threshold.
     """
-    def get(self, request, format=None):
-        threshold = 2
+    def get(self, request, lecture_name, format=None):
+        # count pings in the last two minutes
+        lec = Lecture.objects.get(lecture_name=lecture_name)
+        # fv - later, make sure we're only pulling distinct students here to avoid student who try to sneaky multiple ping - could do at ping creation point or here
+        pcount = lec.ping_set.filter(ping_date__gt=(timezone.now() - timedelta(minutes=2))).count()
+
+        # get number of students enrolled in the module
+        mod = lec.module
+        num_students = mod.student_module_set.count()
+        # calculate what percentage of students have pinged in last given time frame
+        percent_pings = (pcount / num_students) * 100
+        if(percent_pings >= 15):
+            threshold = 1
+        elif(percent_pings >= 20):
+            threshold = 2
+        elif(percent_pings >= 30):
+            threshold = 3
+        else:
+            threshold = 0
         return Response(threshold)
     permission_classes = [permissions.IsAuthenticated]
 

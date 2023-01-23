@@ -2,15 +2,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
+// fv - ultimate plan here is to create a header component NOT included in the layout and use it on every page except lecture_name.js, where this current code will get repurposed
 
 export default function Header() {
     const name = 'Tempcheck';
     const { userData, userDataLoaded } = useContext(CurrentUserContext);
     const [imageURL, setImageURL] = useState("/images/thermometerGreen.png");
 
+    // fv - move this into lecture_name.js and put different header image here....
     useEffect(() => {
         async function getLectureTemp() {
-            let res = await fetch('http://localhost:8000/tcapp/api/lecture_temp', {
+            let res = await fetch('http://localhost:8000/tcapp/api/lectures/CS270_W1_L1/temperature', {
                 headers: {
                     'Authorization': `Bearer ${userData.access_token}`,
                 },

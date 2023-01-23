@@ -38,6 +38,6 @@ urlpatterns = [
     path('stats/', TemplateView.as_view(template_name='tcapp/stats.html'), name='stats'),
     path('api/', include(router.urls)),
     # can't add a generic view in a router, so this api views are here instead of above
-    path('api/lecture_temp/', views.LectureTempView.as_view(), name='lecture_temp'),
+    path('api/lectures/<str:lecture_name>/temperature/', views.LectureTemperatureView.as_view(), name='temperature'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
