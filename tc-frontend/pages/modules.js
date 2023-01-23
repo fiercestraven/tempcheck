@@ -1,3 +1,5 @@
+import Head from 'next/head';
+import Layout from '../components/layout';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -12,7 +14,8 @@ export default function ModuleList() {
             let res = await fetch('http://localhost:8000/tcapp/api/student_modules/', {
                 headers: {
                     'Authorization': `Bearer ${userData.access_token}`,
-                },});
+                },
+            });
             let data = await res.json();
             setStudentModuleData(data);
             console.log(data);
@@ -32,18 +35,22 @@ export default function ModuleList() {
     if (!userData.username) {
         router.push('/');
     }
-    
+
     return (
-        <div>
+        <Layout>
+            <Head>
+                <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
+                <title>Enrolled Modules"</title>
+            </Head>
+
             {(userData.username && studentModuleData.length) &&
                 <div className="container">
-                    <h4 className="mt-4 mb-3" style={{fontStyle: 'italic'}}>Welcome, { userData.username }!</h4>
                     <h3>Modules</h3>
                     <section>
                         <ul>
                             {studentModuleData.map(({ module }) => (
-                                <li key={ module.module_shortname }>
-                                    <a href={ `modules/${module.module_shortname}` }>{ module.module_shortname }: { module.module_name }</a>
+                                <li key={module.module_shortname}>
+                                    <a href={`modules/${module.module_shortname}`}>{module.module_shortname}: {module.module_name}</a>
                                 </li>
                             ))}
                         </ul>
@@ -56,6 +63,6 @@ export default function ModuleList() {
             {!studentModuleData.length &&
                 <div className="container user-message">You are not currently registered for any modules.</div>
             }
-        </div>
+        </Layout>
     );
 }

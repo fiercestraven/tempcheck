@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/layout';
+import Header from '../../components/header';
 import { CurrentUserContext } from '../../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -44,7 +45,11 @@ export default function Module() {
         <title>{moduleData?.module_name || "Module Details"}</title>
       </Head>
 
-{/* fv - handle student landing here accidentally or through specific url but not being enrolled */}
+      <header>
+        <Header />
+      </header>
+
+      {/* fv - handle student landing here accidentally or through specific url but not being enrolled */}
 
       {moduleData?.module_name &&
         <div class="container">

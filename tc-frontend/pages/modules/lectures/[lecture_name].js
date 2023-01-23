@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../components/layout';
+import Thermometer from '../../../components/thermometer';
 import { CurrentUserContext } from '../../../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -84,6 +85,10 @@ export default function Lecture() {
             <Head>
                 <title>{lectureData?.lecture_name || "Lecture Details"}</title>
             </Head>
+
+            <div>
+                <Thermometer />
+            </div>
 
             {lectureData?.lecture_name &&
                 <div className="container">

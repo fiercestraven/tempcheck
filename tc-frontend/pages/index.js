@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import Layout from '../components/layout';
+import Header from '../components/header';
 import Login from './login';
 import ModuleList from './modules';
 import { CurrentUserContext } from '../context/auth';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 
 export default function HomePage() {
   const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
@@ -16,10 +17,14 @@ export default function HomePage() {
 
   return (
     <div>
-      <Layout home>
+      <Layout>
         <Head>
           <title>Home</title>
         </Head>
+
+        <header>
+          <Header />
+        </header>
 
         {!userData.username && (
           <Login />

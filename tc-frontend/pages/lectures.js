@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../components/layout';
+import Header from '../components/header';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -15,7 +16,8 @@ export default function LectureList() {
             let res = await fetch('http://localhost:8000/tcapp/api/lectures/', {
                 headers: {
                     'Authorization': `Bearer ${userData.access_token}`,
-                },});
+                },
+            });
             let data = await res.json();
             setLectureList(data);
         }
@@ -41,6 +43,10 @@ export default function LectureList() {
                 <title>Lecture List</title>
             </Head>
 
+            <header>
+                <Header />
+            </header>
+            
             {userData.username &&
                 <div class="container">
                     <h2>Lectures</h2>

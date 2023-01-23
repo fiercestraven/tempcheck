@@ -2,7 +2,6 @@
 import Head from 'next/head';
 // import styles from './layout.module.css';
 // import utilStyles from '../styles/utils.module.css';
-import Header from './header';
 import Footer from './footer';
 
 export default function Layout({ children }) {
@@ -16,9 +15,6 @@ export default function Layout({ children }) {
       </Head>
 
       <div id="__next">
-        <header>
-          <Header />
-        </header>
         <main>{children}</main>
         <footer>
           <Footer />
