@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Layout from '../components/layout';
+import Header from '../components/header';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -42,6 +43,10 @@ export default function ModuleList() {
                 <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
                 <title>Enrolled Modules"</title>
             </Head>
+
+            <header>
+                <Header />
+            </header>
 
             {(userData.username && studentModuleData.length) &&
                 <div className="container">
