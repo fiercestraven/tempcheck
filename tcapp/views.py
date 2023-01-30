@@ -7,7 +7,6 @@ from rest_framework.views import APIView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.utils import timezone
 from django.views import generic
 # from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -193,11 +192,11 @@ class LectureTemperatureView(APIView):
         num_students = mod.student_module_set.count()
         # calculate what percentage of students have pinged in last given time frame
         percent_pings = (pcount / num_students) * 100
-        if(percent_pings >= 15):
+        if percent_pings >= 15 and percent_pings < 20:
             threshold = 1
-        elif(percent_pings >= 20):
+        elif percent_pings >= 20 and percent_pings < 30:
             threshold = 2
-        elif(percent_pings >= 30):
+        elif percent_pings >= 30:
             threshold = 3
         else:
             threshold = 0

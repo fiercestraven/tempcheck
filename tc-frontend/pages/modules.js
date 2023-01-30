@@ -38,15 +38,11 @@ export default function ModuleList() {
     }
 
     return (
-        <Layout>
+        <div>
             <Head>
                 <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
-                <title>Enrolled Modules"</title>
+                <title>Modules</title>
             </Head>
-
-            <header>
-                <Header />
-            </header>
 
             {(userData.username && studentModuleData.length) &&
                 <div className="container">
@@ -68,6 +64,6 @@ export default function ModuleList() {
             {!studentModuleData.length &&
                 <div className="container user-message">You are not currently registered for any modules.</div>
             }
-        </Layout>
+        </div>
     );
 }

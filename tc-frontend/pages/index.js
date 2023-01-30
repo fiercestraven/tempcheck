@@ -7,7 +7,7 @@ import { CurrentUserContext } from '../context/auth';
 import { useContext } from 'react';
 
 export default function HomePage() {
-  const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
+  const { userData,userDataLoaded } = useContext(CurrentUserContext);
 
   if (!userDataLoaded) {
     return (

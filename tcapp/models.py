@@ -31,8 +31,9 @@ class Module(models.Model):
     module_shortname = models.CharField(max_length=200, unique=True)
     module_name = models.CharField(max_length=200)
     module_description = models.TextField(default = "", blank=True)
-    # fv - look and see if there's a way to restrict the User below to only accept is_staff options. Justify decision either way.
-    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
+    # https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.ForeignKey
+    # protect on deletion so that deleting a user does not eliminate associated modules
+    instructor = models.ForeignKey(User, on_delete=models.PROTECT, limit_choices_to={'is_staff': True},)
     is_active = models.BooleanField(default=True)
     def __str__(self):
         return self.module_name
@@ -62,6 +63,8 @@ class Ping(models.Model):
     # def __str__(self):
     #     return 
 
+
+# fv to do - take these out later if not using
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
