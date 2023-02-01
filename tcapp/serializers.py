@@ -20,15 +20,16 @@ class LectureSerializer(serializers.ModelSerializer):
 class ModuleSerializer(serializers.ModelSerializer):
     # explicitly using UserSerializer here so that only desired fields are displayed
     instructor = UserSerializer()
-    lectures = LectureSerializer(source='lecture_set', many=True)
+    lectures = serializers.SerializerMethodField()
     class Meta:
         model = Module
+        ordering = ['module_shortname', 'lectures']
         depth = 1
         fields = ['module_shortname', 'module_name', 'module_description', 'instructor', 'is_active', 'lectures']
-        # extra_kwargs = {
-        #     'url': {'view_name': 'tcapp:module-detail', 'lookup_field': 'module_shortname'},
-        #     'instructor': {'view_name': 'tcapp:user-detail'},
-        # }
+
+    def get_lectures(self, obj):
+        lectures = obj.lecture_set.all().order_by('lecture_name')
+        return LectureSerializer(lectures, many=True).data
 
 
 # class SomeOtherThingSerializer(serializers.ModelSerializer):
