@@ -87,7 +87,8 @@ export default function Lecture() {
             </Head>
 
             <div>
-                <Thermometer />
+                {/* call Thermometer component and pass in the lecture name so it knows the correct api address */}
+                <Thermometer lectureName={lecture_name}/>
             </div>
 
             {lectureData?.lecture_name &&
