@@ -2,8 +2,9 @@
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+# from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -48,9 +49,10 @@ class Lecture(models.Model):
         return self.lecture_name
     
 class Threshold(models.Model):
-    yellow_percentage = models.DecimalField(max_digits=5, decimal_places=2)
-    orange_percentage = models.DecimalField(max_digits=5, decimal_places=2)
-    red_percentage = models.DecimalField(max_digits=5, decimal_places=2)
+    # https://docs.djangoproject.com/en/4.1/ref/forms/fields/
+    yellow_percentage = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
+    orange_percentage = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
+    red_percentage = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
     instructor = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True},)
 
 
