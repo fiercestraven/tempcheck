@@ -8,13 +8,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
-# from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-# fv - add back in Choice, Question if using
-from .models import Ping, Lecture, Module, Student_Module
-# fv - add ChoiceSerializer, QuestionSerializer back in if using
+from .models import Ping, Lecture, Module, Threshold
 from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer, Student_ModuleSerializer
 
 # Views
@@ -190,15 +187,23 @@ class LectureTemperatureView(APIView):
         # get number of students enrolled in the module
         mod = lec.module
         num_students = mod.student_module_set.count()
+
+        # get instructor and their thresholds
+        instructor = mod.instructor
+        thresh = Threshold.objects.get(instructor=instructor)
+        t1 = thresh.yellow_percentage
+        t2 = thresh.orange_percentage
+        t3 = thresh.red_percentage
+
         # fv - take out if not using. check if instructor has pinged
 
         # calculate what percentage of students have pinged in last given time frame
         percent_pings = (pcount / num_students) * 100
-        if percent_pings >= 15 and percent_pings < 20:
+        if percent_pings >= t1 and percent_pings < t2:
             threshold = 1
-        elif percent_pings >= 20 and percent_pings < 30:
+        elif percent_pings >= t2 and percent_pings < t3:
             threshold = 2
-        elif percent_pings >= 30:
+        elif percent_pings >= t3:
             threshold = 3
         else:
             threshold = 0

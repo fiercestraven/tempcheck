@@ -4,21 +4,8 @@ from django.urls import path, reverse
 from django.shortcuts import render
 from django import forms
 from django.http import HttpResponseRedirect
-from .models import Module, Lecture, Ping, Question, Choice, User, Student_Module
+from .models import Module, Lecture, Ping, User, Student_Module, Threshold
 from rest_framework.authtoken.models import TokenProxy
-
-# class ChoiceInline(admin.TabularInline):
-#     model = Choice
-#     extra = 3
-
-# class QuestionAdmin(admin.ModelAdmin):
-#     fieldsets = [
-#         (None,               {'fields': ['question_text']}),
-#         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
-#         (None,               {'fields': ['lecture']}),
-#     ]
-#     inlines = [ChoiceInline]
-#     list_display = ('question_text', 'lecture', 'pub_date')
 
 class csvImportForm(forms.Form):
     csv_upload = forms.FileField()
@@ -94,9 +81,26 @@ class LectureAdmin(admin.ModelAdmin):
     fields = ['module', 'lecture_name', 'lecture_description', 'lecture_date']
     list_display = ('module', 'lecture_name', 'lecture_description', 'lecture_date')
 
+class ThresholdAdmin(admin.ModelAdmin):
+    fields = ['instructor', 'yellow_percentage', 'orange_percentage', 'red_percentage']
+    list_display= ('instructor', 'yellow_percentage', 'orange_percentage', 'red_percentage')
+
 class PingAdmin(admin.ModelAdmin):
     fields = ['student', 'lecture', 'ping_date']
     list_display = ('student', 'lecture', 'ping_date')
+
+# class ChoiceInline(admin.TabularInline):
+#     model = Choice
+#     extra = 3
+
+# class QuestionAdmin(admin.ModelAdmin):
+#     fieldsets = [
+#         (None,               {'fields': ['question_text']}),
+#         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+#         (None,               {'fields': ['lecture']}),
+#     ]
+#     inlines = [ChoiceInline]
+#     list_display = ('question_text', 'lecture', 'pub_date')
 
 # class StatsAdmin(admin.ModelAdmin):
 #     model = Stats
@@ -109,13 +113,14 @@ class PingAdmin(admin.ModelAdmin):
     #     ]
 
 # Register your models here.
-admin.site.register(Module, ModuleAdmin)
-admin.site.register(Lecture, LectureAdmin)
-admin.site.register(Ping, PingAdmin)
-# admin.site.register(Question, QuestionAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+admin.site.register(Module, ModuleAdmin)
 admin.site.register(Student_Module, Student_ModuleAdmin)
+admin.site.register(Lecture, LectureAdmin)
+admin.site.register(Threshold, ThresholdAdmin)
+admin.site.register(Ping, PingAdmin)
+# admin.site.register(Question, QuestionAdmin)
 # admin.site.register(Stats, StatsAdmin)
 
 # remove auth token from admin display (https://stackoverflow.com/questions/51710455/hide-the-token-table-from-the-admin-panel-in-django-rest-framework)
