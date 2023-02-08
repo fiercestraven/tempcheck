@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../components/layout';
 import Thermometer from '../../../components/thermometer';
+import Timer from '../../../components/timer';
 import { CurrentUserContext } from '../../../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -10,8 +11,8 @@ import { useForm } from "react-hook-form";
 export default function Lecture() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [lectureData, setLectureData] = useState();
-    const [submittedText, setSubmittedText] = useState(null);
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
+    const [timer, setTimer] = useState(false);
     const [disable, setDisable] = useState(false);
     const router = useRouter();
     const { lecture_name } = router.query;
@@ -66,10 +67,11 @@ export default function Lecture() {
             // fv - omit later?
             const result = await res.json();
             console.log(result);
-            setSubmittedText("Ping successfully submitted! You may ping again in two minutes.");
 
             // Disable the button
             setDisable(true);
+            // run the timer
+            setTimer(true);
 
             setTimeout(function () {
                 // Re-enable ping button after set time
@@ -97,7 +99,8 @@ export default function Lecture() {
                     <h3>Lecture: {lectureData.lecture_name}</h3>
                     <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
-                    {submittedText && (<p className="user-message">{submittedText}</p>)}
+                    {/* timer here */}
+                    {timer && < Timer/>}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <input

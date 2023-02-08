@@ -46,6 +46,13 @@ class Lecture(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
     def __str__(self):
         return self.lecture_name
+    
+class Threshold(models.Model):
+    yellow_percentage = models.DecimalField(..., max_digits=5, decimal_places=2)
+    orange_percentage = models.DecimalField(..., max_digits=5, decimal_places=2)
+    red_percentage = models.DecimalField(..., max_digits=5, decimal_places=2)
+    instructor = models.ForeignKey(User, on_delete=models.PROTECT, limit_choices_to={'is_staff': True},)
+
 
 class Student_Module(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE)

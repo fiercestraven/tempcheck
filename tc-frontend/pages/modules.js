@@ -1,6 +1,4 @@
 import Head from 'next/head';
-import Layout from '../components/layout';
-import Header from '../components/header';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -40,30 +38,33 @@ export default function ModuleList() {
     return (
         <div>
             <Head>
-                <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
                 <title>Modules</title>
             </Head>
 
-            {(userData.username && studentModuleData.length) &&
-                <div className="container">
-                    <h3>Modules</h3>
-                    <section>
-                        <ul>
-                            {studentModuleData.map(({ module }) => (
-                                <li key={module.module_shortname}>
-                                    <a href={`modules/${module.module_shortname}`}>{module.module_shortname}: {module.module_name}</a>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-                    <p></p>
-                    <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
-                </div>
-            }
+            <div className="container">
+                <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
 
-            {!studentModuleData.length &&
-                <div className="container user-message">You are not currently registered for any modules.</div>
-            }
+                {(userData.username && studentModuleData.length) &&
+                    <div className="container">
+                        <h3>Modules</h3>
+                        <section>
+                            <ul>
+                                {studentModuleData.map(({ module }) => (
+                                    <li key={module.module_shortname}>
+                                        <a href={`modules/${module.module_shortname}`}>{module.module_shortname}: {module.module_name}</a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                        <p></p>
+                        <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
+                    </div>
+                }
+
+                {!studentModuleData.length &&
+                    <div className="container user-message">You are not currently registered for any modules.</div>
+                }
+            </div>
         </div>
     );
 }

@@ -190,6 +190,8 @@ class LectureTemperatureView(APIView):
         # get number of students enrolled in the module
         mod = lec.module
         num_students = mod.student_module_set.count()
+        # fv - take out if not using. check if instructor has pinged
+
         # calculate what percentage of students have pinged in last given time frame
         percent_pings = (pcount / num_students) * 100
         if percent_pings >= 15 and percent_pings < 20:

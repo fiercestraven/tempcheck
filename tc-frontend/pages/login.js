@@ -21,9 +21,9 @@ export default function Login() {
 
     return (
         <div>
-            <header>
+            {/* <header> */}
                 {/* <h4 className="mt-4 mb-3" style={{fontStyle: 'italic'}}>Welcome! Please sign in:</h4> */}
-            </header>
+            {/* </header> */}
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
