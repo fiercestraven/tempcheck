@@ -7,10 +7,26 @@ from django.http import HttpResponseRedirect
 from .models import Module, Lecture, Ping, User, Student_Module, Threshold
 from rest_framework.authtoken.models import TokenProxy
 
+# set basic permissions for is_staff users (delete is added in each class where required)
+class StaffPermission(object):
+    def has_module_permission(self, request):
+        return request.user.is_staff
+
+    def has_add_permission(self, request):
+        return request.user.is_staff
+    
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_staff
+    
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_staff
+
+
+
 class csvImportForm(forms.Form):
     csv_upload = forms.FileField()
 
-class UserAdmin(UserAdmin):
+class UserAdmin(StaffPermission, UserAdmin):
     # have to use UserAdmin instead of modelAdmin and add_fieldsets because of overriding the built-in User model forms: https//docs.djangoproject.com/en/4.1/topics/auth/customizing/
     add_fieldsets = [
         ('Account info', {'fields': ['username', 'password1', 'password2', 'is_staff']}),
@@ -67,24 +83,80 @@ class UserAdmin(UserAdmin):
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
 
-class ModuleAdmin(admin.ModelAdmin):
+class ModuleAdmin(StaffPermission, admin.ModelAdmin):
     fields = ['module_shortname', 'module_name', 'module_description', 'instructor', 'is_active']
     list_filter = ('is_active',)
     list_display = ('module_shortname', 'module_name', 'module_description', 'instructor', 'is_active')
 
-class Student_ModuleAdmin(admin.ModelAdmin):
+    # let instructors change or delete only their own modules
+    def has_change_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.instructor
+
+    def has_delete_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.instructor
+        
+
+class Student_ModuleAdmin(StaffPermission, admin.ModelAdmin):
     fields = ['module', 'student']
     list_filter = ('module',)
     list_display = ('module', 'student')
 
-class LectureAdmin(admin.ModelAdmin):
+    # let instructors change and delete student-module objects only from modules that they teach
+    def has_change_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.module.instructor
+    
+    def has_delete_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.module.instructor
+
+class LectureAdmin(StaffPermission, admin.ModelAdmin):
     fields = ['module', 'lecture_name', 'lecture_description', 'lecture_date']
     list_display = ('module', 'lecture_name', 'lecture_description', 'lecture_date')
 
-class ThresholdAdmin(admin.ModelAdmin):
+    # let instructors change and delete only lectures that are part of modules that they teach
+    def has_change_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.module.instructor
+    
+    def has_delete_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.module.instructor
+    
+    
+
+class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
     fields = ['instructor', 'yellow_percentage', 'orange_percentage', 'red_percentage']
     list_display= ('instructor', 'yellow_percentage', 'orange_percentage', 'red_percentage')
 
+    # let instructors change and delete only their own thresholds
+    def has_change_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.instructor
+    
+    def has_delete_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.instructor
+
+# instructors do not have add, change, or delete access to pings. This is reserved for the admin user.
 class PingAdmin(admin.ModelAdmin):
     fields = ['student', 'lecture', 'ping_date']
     list_display = ('student', 'lecture', 'ping_date')
