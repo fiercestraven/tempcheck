@@ -1,28 +1,29 @@
 import { useEffect, useState } from "react";
+import useInterval from '../lib/useInterval.js';
 
-export default function Timer() {
+export default function Timer({onComplete}) {
     const [minutes, setMinutes] = useState(2);
     const [seconds, setSeconds] = useState(0);
+    const [delay, setDelay] = useState(1000);
 
-    useEffect(() => {
-        let interval = setInterval(() => {
-            if (seconds > 0) {
-                setSeconds(seconds - 1);
-            }
+    useInterval(() => {
+        if (seconds > 0) {
+            setSeconds(seconds - 1);
+        }
 
-            // if the seconds timer shows zero, don't go negative, and also reset minutes
-            if (seconds === 0) {
-                if (minutes === 0) {
-                    clearInterval(interval);
-                    console.log("Clearing interval:", interval);
-                } else {
-                    setMinutes(minutes - 1);
-                    setSeconds(59);
-                }
+        // if the seconds timer shows zero, don't go negative, and also reset minutes
+        if (seconds === 0) {
+            if (minutes === 0) {
+                setDelay(null);
+                setMinutes(2);
+                setSeconds(0);
+                onComplete && onComplete();
+            } else {
+                setMinutes(minutes - 1);
+                setSeconds(59);
             }
-        }, 1000);
-    }, []);
-        
+        }
+    }, delay);
 
     return (
         <div>

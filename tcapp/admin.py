@@ -22,9 +22,9 @@ class StaffPermission(object):
         return request.user.is_staff
 
 
-
 class csvImportForm(forms.Form):
     csv_upload = forms.FileField()
+
 
 class UserAdmin(StaffPermission, UserAdmin):
     # have to use UserAdmin instead of modelAdmin and add_fieldsets because of overriding the built-in User model forms: https//docs.djangoproject.com/en/4.1/topics/auth/customizing/
@@ -83,6 +83,7 @@ class UserAdmin(StaffPermission, UserAdmin):
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
 
+
 class ModuleAdmin(StaffPermission, admin.ModelAdmin):
     fields = ['module_shortname', 'module_name', 'module_description', 'instructor', 'is_active']
     list_filter = ('is_active',)
@@ -120,6 +121,7 @@ class Student_ModuleAdmin(StaffPermission, admin.ModelAdmin):
         else:
             return request.user == obj.module.instructor
 
+
 class LectureAdmin(StaffPermission, admin.ModelAdmin):
     fields = ['module', 'lecture_name', 'lecture_description', 'lecture_date']
     list_display = ('module', 'lecture_name', 'lecture_description', 'lecture_date')
@@ -136,7 +138,6 @@ class LectureAdmin(StaffPermission, admin.ModelAdmin):
             return request.user.is_staff
         else:
             return request.user == obj.module.instructor
-    
     
 
 class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
@@ -155,6 +156,7 @@ class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
             return request.user.is_staff
         else:
             return request.user == obj.instructor
+
 
 # instructors do not have add, change, or delete access to pings. This is reserved for the admin user.
 class PingAdmin(admin.ModelAdmin):
@@ -184,7 +186,7 @@ class PingAdmin(admin.ModelAdmin):
     #         path('admin/stats/', self),
     #     ]
 
-# Register your models here.
+# Register models
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(Module, ModuleAdmin)

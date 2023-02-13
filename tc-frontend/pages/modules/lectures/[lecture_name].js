@@ -12,8 +12,8 @@ export default function Lecture() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [lectureData, setLectureData] = useState();
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
-    const [timer, setTimer] = useState(false);
-    const [disable, setDisable] = useState(false);
+    // variable to show state of ping button
+    const [pressed, setPressed] = useState(false);
     const router = useRouter();
     const { lecture_name } = router.query;
 
@@ -42,6 +42,11 @@ export default function Lecture() {
         router.push('/');
     }
 
+    function handleTimerComplete() {
+        // Re-enable ping button after set time and remove timer
+        setPressed(false);
+    }
+
     async function onSubmit(data) {
         console.log(data);
         try {
@@ -68,15 +73,8 @@ export default function Lecture() {
             const result = await res.json();
             console.log(result);
 
-            // Disable the button
-            setDisable(true);
-            // run the timer
-            setTimer(true);
-
-            setTimeout(function () {
-                // Re-enable ping button after set time
-                setDisable(false)
-            }, 120000) // two minutes in milliseconds
+            // Disable the button and timer
+            setPressed(true);
         } catch (e) {
             console.error("Ping submission failed: ", e.message);
         }
@@ -100,7 +98,7 @@ export default function Lecture() {
                     <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
                     {/* timer here */}
-                    {timer && < Timer/>}
+                    {pressed && < Timer onComplete={handleTimerComplete}/>}
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <input
@@ -113,7 +111,7 @@ export default function Lecture() {
                         </div>
                         {errors.lecture_name && <p>Invalid lecture name submitted.</p>}
 
-                        <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" id="ping_btn" type="submit" disabled={disable}>Ping</button>
+                        <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" id="ping_btn" type="submit" disabled={pressed}>Ping</button>
                     </form>
                     <p></p>
                     <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>
