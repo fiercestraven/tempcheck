@@ -189,8 +189,12 @@ class LectureTemperatureView(APIView):
         num_students = mod.student_module_set.count()
 
         # get instructor and their thresholds
-        instructor = mod.instructor
-        thresh = Threshold.objects.get(instructor=instructor)
+        try:
+            thresh = mod.instructor.threshold
+        except User.threshold.RelatedObjectDoesNotExist:
+            # if instructor hasn't set thresholds, create ephemeral defaults
+            thresh = Threshold(yellow_percentage=15, orange_percentage=25, red_percentage=35, instructor=mod.instructor)
+
         t1 = thresh.yellow_percentage
         t2 = thresh.orange_percentage
         t3 = thresh.red_percentage

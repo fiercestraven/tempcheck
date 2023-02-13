@@ -47,14 +47,14 @@ class Lecture(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
     def __str__(self):
         return self.lecture_name
-    
+
 class Threshold(models.Model):
     # https://docs.djangoproject.com/en/4.1/ref/forms/fields/
-    yellow_percentage = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
-    orange_percentage = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
-    red_percentage = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
-    instructor = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True},)
-
+    yellow_percentage = models.DecimalField(default=15.00, max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
+    orange_percentage = models.DecimalField(default=25.00, max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
+    red_percentage = models.DecimalField(default=35.00, max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
+    # only allow one set of thresholds per instructor by using OneToOneField: https://docs.djangoproject.com/en/4.1/topics/db/examples/one_to_one/
+    instructor = models.OneToOneField(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True},)
 
 class Student_Module(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
@@ -71,7 +71,6 @@ class Ping(models.Model):
     # fv - come up with something useable here?
     # def __str__(self):
     #     return 
-
 
 # fv to do - take these out later if not using
 class Question(models.Model):
