@@ -59,11 +59,11 @@ export default function Thermometer({lectureName}) {
 
     return (
         <div>
-            <Image className="header-img"
+            <Image id="thermometer-img"
                 priority
                 src={imageURL}
-                height={220}
-                width={250}
+                height={350}
+                width={400}
                 alt=""
             />
         </div>

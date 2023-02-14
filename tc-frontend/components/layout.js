@@ -14,12 +14,13 @@ export default function Layout({ children }) {
         />
       </Head>
 
-      <div id="__next">
+      <div>
         <main>{children}</main>
-        <footer>
-          <Footer />
-        </footer>
       </div>
+
+      <footer>
+          <Footer />
+      </footer>
     </>
   );
 }

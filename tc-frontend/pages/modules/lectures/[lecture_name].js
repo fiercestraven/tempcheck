@@ -22,7 +22,8 @@ export default function Lecture() {
             const res = await fetch(`http://localhost:8000/tcapp/api/lectures/${lecture_name}/`, {
                 headers: {
                     'Authorization': `Bearer ${userData.access_token}`,
-                },});
+                },
+            });
             const data = await res.json();
             setLectureData(data);
         }
@@ -68,7 +69,7 @@ export default function Lecture() {
             console.log('checking status');
             if (res.status == 400) {
                 throw new Error("An error occurred with the Ping submission");
-            }    
+            }
             // fv - omit later?
             const result = await res.json();
             console.log(result);
@@ -86,41 +87,46 @@ export default function Lecture() {
                 <title>{lectureData?.lecture_name || "Lecture Details"}</title>
             </Head>
 
-            <div>
-                {/* call Thermometer component and pass in the lecture name so it knows the correct api address */}
-                <Thermometer lectureName={lecture_name}/>
+            <div className="container content">
+                <div className="row">
+                    <div className="col-6 logo">
+                        {/* call Thermometer component and pass in the lecture name so it knows the correct api address */}
+                        <Thermometer lectureName={lecture_name} />
+                    </div>
+
+                    {lectureData?.lecture_name &&
+                        <div className="col-6">
+                            <h2>{lectureData.module.module_name}</h2>
+                            <h3>Lecture: {lectureData.lecture_name}</h3>
+                            <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
+
+                            {/* timer here */}
+                            {pressed && < Timer onComplete={handleTimerComplete} />}
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <div>
+                                    <input
+                                        value={lectureData.lecture_name}
+                                        type="hidden"
+                                        id="lecture_name"
+                                        name="lecture_name"
+                                        {...register("lecture_name", { required: true, maxLength: 50 })}
+                                    />
+                                </div>
+                                {errors.lecture_name && <p>Invalid lecture name submitted.</p>}
+
+                                <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pressed}>Ping</button>
+                            </form>
+                            <p></p>
+                            <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>
+                            <p></p>
+                            <Link href="/">← Home</Link>
+                            <p></p>
+                            <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
+                        </div>
+                    }
+                </div>
             </div>
 
-            {lectureData?.lecture_name &&
-                <div className="container">
-                    <h2>{lectureData.module.module_name}</h2>
-                    <h3>Lecture: {lectureData.lecture_name}</h3>
-                    <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
-
-                    {/* timer here */}
-                    {pressed && < Timer onComplete={handleTimerComplete}/>}
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div>
-                            <input
-                                value={lectureData.lecture_name}
-                                type="hidden"
-                                id="lecture_name"
-                                name="lecture_name"
-                                {...register("lecture_name", { required: true, maxLength: 50 })}
-                            />
-                        </div>
-                        {errors.lecture_name && <p>Invalid lecture name submitted.</p>}
-
-                        <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" id="ping_btn" type="submit" disabled={pressed}>Ping</button>
-                    </form>
-                    <p></p>
-                    <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>
-                    <p></p>
-                    <Link href="/">← Home</Link>
-                    <p></p>
-                    <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
-                </div>
-            }
         </Layout>
     );
 }

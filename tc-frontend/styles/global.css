@@ -6,17 +6,21 @@ body {
   width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
     Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  line-height: 1.6;
+  color: white;
+  font-size: 1.2rem;
+  line-height: 1.4;
   font-size: 18px;
+  /* background-color: #11262e; */
+  background-color: #484951;
 }
-
+/* 
  #__next {
   display: flex;
   flex: 1;
   flex-direction: column;
   height:100%;
   width: 100%;
- }
+ } */
  
  main {
   display: flex;
@@ -28,32 +32,67 @@ body {
   box-sizing: border-box;
 }
 
+p {
+  line-height: 1.4;
+}
+
 a {
-  color: #0070f3;
+  color: #d2e069;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  border-bottom: 1px solid;
+  color: #cdfeaa;
 }
+
+a:link {
+  color: #d2e069;
+}
+
+a:visited {
+  color: #3fc6d7;
+}
+
+a:focus {
+  border-bottom: 1px solid;
+  color: #a6a8a5;
+}
+
+a:hover {
+  border-bottom: 1px solid;
+} */
+
+a:active {
+  background: #d2e069;
+  color: #cdfeaa;
+}
+
+/* a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+} */
 
 img {
   max-width: 100%;
   display: block;
 }
 
-.container {
+/* .container {
   max-width: 36rem;
   padding: 0 1rem;
   margin: 3rem auto 3rem;
   align-items: center;
+} */
+
+.content {
+  margin-top: 8rem;
 }
 
 form {
+  margin-top: 1rem;
   max-width: 36rem;
-  padding: 0 1rem;
-  margin: 3rem auto 6rem;
-  align-items: center;
 }
 
 header {
@@ -64,8 +103,10 @@ header {
 }
 
 footer {
-  padding: 1rem 1rem;
-  margin: 0 0 0 2rem;
+  margin: 3rem 3rem 0 0;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
 }
 
 .heading2Xl {
@@ -78,9 +119,19 @@ footer {
 }
 
 .user-message {
-  color: red;
+  color: rgb(252, 242, 48);
 }
 
-.header-img {
+/* .logo {
+  
+} */
+
+#header-img {
   margin: 20px;
+  float: left;
+}
+
+#thermometer-img {
+  margin: 30px;
+  float: left;
 }

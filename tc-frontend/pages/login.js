@@ -21,13 +21,9 @@ export default function Login() {
 
     return (
         <div>
-            {/* <header> */}
-                {/* <h4 className="mt-4 mb-3" style={{fontStyle: 'italic'}}>Welcome! Please sign in:</h4> */}
-            {/* </header> */}
-
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                    <div className="mr-2"><label htmlFor="username" className="form-label">Username:</label></div>
+                    <div className="mr-2 form=label"><label htmlFor="username">Username:</label></div>
                     <input
                         placeholder="Enter your username"
                         value={userData.username}
@@ -39,7 +35,7 @@ export default function Login() {
                 </div>
                 {errors.username && <p>Username is required and must be 50 characters or less.</p>}
                 <div>
-                    <div className="mr-2"><label htmlFor="password" className="form-label">Password:</label></div>
+                    <div className="mr-2 mt-2 mb-0 form-label"><label htmlFor="password">Password:</label></div>
                     <input
                         placeholder="Enter your password"
                         value={userData.password}
@@ -61,7 +57,7 @@ export default function Login() {
                 )}
                 {/* possible error message */}
                 {userMsg && (<p className="user-message">{userMsg}</p>)}
-                <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type="submit">Login</button>
+                <button className="w-30 mt-4 mb-5 btn btn-md btn-light" type="submit">Login</button>
             </form>
         </div>
     );

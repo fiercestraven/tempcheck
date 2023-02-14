@@ -67,7 +67,7 @@ export default function Module() {
           </ul>
           <Link href="/">← Modules Home</Link>
           <p></p>
-          <button className="w-30 mt-2 mb-5 btn btn-md btn-primary" type={'submit'} onClick={logoutUser}>Log Out</button>
+          <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
         </div>
       }
     </Layout>
