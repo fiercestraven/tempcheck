@@ -17,7 +17,7 @@ export default function Header() {
                 />
             </Link>
             <h2 className="heading2Xl">
-                <Link href="/">{name}</Link>
+                <Link id="header-link" href="/">{name}</Link>
             </h2>
         </div>
     );

@@ -1,13 +1,12 @@
 import Head from 'next/head';
 import Layout from '../components/layout';
 import Header from '../components/header';
-import Login from './login';
-import ModuleList from './modules';
+import Link from 'next/link';
 import { CurrentUserContext } from '../context/auth';
 import { useContext } from 'react';
 
-export default function HomePage() {
-  const { userData,userDataLoaded } = useContext(CurrentUserContext);
+export default function IndexPage() {
+  const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
 
   if (!userDataLoaded) {
     return (
@@ -19,20 +18,33 @@ export default function HomePage() {
     <div>
       <Layout>
         <Head>
-          <title>Home</title>
+          <title>Tempcheck</title>
         </Head>
 
-        <header>
-          <Header />
-        </header>
+        <div className="container content">
+          <div className="row">
+            <div className="col-6">
+              <header>
+                <Header />
+              </header>
+            </div>
 
-        {!userData.username && (
-          <Login />
-        )}
+            <div className="col-6">
+              {!userData.username && (
+                <a href="/home" className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'}>Login</a>
+              )}
 
-        {userData.username && (
-          <ModuleList />
-        )}
+              {userData.username && (
+                // if already logged in, just show links to other pages
+                <div>
+                  <Link href="/modules">Modules</Link>
+                  <p></p>
+                  <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>  
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </Layout>
     </div>
   );

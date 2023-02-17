@@ -68,6 +68,18 @@ a:active {
   color: #cdfeaa;
 }
 
+#header-link {
+  color: #d2e069;
+}
+
+#header-link:hover {
+  border-bottom: none;
+}
+
+#header-link:visited {
+  color: #3fc6d7;
+}
+
 /* a {
   outline: none;
   text-decoration: none;

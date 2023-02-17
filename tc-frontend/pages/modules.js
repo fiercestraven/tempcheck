@@ -1,70 +1,48 @@
 import Head from 'next/head';
+import Layout from '../components/layout';
+import Header from '../components/header';
+import Login from '../components/login';
+import ModuleList from '../components/modulelist';
+import Link from 'next/link';
+import React, { useContext } from 'react';
 import { CurrentUserContext } from '../context/auth';
-import { useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
-export default function ModuleList() {
-    const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
-    const [studentModuleData, setStudentModuleData] = useState([]);
-    const router = useRouter();
-
-    useEffect(() => {
-        async function getStudentModuleData() {
-            let res = await fetch('http://localhost:8000/tcapp/api/student_modules/', {
-                headers: {
-                    'Authorization': `Bearer ${userData.access_token}`,
-                },
-            });
-            let data = await res.json();
-            setStudentModuleData(data);
-            console.log(data);
-        }
-
-        if (userDataLoaded && userData.username) {
-            getStudentModuleData();
-        }
-    }, [userData]);
-
-    if (!userDataLoaded) {
-        return (
-            <div>Loading...</div>
-        );
-    }
-
-    if (!userData.username) {
-        router.push('/');
-    }
+export default function HomePage() {
+    // get user management functions from context
+    const { userData } = useContext(CurrentUserContext);
 
     return (
         <div>
-            <Head>
-                <title>Modules</title>
-            </Head>
+            <Layout>
+                <Head>
+                    <title>Tempcheck Login</title>
+                </Head>
 
-            <div className="container">
-                <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
+                <div className="container content">
+                    <div className="row">
+                        <div className="col-6">
+                            <header>
+                                <Header />
+                            </header>
+                        </div>
 
-                {(userData.username && studentModuleData.length) &&
-                    <div className="container">
-                        <h3>Modules</h3>
-                        <section>
-                            <ul>
-                                {studentModuleData.map(({ module }) => (
-                                    <li key={module.module_shortname}>
-                                        <a href={`modules/${module.module_shortname}`}>{module.module_shortname}: {module.module_name}</a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </section>
-                        <p></p>
-                        <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
+                        <div className="col-6">
+                            {!userData.username && (
+                                <Login />
+                            )}
+
+                            {userData.username && (
+                                <ModuleList />
+                            )}
+
+                            <p></p>
+                            <Link href="/">← Home</Link>
+                            <p></p>
+                        </div>
+
                     </div>
-                }
-
-                {!studentModuleData.length &&
-                    <div className="container user-message">You are not currently registered for any modules.</div>
-                }
-            </div>
+                </div>
+            </Layout>
         </div>
     );
 }

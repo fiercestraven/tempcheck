@@ -35,7 +35,7 @@ export default function Module() {
   }
 
   if (!userData.username) {
-    router.push('/');
+    router.push("/login");
   }
 
   return (
@@ -45,31 +45,38 @@ export default function Module() {
         <title>{moduleData?.module_name || "Module Details"}</title>
       </Head>
 
-      <header>
-        <Header />
-      </header>
+      <div className="container content">
+        <div className="row">
+          <div className="col-6">
+            <header>
+              <Header />
+            </header>
+          </div>
 
-      {/* fv - handle student landing here accidentally or through specific url but not being enrolled */}
+          {/* fv - handle student landing here accidentally or through specific url but not being enrolled */}
 
-      {moduleData?.module_name &&
-        <div className="container">
-          <h2>{moduleData.module_name}</h2>
-          <p>{moduleData.module_description}</p>
+          {moduleData?.module_name &&
+            <div className="col-6">
+              <h2>{moduleData.module_name}</h2>
+              <p>{moduleData.module_description}</p>
 
-          <p>Lecturer: {moduleData.instructor.first_name} {moduleData.instructor.last_name}</p>
-          <p>Lectures:</p>
-          <ul>
-            {moduleData.lectures.map(({ id, lecture_name }) => (
-              <li key={id}>
-                <a href={`lectures/${lecture_name}`}>{lecture_name}</a>
-              </li>
-            ))}
-          </ul>
-          <Link href="/">← Modules Home</Link>
-          <p></p>
-          <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
+              <p>Lecturer: {moduleData.instructor.first_name} {moduleData.instructor.last_name}</p>
+              <p>Lectures:</p>
+              <ul>
+                {moduleData.lectures.map(({ id, lecture_name }) => (
+                  <li key={id}>
+                    <a href={`lectures/${lecture_name}`}>{lecture_name}</a>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/modules">← Modules List</Link>
+              <p></p>
+              <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
+            </div>
+
+          }
         </div>
-      }
+      </div>
     </Layout>
   );
 }
