@@ -130,6 +130,16 @@ footer {
   text-align: center;
 }
 
+#index-header {
+  font-size: 7vw;
+  letter-spacing: 5vw;
+  font-weight: 500;
+  /* put in padding equal to letter spacing to ensure text is centered */
+  padding-left: 5vw;
+  margin: 0;
+  text-align: center;
+}
+
 .user-message {
   color: rgb(252, 242, 48);
 }
@@ -137,6 +147,10 @@ footer {
 /* .logo {
   
 } */
+
+#banner-img {
+  width: 100%;
+}
 
 #header-img {
   margin: 20px;

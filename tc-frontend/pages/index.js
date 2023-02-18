@@ -2,11 +2,13 @@ import Head from 'next/head';
 import Layout from '../components/layout';
 import Header from '../components/header';
 import Link from 'next/link';
+import Image from 'next/image';
 import { CurrentUserContext } from '../context/auth';
 import { useContext } from 'react';
 
 export default function IndexPage() {
   const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
+  const imageURL = "/images/gradient-fully-saturated.jpg"
 
   if (!userDataLoaded) {
     return (
@@ -21,29 +23,45 @@ export default function IndexPage() {
           <title>Tempcheck</title>
         </Head>
 
-        <div className="container content">
+        <div>
           <div className="row">
-            <div className="col-6">
-              <header>
-                <Header />
-              </header>
-            </div>
+            {/* fv - make this a link */}
+            <Image id="banner-img"
+              priority
+              src={imageURL}
+              height={400}
+              width={1800}
+              alt=""
+            />
 
-            <div className="col-6">
+            <div id="index-header">
+              {/* fv - make this a link (to modules?) */}
+              {/* https://stackoverflow.com/questions/14678154/centre-align-text-that-has-extra-letter-spacing-applied */}
+              TEMPCHECK
+            </div>
+          </div>
+
+{/* fv - make these tied in to the tempcheck name (make it a button?) and the image, so they act as login buttons */}
+          <div className="row">
+            <div className="col-5"></div>
+            <div className="col-2">
               {!userData.username && (
-                <a href="/home" className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'}>Login</a>
+                <div>
+                  <a href="/modules" className="w-30 mt-2 mb-5 btn btn-large btn-outline-light" type={'submit'}>Student</a>
+                  <a href="/modules" className="w-30 mt-2 mb-5 btn btn-large btn-outline-light" type={'submit'}>Staff</a>
+                </div>
               )}
 
               {userData.username && (
                 // if already logged in, just show links to other pages
                 <div>
-                  <Link href="/modules">Modules</Link>
-                  <p></p>
-                  <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>  
+                  <button className="w-30 mt-2 mb-5 btn btn-large btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
                 </div>
               )}
             </div>
+            <div className="col-5"></div>
           </div>
+
         </div>
       </Layout>
     </div>
