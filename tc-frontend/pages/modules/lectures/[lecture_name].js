@@ -40,7 +40,7 @@ export default function Lecture() {
     }
 
     if (!userData.username) {
-        router.push("/login");
+        router.push("/modules");
     }
 
     function handleTimerComplete() {

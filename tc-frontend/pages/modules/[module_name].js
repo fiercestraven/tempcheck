@@ -35,7 +35,7 @@ export default function Module() {
   }
 
   if (!userData.username) {
-    router.push("/login");
+    router.push("/modules");
   }
 
   return (
