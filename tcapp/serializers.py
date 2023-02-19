@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Module, Lecture, Student_Module, Ping, Question, Choice
+from .models import User, Module, Lecture, User_Module, Ping, Question, Choice
   
 # for hyperlinking: https://www.django-rest-framework.org/api-guide/serializers/#hyperlinkedmodelserializer
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -38,12 +38,12 @@ class ModuleSerializer(serializers.ModelSerializer):
 #         model = SomeOtherThing
 #         depth = 1
 
-class Student_ModuleSerializer(serializers.ModelSerializer):
-    student = UserSerializer()
-    class Meta:
-            model = Student_Module
-            depth = 1
-            fields = ['module', 'student']
+# class User_ModuleSerializer(serializers.ModelSerializer):
+#     user = UserSerializer()
+#     class Meta:
+#             model = User_Module
+#             depth = 1
+#             fields = ['module', 'user']
 
 class PingSerializer(serializers.ModelSerializer):
     class Meta:

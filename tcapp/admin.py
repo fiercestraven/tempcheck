@@ -4,7 +4,7 @@ from django.urls import path, reverse
 from django.shortcuts import render
 from django import forms
 from django.http import HttpResponseRedirect
-from .models import Module, Lecture, Ping, User, Student_Module, Threshold
+from .models import Module, Lecture, Ping, User, User_Module, Threshold
 from rest_framework.authtoken.models import TokenProxy
 
 # set basic permissions for is_staff users (delete is added in each class where required)
@@ -103,10 +103,10 @@ class ModuleAdmin(StaffPermission, admin.ModelAdmin):
             return request.user == obj.instructor
         
 
-class Student_ModuleAdmin(StaffPermission, admin.ModelAdmin):
-    fields = ['module', 'student']
+class User_ModuleAdmin(StaffPermission, admin.ModelAdmin):
+    fields = ['module', 'user']
     list_filter = ('module',)
-    list_display = ('module', 'student')
+    list_display = ('module', 'user')
 
     # let instructors change and delete student-module objects only from modules that they teach
     def has_change_permission(self, request, obj=None):
@@ -190,7 +190,7 @@ class PingAdmin(admin.ModelAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(Module, ModuleAdmin)
-admin.site.register(Student_Module, Student_ModuleAdmin)
+admin.site.register(User_Module, User_ModuleAdmin)
 admin.site.register(Lecture, LectureAdmin)
 admin.site.register(Threshold, ThresholdAdmin)
 admin.site.register(Ping, PingAdmin)

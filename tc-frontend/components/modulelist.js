@@ -5,23 +5,23 @@ import { useRouter } from 'next/router';
 
 export default function ModuleList() {
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
-    const [studentModuleData, setStudentModuleData] = useState([]);
+    const [moduleData, setModuleData] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
-        async function getStudentModuleData() {
-            let res = await fetch('http://localhost:8000/tcapp/api/student_modules/', {
+        async function getModuleData() {
+            let res = await fetch('http://localhost:8000/tcapp/api/modules/', {
                 headers: {
                     'Authorization': `Bearer ${userData.access_token}`,
                 },
             });
             let data = await res.json();
-            setStudentModuleData(data);
+            setModuleData(data);
             console.log(data);
         }
 
         if (userDataLoaded && userData.username) {
-            getStudentModuleData();
+            getModuleData();
         }
     }, [userData]);
 
@@ -44,12 +44,12 @@ export default function ModuleList() {
             <div className="container">
                 <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
 
-                {(userData.username && studentModuleData.length) &&
+                {(userData.username && moduleData.length) &&
                     <div className="container">
                         <h3>Modules</h3>
                         <section>
                             <ul>
-                                {studentModuleData.map(({ module }) => (
+                                {moduleData.map((module) => (
                                     <li key={module.module_shortname}>
                                         <a href={`modules/${module.module_shortname}`}>{module.module_shortname}: {module.module_name}</a>
                                     </li>
@@ -61,7 +61,7 @@ export default function ModuleList() {
                     </div>
                 }
 
-                {!studentModuleData.length &&
+                {!moduleData.length &&
                     <div className="container user-message">You are not currently registered for any modules.</div>
                 }
             </div>

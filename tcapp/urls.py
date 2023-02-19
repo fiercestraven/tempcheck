@@ -9,10 +9,10 @@ from rest_framework import routers
 # api endpoints
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
-router.register(r'modules', views.ModuleViewSet)
+# router.register(r'modules', views.ModuleViewSet)
 router.register(r'lectures', views.LectureViewSet)
-# on using 'basename' below to quiet to an error due to no queryset in student_modules View: https://www.django-rest-framework.org/api-guide/routers/
-router.register(r'student_modules', views.StudentModuleViewSet, basename='student_modules')
+# on using 'basename' below to quiet to an error due to no queryset in user_modules View: https://www.django-rest-framework.org/api-guide/routers/
+router.register(r'modules', views.ModuleViewSet, basename='user_modules')
 router.register(r'pings', views.PingViewSet)
 # router.register(r'questions', views.QuestionViewSet)
 # router.register(r'choices', views.ChoiceViewSet)

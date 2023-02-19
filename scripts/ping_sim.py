@@ -35,14 +35,14 @@ def run():
     print(f"You've selected lecture {lecture.lecture_name}")
 
     # get student modules
-    student_modules = module.student_module_set.all()
+    user_modules = module.user_module_set.all()
 
     print(f'Generating pings...')
 
     # loop through all students in a given module and submit a ping for each
-    for idx, student_module in enumerate(student_modules, start=1):
-        student = student_module.student
-        Ping(ping_date=datetime.now(timezone.utc), lecture=lecture, student=student).save()
+    for idx, user_module in enumerate(user_modules, start=1):
+        user = user_module.user
+        Ping(ping_date=datetime.now(timezone.utc), lecture=lecture, user=user).save()
         # put it an \a alert to add audible component
-        print(f' [{idx}/{len(student_modules)}] {student.username} pinged!\a')
+        print(f' [{idx}/{len(user_modules)}] {user.username} pinged!\a')
         sleep(3)

@@ -56,21 +56,14 @@ class Threshold(models.Model):
     # only allow one set of thresholds per instructor by using OneToOneField: https://docs.djangoproject.com/en/4.1/topics/db/examples/one_to_one/
     instructor = models.OneToOneField(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True},)
 
-class Student_Module(models.Model):
+class User_Module(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
-
-# class Student_Lecture(models.Model):
-#     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
-#     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Ping(models.Model):
     ping_date = models.DateTimeField('date and time of ping')
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
-    # fv - come up with something useable here?
-    # def __str__(self):
-    #     return 
 
 # fv to do - take these out later if not using
 class Question(models.Model):

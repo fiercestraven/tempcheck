@@ -11,8 +11,8 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from .models import Ping, Lecture, Module, Threshold
-from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer, Student_ModuleSerializer
+from .models import Ping, Lecture, Module, Threshold, User_Module
+from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer
 
 # Views
 
@@ -118,14 +118,14 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class ModuleViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows modules to be viewed or edited.
-    """
-    queryset = Module.objects.all().order_by('module_shortname')
-    serializer_class = ModuleSerializer
-    lookup_field = 'module_shortname'
-    permission_classes = [permissions.IsAuthenticated]
+# class ModuleViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows modules to be viewed or edited.
+#     """
+#     queryset = Module.objects.all().order_by('module_shortname')
+#     serializer_class = ModuleSerializer
+#     lookup_field = 'module_shortname'
+#     permission_classes = [permissions.IsAuthenticated]
 
 class LectureViewSet(viewsets.ModelViewSet):
     """
@@ -137,15 +137,19 @@ class LectureViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 # https://www.django-rest-framework.org/api-guide/generic-views/
-class StudentModuleViewSet(viewsets.ModelViewSet):
+class ModuleViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows student_modules to be viewed or edited.
+    API endpoint that allows modules to be viewed or edited.
     """
     def get_queryset(self):
-        student =self.request.user
-        # return active modules for which the logged-in user is enrolled
-        return student.student_module_set.all().filter(module__is_active=True).order_by('module__module_shortname')
-    serializer_class = Student_ModuleSerializer
+        user = self.request.user
+        if user.is_staff:
+            # return modules that the instructor teaches
+            return user.module_set.all()
+        else:
+            # return active modules for which the logged-in user is enrolled
+            return user.user_module_set.all().filter(module__is_active=True).order_by('module__module_shortname')
+    serializer_class = ModuleSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 class PingViewSet(viewsets.ModelViewSet):
@@ -186,7 +190,7 @@ class LectureTemperatureView(APIView):
 
         # get number of students enrolled in the module
         mod = lec.module
-        num_students = mod.student_module_set.count()
+        num_students = mod.user_module_set.count()
 
         # get instructor and their thresholds
         try:
