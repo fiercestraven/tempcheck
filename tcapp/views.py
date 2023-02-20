@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .models import Ping, Lecture, Module, Threshold, User_Module
-from tcapp.serializers import UserSerializer, ModuleSerializer, LectureSerializer, PingSerializer
+from tcapp.serializers import ModuleSerializer, LectureSerializer, PingSerializer, ProfileSerializer
 
 # Views
 
@@ -110,22 +110,31 @@ def lecture_detail(request, module_name, lecture_name):
 
 
 # API views #
-class UserViewSet(viewsets.ModelViewSet):
+# class UserViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     queryset = User.objects.all().order_by('-date_joined')
+#     serializer_class = UserSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+
+class ProfileView(APIView):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint with profile information, used to greet and determine staff status.
     """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
+    def get(self, request, format=None):
+        user = self.request.user
+        response = {
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'is_staff': user.is_staff,
+        }
+        return Response(response)
+    serializer_class = ProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-# class ModuleViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows modules to be viewed or edited.
-#     """
-#     queryset = Module.objects.all().order_by('module_shortname')
-#     serializer_class = ModuleSerializer
-#     lookup_field = 'module_shortname'
-#     permission_classes = [permissions.IsAuthenticated]
 
 class LectureViewSet(viewsets.ModelViewSet):
     """
@@ -136,6 +145,7 @@ class LectureViewSet(viewsets.ModelViewSet):
     lookup_field = 'lecture_name'
     permission_classes = [permissions.IsAuthenticated]
 
+
 # https://www.django-rest-framework.org/api-guide/generic-views/
 class ModuleViewSet(viewsets.ModelViewSet):
     """
@@ -143,12 +153,15 @@ class ModuleViewSet(viewsets.ModelViewSet):
     """
     def get_queryset(self):
         user = self.request.user
-        if user.is_staff:
+        if user.is_superadmin:
+            return Module.objects.all().order_by('module__module_shortname')
+        elif user.is_staff:
             # return modules that the instructor teaches
-            return user.module_set.all()
+            return user.module_set.all().order_by('module__module_shortname')
         else:
             # return active modules for which the logged-in user is enrolled
             return user.user_module_set.all().filter(module__is_active=True).order_by('module__module_shortname')
+    lookup_field = 'module_shortname'
     serializer_class = ModuleSerializer
     permission_classes = [permissions.IsAuthenticated]
 

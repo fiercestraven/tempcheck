@@ -2,10 +2,15 @@ from rest_framework import serializers
 from .models import User, Module, Lecture, User_Module, Ping, Question, Choice
   
 # for hyperlinking: https://www.django-rest-framework.org/api-guide/serializers/#hyperlinkedmodelserializer
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+# class UserSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'is_staff']
+
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'is_staff']
+        fields = ['username', 'first_name', 'last_name', 'is_staff']
 
 class LectureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,7 +24,7 @@ class LectureSerializer(serializers.ModelSerializer):
 
 class ModuleSerializer(serializers.ModelSerializer):
     # explicitly using UserSerializer here so that only desired fields are displayed
-    instructor = UserSerializer()
+    instructor = ProfileSerializer()
     lectures = serializers.SerializerMethodField()
     class Meta:
         model = Module
@@ -31,12 +36,6 @@ class ModuleSerializer(serializers.ModelSerializer):
         lectures = obj.lecture_set.all().order_by('lecture_name')
         return LectureSerializer(lectures, many=True).data
 
-
-# class SomeOtherThingSerializer(serializers.ModelSerializer):
-#     user = UserSerializer()  # Declare this field explicitly.
-#     class Meta:
-#         model = SomeOtherThing
-#         depth = 1
 
 # class User_ModuleSerializer(serializers.ModelSerializer):
 #     user = UserSerializer()

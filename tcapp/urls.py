@@ -8,11 +8,11 @@ from rest_framework import routers
 
 # api endpoints
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-# router.register(r'modules', views.ModuleViewSet)
+# router.register(r'users', views.UserViewSet)
+# on using 'basename' below to quiet to an error due to no queryset in the View: https://www.django-rest-framework.org/api-guide/routers/
+# router.register(r'profile', views.ProfileView, basename='profile')
+router.register(r'modules', views.ModuleViewSet, basename='modules')
 router.register(r'lectures', views.LectureViewSet)
-# on using 'basename' below to quiet to an error due to no queryset in user_modules View: https://www.django-rest-framework.org/api-guide/routers/
-router.register(r'modules', views.ModuleViewSet, basename='user_modules')
 router.register(r'pings', views.PingViewSet)
 # router.register(r'questions', views.QuestionViewSet)
 # router.register(r'choices', views.ChoiceViewSet)
@@ -30,14 +30,15 @@ urlpatterns = [
     # fv - revisit module detail view - keep?
     # path('<str:module_name>/', views.module_detail, name='module_detail'),
     path('lectures/', views.LecturesView.as_view(), name='lectures'),
-    path('lectures/<str:module_name>/<str:lecture_name>/', views.lecture_detail, name='lecture_detail'),
-    path('lectures/<str:module_name>/<str:lecture_name>/submit/', views.submit, name='submit'),
+    path('lectures/<str:module_shortname>/<str:lecture_name>/', views.lecture_detail, name='lecture_detail'),
+    path('lectures/<str:module_shortname>/<str:lecture_name>/submit/', views.submit, name='submit'),
     # path('question/<int:pk>/', views.QuestionView.as_view(), name='question'),
     # path('question/<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     # path('question/<int:question_id>/vote/', views.vote, name='vote'),
     path('stats/', TemplateView.as_view(template_name='tcapp/stats.html'), name='stats'),
     path('api/', include(router.urls)),
-    # can't add a generic view in a router, so this api views are here instead of above
+    # can't add a generic view in a router, so these api views are here instead of above
     path('api/lectures/<str:lecture_name>/temperature/', views.LectureTemperatureView.as_view(), name='temperature'),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api/profile/', views.ProfileView.as_view(), name='profile'),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
