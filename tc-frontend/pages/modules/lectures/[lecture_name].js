@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 export default function Lecture() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [lectureData, setLectureData] = useState();
+    const [profileData, setProfileData] = useState();
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
     // variable to show state of ping button
     const [pressed, setPressed] = useState(false);
@@ -28,8 +29,20 @@ export default function Lecture() {
             setLectureData(data);
         }
 
+        async function getProfileData() {
+            const res = await fetch(`http://localhost:8000/tcapp/api/profile/`, {
+                headers: {
+                    'Authorization': `Bearer ${userData.access_token}`,
+                },
+            });
+            const data = await res.json();
+            setProfileData(data);
+        }
+
+
         if (userDataLoaded && userData) {
             getLectureData();
+            getProfileData();
         }
     }, [userData, router.query]);
 
@@ -114,7 +127,15 @@ export default function Lecture() {
                                 </div>
                                 {errors.lecture_name && <p>Invalid lecture name submitted.</p>}
 
-                                <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pressed}>Ping</button>
+                                {/* show different buttons based on staff status */}
+                                {profileData.is_staff &&
+                                    <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pressed}>Reset Temp</button>
+                                }
+
+                                {!profileData.is_staff &&
+                                    <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pressed}>Ping</button>
+                                }
+
                             </form>
                             <p></p>
                             <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>

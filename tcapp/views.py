@@ -160,7 +160,7 @@ class ModuleViewSet(viewsets.ModelViewSet):
             return user.module_set.all().order_by('module_shortname')
         else:
             # return active modules for which the logged-in user is enrolled
-            return user.user_module_set.all().filter(module__is_active=True).order_by('module_shortname')
+            return user.user_module_set.all().filter(module__is_active=True).order_by('module__module_shortname')
     lookup_field = 'module_shortname'
     serializer_class = ModuleSerializer
     permission_classes = [permissions.IsAuthenticated]

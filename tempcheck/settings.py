@@ -171,8 +171,8 @@ REST_FRAMEWORK = {
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # let staff and admin view the api: https://www.django-rest-framework.org/api-guide/permissions/
-        'rest_framework.permissions.IsAdminUser',
+        # let authenticated users view the api (lock down as appropriate in views): https://www.django-rest-framework.org/api-guide/permissions/
+        'rest_framework.permissions.IsAuthenticated',
     ],
 }
 
