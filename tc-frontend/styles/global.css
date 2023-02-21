@@ -10,6 +10,7 @@ body {
   font-size: 1.2rem;
   line-height: 1.4;
   font-size: 18px;
+  box-sizing: border-box;
   /* background-color: #11262e; */
   background-color: #484951;
 }
@@ -128,6 +129,15 @@ footer {
   letter-spacing: -0.05rem;
   margin: 1rem 0;
   text-align: center;
+}
+
+.btn-start {
+  display: block;
+  width: 100%;
+}
+
+a.btn-start {
+  color: white;
 }
 
 #index-header {

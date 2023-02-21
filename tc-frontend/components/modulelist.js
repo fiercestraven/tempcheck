@@ -42,7 +42,7 @@ export default function ModuleList() {
             </Head>
 
             <div className="container">
-                <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
+                <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.first_name || "Visitor"}!</h3>
 
                 {(userData.username && moduleData.length) &&
                     <div className="container">

@@ -47,14 +47,14 @@ export default function IndexPage() {
             <div className="col-2">
               {!userData.username && (
                 <div>
-                  <a href="/modules" className="w-30 mt-2 mb-5 btn btn-large btn-outline-light" type={'submit'}>Start</a>
+                  <a href="/modules" className="w-30 mt-2 mb-5 btn btn-outline-light btn-start" type={'submit'}>Start</a>
                 </div>
               )}
 
               {userData.username && (
                 // if already logged in, just show links to other pages
                 <div>
-                  <button className="w-30 mt-2 mb-5 btn btn-large btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
+                  <button className="w-30 mt-2 mb-5 btn btn-outline-light btn-start" type={'submit'} onClick={logoutUser}>Log Out</button>
                 </div>
               )}
             </div>

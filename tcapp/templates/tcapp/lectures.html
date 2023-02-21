@@ -13,7 +13,7 @@
     {% block content %}
     {% if user.is_authenticated %}
         <a href="{% url 'tcapp:logout' %}">Log Out</a>
-        <h1>Welcome, {{ user.username }}!</h1>
+        <h1>Welcome, {{ user.first_name }}!</h1>
     
         <h2>Please select a lecture:</h2>
         {% if module_list %}

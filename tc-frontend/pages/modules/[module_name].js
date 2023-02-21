@@ -41,7 +41,7 @@ export default function Module() {
   return (
     <Layout>
       <Head>
-        <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.username || "Visitor"}!</h3>
+        <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.first_name || "Visitor"}!</h3>
         <title>{moduleData?.module_name || "Module Details"}</title>
       </Head>
 
@@ -68,6 +68,9 @@ export default function Module() {
                     <a href={`lectures/${lecture_name}`}>{lecture_name}</a>
                   </li>
                 ))}
+                {!moduleData.lectures.length && 
+                  <p>There are no lectures associated with this module.</p>
+                }
               </ul>
               <Link href="/modules">← Modules List</Link>
               <p></p>
