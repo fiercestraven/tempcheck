@@ -202,10 +202,9 @@ class ResetView(APIView):
     permission_classes = [permissions.IsAuthenticated]  
 
     def post(self, request, lecture_name, format=None):
-        student = self.request.user
         lecture = Lecture.objects.get(lecture_name=lecture_name)
 
-        serializer = ResetSerializer(data={'reset_time': datetime.now(), 'lecture': lecture.pk, 'student': student.pk})
+        serializer = ResetSerializer(data={'reset_time': datetime.now(), 'lecture': lecture.pk})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

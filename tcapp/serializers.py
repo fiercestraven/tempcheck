@@ -43,7 +43,7 @@ class ResetSerializer(serializers.ModelSerializer):
         model = Reset
         fields = ['reset_time', 'lecture']
         # put in read-only field for date/time so it's not required at POST but is still included 
-        read_only_fields = ['reset_time', 'lecture']
+        # read_only_fields = ['reset_time', 'lecture']
 
 
 # class QuestionSerializer(serializers.HyperlinkedModelSerializer):
