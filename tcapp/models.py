@@ -48,8 +48,12 @@ class Lecture(models.Model):
     def __str__(self):
         return self.lecture_name
 
+class Reset(models.Model):
+    reset_time = models.DateTimeField('date and time of reset')
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+
 class Threshold(models.Model):
-    # https://docs.djangoproject.com/en/4.1/ref/forms/fields/
+    # validators for DecimalField: https://docs.djangoproject.com/en/4.1/ref/forms/fields/
     yellow_percentage = models.DecimalField(default=15.00, max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
     orange_percentage = models.DecimalField(default=25.00, max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])
     red_percentage = models.DecimalField(default=35.00, max_digits=5, decimal_places=2, validators=[MinValueValidator(0.00), MaxValueValidator(100.00)])

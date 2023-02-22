@@ -4,7 +4,7 @@ from django.urls import path, reverse
 from django.shortcuts import render
 from django import forms
 from django.http import HttpResponseRedirect
-from .models import Module, Lecture, Ping, User, User_Module, Threshold
+from .models import Module, Lecture, Ping, User, User_Module, Threshold, Reset
 from rest_framework.authtoken.models import TokenProxy
 
 # set basic permissions for is_staff users (delete is added in each class where required)
@@ -139,6 +139,22 @@ class LectureAdmin(StaffPermission, admin.ModelAdmin):
         else:
             return request.user == obj.module.instructor
     
+class ResetAdmin(StaffPermission, admin.ModelAdmin):
+    fields = ['reset_time', 'lecture']
+    list_display = ('reset_time', 'lecture')
+
+    # let instructors change and delete only resets that are part of lectures that they teach
+    def has_change_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.module.instructor
+    
+    def has_delete_permission(self, request, obj=None):
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.module.instructor
 
 class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
     fields = ['instructor', 'yellow_percentage', 'orange_percentage', 'red_percentage']
@@ -192,6 +208,7 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(User_Module, User_ModuleAdmin)
 admin.site.register(Lecture, LectureAdmin)
+admin.site.register(Reset, ResetAdmin)
 admin.site.register(Threshold, ThresholdAdmin)
 admin.site.register(Ping, PingAdmin)
 # admin.site.register(Question, QuestionAdmin)

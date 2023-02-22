@@ -65,7 +65,8 @@ export default function Lecture() {
         console.log(data);
         try {
             console.log('fetching');
-            let res = await fetch('http://localhost:8000/tcapp/api/pings/', {
+            let url = profileData.is_staff ? `http://localhost:8000/tcapp/api/lectures/${lecture_name}/resets/` : `http://localhost:8000/tcapp/api/lectures/${lecture_name}/pings/`
+            let res = await fetch(url, {
                 method: 'POST',
                 credentials: 'omit',
                 headers: {
@@ -74,23 +75,26 @@ export default function Lecture() {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify({
-                    // student and date/time are completely handled in Django, but lecture_name must be included so Django knows which object to pull
-                    lecture_name: data.lecture_name,
-                })
+                // no body necessary as date/time, lecture and student info is set on the back end
             });
             console.log('checking status');
             if (res.status == 400) {
-                throw new Error("An error occurred with the Ping submission");
+                throw new Error("An error occurred with the submission");
             }
-            // fv - omit later?
             const result = await res.json();
             console.log(result);
 
-            // Disable the button and timer
-            setPressed(true);
+            // Disable the button and timer for pings
+            if (!profileData.is_staff) {
+                setPressed(true);
+            }
+
+            // Show success message for reset
+            // if (profileData.is_staff) {
+            //     <p className="user-message">You have reset to the baseline temperature.</p>
+            // }
         } catch (e) {
-            console.error("Ping submission failed: ", e.message);
+            console.error("Submission failed: ", e.message);
         }
     }
 
@@ -129,7 +133,7 @@ export default function Lecture() {
 
                                 {/* show different buttons based on staff status */}
                                 {profileData.is_staff &&
-                                    <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pressed}>Reset Temp</button>
+                                    <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit">Reset Temp</button>
                                 }
 
                                 {!profileData.is_staff &&

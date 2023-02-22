@@ -1,26 +1,18 @@
 from rest_framework import serializers
-from .models import User, Module, Lecture, Ping, Question, Choice
-  
-# for hyperlinking: https://www.django-rest-framework.org/api-guide/serializers/#hyperlinkedmodelserializer
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'is_staff']
+from .models import User, Module, Lecture, Ping, Reset
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'is_staff']
 
+
 class LectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lecture
         depth = 1
         fields = ['lecture_name', 'lecture_description', 'lecture_date', 'module']
-        # extra_kwargs = {
-        #     'url': {'view_name': 'tcapp:lecture-detail', 'lookup_field': 'lecture_name'},
-        #     'module': {'view_name': 'tcapp:module-detail', 'lookup_field': 'module_name'},
-        # }
+
 
 class ModuleSerializer(serializers.ModelSerializer):
     # explicitly using ProfileSerializer rather than the generic User here so that only desired fields are displayed
@@ -37,25 +29,22 @@ class ModuleSerializer(serializers.ModelSerializer):
         return LectureSerializer(lectures, many=True).data
 
 
-# class User_ModuleSerializer(serializers.ModelSerializer):
-#     user = UserSerializer()
-#     class Meta:
-#             model = User_Module
-#             depth = 1
-#             fields = ['module', 'user']
-
 class PingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ping
-        fields = ['id','ping_date', 'student', 'lecture']
+        fields = ['ping_date', 'student', 'lecture']
         # put in read-only fields so they're not required at POST but are still included 
         # https://www.django-rest-framework.org/api-guide/fields/
-        read_only_fields = ['ping_date', 'lecture', 'student']
-        # extra_kwargs = {
-        #     'url': {'view_name': 'tcapp:ping-detail'},
-        #     'student': {'view_name': 'tcapp:user-detail'},
-        #     'lecture': {'view_name': 'tcapp:lecture-detail'},
-        # }
+        # read_only_fields = ['ping_date', 'student', 'lecture']
+
+
+class ResetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reset
+        fields = ['reset_time', 'lecture']
+        # put in read-only field for date/time so it's not required at POST but is still included 
+        read_only_fields = ['reset_time', 'lecture']
+
 
 # class QuestionSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:

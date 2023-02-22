@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from django.utils import timezone
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
@@ -11,8 +11,8 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from .models import Ping, Lecture, Module, Threshold, User_Module
-from tcapp.serializers import ModuleSerializer, LectureSerializer, PingSerializer, ProfileSerializer
+from .models import Ping, Lecture, Module, Threshold, Reset, User_Module
+from tcapp.serializers import ModuleSerializer, LectureSerializer, PingSerializer, ProfileSerializer, ResetSerializer
 
 # Views
 
@@ -166,31 +166,51 @@ class ModuleViewSet(viewsets.ModelViewSet):
     serializer_class = ModuleSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class PingViewSet(viewsets.ModelViewSet):
+
+class PingView(APIView):
     """
-    API endpoint that allows pings to be viewed or edited.
+    API endpoint that captures data from a ping submission.
     """
-    queryset = Ping.objects.all().order_by('ping_date')
-    serializer_class = PingSerializer
-    #permission_classes = [permissions.IsAuthenticated]
-    # on saving/deleting hooks: https://stackoverflow.com/questions/35990589/django-rest-framework-setting-default-primarykeyrelated-field-value/35990729#35990729
-    def perform_create(self, serializer):
-        student = self.request.user
-        # fv - figure out how to get lecture name from url instead 
-        lecture = Lecture.objects.get(lecture_name=self.request.data['lecture_name'])
-        serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
-    def perform_update(self, serializer):
-        student = self.request.user
-        lecture = Lecture.objects.get(lecture_name=self.request.data['lecture_name'])
-        serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
     permission_classes = [permissions.IsAuthenticated]
 
-# class InstructorThresholdView(APIView):
-#     """
-#     API endpoint for transmitting instructor thresholds (and maybe also they could set the ping gray-out duration?).
-#     """
+    def post(self, request, lecture_name, format=None):
+        student = self.request.user
+        lecture = Lecture.objects.get(lecture_name=lecture_name)
 
-#     permission_classes = [permissions.IsAuthenticated]
+        serializer = PingSerializer(data={'ping_date': datetime.now(), 'lecture': lecture.pk, 'student': student.pk})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # queryset = Ping.objects.all().order_by('ping_date')
+    # on saving/deleting hooks: https://stackoverflow.com/questions/35990589/django-rest-framework-setting-default-primarykeyrelated-field-value/35990729#35990729
+    # def perform_create(self, serializer):
+    #     student = self.request.user
+    #     lecture = Lecture.objects.get(self.kwargs['lecture_name'])
+    #     serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
+    # def perform_update(self, serializer):
+    #     student = self.request.user
+    #     lecture = Lecture.objects.get(self.kwargs['lecture_name'])
+    #     serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
+
+
+class ResetView(APIView):
+    """
+    API endpoint for capturing reset button input.
+    """
+    permission_classes = [permissions.IsAuthenticated]  
+
+    def post(self, request, lecture_name, format=None):
+        student = self.request.user
+        lecture = Lecture.objects.get(lecture_name=lecture_name)
+
+        serializer = ResetSerializer(data={'reset_time': datetime.now(), 'lecture': lecture.pk, 'student': student.pk})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
+
 
 class LectureTemperatureView(APIView):
     """
@@ -199,8 +219,21 @@ class LectureTemperatureView(APIView):
     def get(self, request, lecture_name, format=None):
         # count pings in the last two minutes
         lec = Lecture.objects.get(lecture_name=lecture_name)
+
+        # set cutoff time    
+        cutoff = timezone.now() - timedelta(minutes=2)
+        # adjust cutoff if the reset button has been pressed more recently than the cutoff time
+        # fv - play with query below
+        # handle if no resets currently associated with the lecture
+        # try:
+        #     reset = lec.reset_set.order_by('reset_time').first().reset_time
+        #     cutoff = max(reset, cutoff)
+        # except Reset.reset_time.RelatedObjectDoesNotExist:
+        #     pass
+
         # fv - later, make sure we're only pulling distinct students here to avoid student who try to sneaky multiple ping - could do at ping creation point or here
-        pcount = lec.ping_set.filter(ping_date__gt=(timezone.now() - timedelta(minutes=2))).count()
+        # count number of pings since the last cutoff
+        pcount = lec.ping_set.filter(ping_date__gt=cutoff).count()
 
         # get number of students enrolled in the module
         mod = lec.module
@@ -217,8 +250,6 @@ class LectureTemperatureView(APIView):
         t2 = thresh.orange_percentage
         t3 = thresh.red_percentage
 
-        # fv - take out if not using. check if instructor has pinged
-
         # calculate what percentage of students have pinged in last given time frame
         percent_pings = (pcount / num_students) * 100
         if percent_pings >= t1 and percent_pings < t2:
@@ -231,6 +262,7 @@ class LectureTemperatureView(APIView):
             threshold = 0
         return Response(threshold)
     permission_classes = [permissions.IsAuthenticated]
+
 
 # class QuestionViewSet(viewsets.ModelViewSet):
 #     """
