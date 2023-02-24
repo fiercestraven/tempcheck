@@ -225,11 +225,11 @@ class LectureTemperatureView(APIView):
         # adjust cutoff if the reset button has been pressed more recently than the cutoff time
         # fv - play with query below
         # handle if no resets currently associated with the lecture
-        # try:
-        #     reset = lec.reset_set.order_by('reset_time').first().reset_time
-        #     cutoff = max(reset, cutoff)
-        # except Reset.reset_time.RelatedObjectDoesNotExist:
-        #     pass
+        try:
+            reset = lec.reset_set.order_by('reset_time').last().reset_time
+            cutoff = max(reset, cutoff)
+        except Reset.reset_time.RelatedObjectDoesNotExist:
+            pass
 
         # fv - later, make sure we're only pulling distinct students here to avoid student who try to sneaky multiple ping - could do at ping creation point or here
         # count number of pings since the last cutoff
