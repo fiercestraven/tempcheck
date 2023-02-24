@@ -42,7 +42,8 @@ def run():
     # loop through all students in a given module and submit a ping for each
     for idx, user_module in enumerate(user_modules, start=1):
         user = user_module.user
-        Ping(ping_date=datetime.now(timezone.utc), lecture=lecture, user=user).save()
+        lecture = lecture
+        Ping(ping_date=datetime.now(timezone.utc), lecture=lecture, student=user).save()
         # put it an \a alert to add audible component
         print(f' [{idx}/{len(user_modules)}] {user.username} pinged!\a')
         sleep(3)
