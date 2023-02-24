@@ -50,6 +50,7 @@ class Lecture(models.Model):
 
 class Reset(models.Model):
     reset_time = models.DateTimeField('date and time of reset')
+    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
 
 class Threshold(models.Model):

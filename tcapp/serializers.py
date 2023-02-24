@@ -41,7 +41,7 @@ class PingSerializer(serializers.ModelSerializer):
 class ResetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reset
-        fields = ['reset_time', 'lecture']
+        fields = ['reset_time', 'instructor', 'lecture']
         # put in read-only field for date/time so it's not required at POST but is still included 
         # read_only_fields = ['reset_time', 'lecture']
 

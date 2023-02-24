@@ -75,7 +75,7 @@ export default function Lecture() {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                // no body necessary as date/time, lecture and student info is set on the back end
+                // no body necessary as date/time, lecture and student/instructor info is set on the back end
             });
             console.log('checking status');
             if (res.status == 400) {
