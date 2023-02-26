@@ -3,6 +3,7 @@ import { CurrentUserContext } from '../context/auth';
 import { useForm } from "react-hook-form";
 
 export default function Login() {
+    // set up for react-hook-form form and error handling
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [userMsg, setUserMsg] = useState(null);
     // get user management functions from context
@@ -30,10 +31,10 @@ export default function Login() {
                         type="text"
                         id="username"
                         name="username"
-                        {...register("username", { required: true, maxLength: 50 })}
+                        {...register("username", { required: true, minLength: 5, maxLength: 50 })}
                     />
                 </div>
-                {errors.username && <p>Username is required and must be 50 characters or less.</p>}
+                {errors.username && <p>Username is required and must be between 3-50 characters.</p>}
                 <div>
                     <div className="mr-2 mt-2 mb-0 form-label"><label htmlFor="password">Password:</label></div>
                     <input
@@ -42,11 +43,7 @@ export default function Login() {
                         type="password"
                         id="password"
                         name="password"
-                        {...register("password", {
-                            required: true,
-                            // pattern to require 1 digit, 1 uppercase letter, and between 8-20 characters
-                            pattern: /^(?=.*\d)(?=.*[A-Z]).{8,20}$/
-                        })}
+                        {...register("password", { required: true, })}
                     />
                 </div>
                 {errors.password && errors.password.type === "required" && (
