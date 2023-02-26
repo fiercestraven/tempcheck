@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useInterval from '../lib/useInterval.js';
 
 export default function Timer({onComplete}) {

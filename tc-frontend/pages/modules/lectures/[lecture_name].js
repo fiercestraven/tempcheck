@@ -94,6 +94,11 @@ export default function Lecture() {
             if (profileData.is_staff) {
                 setResetComplete(true);
             }
+
+            // remove user message after set time
+            setTimeout(function () {
+                setResetComplete(false)
+            }, 10000) // ten seconds in milliseconds
         } catch (e) {
             console.error("Submission failed: ", e.message);
         }
