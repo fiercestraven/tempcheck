@@ -46,4 +46,4 @@ def run():
         Ping(ping_date=datetime.now(timezone.utc), lecture=lecture, student=user).save()
         # put it an \a alert to add audible component
         print(f' [{idx}/{len(user_modules)}] {user.username} pinged!\a')
-        sleep(3)
+        sleep(2)

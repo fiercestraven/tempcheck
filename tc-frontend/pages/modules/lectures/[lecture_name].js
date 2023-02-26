@@ -14,7 +14,8 @@ export default function Lecture() {
     const [profileData, setProfileData] = useState();
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
     // variable to show state of ping button
-    const [pressed, setPressed] = useState(false);
+    const [pingComplete, setPingComplete] = useState(false);
+    const [resetComplete, setResetComplete] = useState(false);
     const router = useRouter();
     const { lecture_name } = router.query;
 
@@ -58,7 +59,7 @@ export default function Lecture() {
 
     function handleTimerComplete() {
         // Re-enable ping button after set time and remove timer
-        setPressed(false);
+        setPingComplete(false);
     }
 
     async function onSubmit(data) {
@@ -75,7 +76,7 @@ export default function Lecture() {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                // no body necessary as date/time, lecture and student/instructor info is set on the back end
+                // no body necessary as date/time, lecture and student/instructor info is all set on the back end
             });
             console.log('checking status');
             if (res.status == 400) {
@@ -86,13 +87,13 @@ export default function Lecture() {
 
             // Disable the button and timer for pings
             if (!profileData.is_staff) {
-                setPressed(true);
+                setPingComplete(true);
             }
 
             // Show success message for reset
-            // if (profileData.is_staff) {
-            //     <p className="user-message">You have reset to the baseline temperature.</p>
-            // }
+            if (profileData.is_staff) {
+                setResetComplete(true);
+            }
         } catch (e) {
             console.error("Submission failed: ", e.message);
         }
@@ -118,7 +119,13 @@ export default function Lecture() {
                             <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
                             {/* timer here */}
-                            {pressed && < Timer onComplete={handleTimerComplete} />}
+                            {pingComplete && < Timer onComplete={handleTimerComplete} />}
+
+                            {/* show success message if reset complete */}
+                            {resetComplete &&
+                                <p className="user-message">You have successfully reset to the baseline temperature.</p>
+                            }
+
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div>
                                     <input
@@ -137,7 +144,7 @@ export default function Lecture() {
                                 }
 
                                 {!profileData.is_staff &&
-                                    <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pressed}>Ping</button>
+                                    <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pingComplete}>Ping</button>
                                 }
 
                             </form>
