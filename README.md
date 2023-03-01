@@ -1,7 +1,8 @@
 MSc Software Development capstone project 2022-2023
 
 **TEMPCHECK**
-TEMPCHECK is a web app designed to help instructors track how well students are understanding a lecture. [more about how it works here]
+
+Tempcheck is a web app designed to help instructors track how well students are understanding a lecture. [more about how it works here]
 
 This is the software piece of the dissertation project for the completion of the MSc in Software Development at Queen's University Belfast. 
 
@@ -18,7 +19,9 @@ PASSWORD RECOMMENDATIONS
 User passwords are recommended to be between 8-20 characters and contain at least one number and one uppercase letter.
 
 **ACKNOWLEDGEMENTS**
+
 Many thanks to Aidan McGowan, the supervisor and mentor for this project. Thanks also to Queen's University Belfast.
 
 **CONTACT**
+
 Frances Veit: fveit01@qub.ac.uk
