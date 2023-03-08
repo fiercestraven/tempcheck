@@ -12,8 +12,8 @@ router = routers.DefaultRouter()
 # on using 'basename' below to quiet to an error due to no queryset in the View: https://www.django-rest-framework.org/api-guide/routers/
 router.register(r'modules', views.ModuleViewSet, basename='modules')
 router.register(r'lectures', views.LectureViewSet)
-# router.register(r'questions', views.QuestionViewSet)
-# router.register(r'choices', views.ChoiceViewSet)
+router.register(r'pings', views.AllPingViewSet)
+
 
 app_name ="tcapp"
 urlpatterns = [

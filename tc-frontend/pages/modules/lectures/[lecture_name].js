@@ -13,7 +13,7 @@ export default function Lecture() {
     const [lectureData, setLectureData] = useState();
     const [profileData, setProfileData] = useState();
     const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
-    // variable to show state of ping button
+    // variables to show state of ping and reset buttons
     const [pingComplete, setPingComplete] = useState(false);
     const [resetComplete, setResetComplete] = useState(false);
     const router = useRouter();
@@ -54,7 +54,7 @@ export default function Lecture() {
     }
 
     if (!userData.username) {
-        router.push("/modules");
+        router.push("/");
     }
 
     function handleTimerComplete() {

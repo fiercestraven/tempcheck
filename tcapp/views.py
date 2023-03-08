@@ -12,16 +12,13 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .models import Ping, Lecture, Module, Threshold, Reset, User_Module
-from tcapp.serializers import ModuleSerializer, LectureSerializer, PingSerializer, ProfileSerializer, ResetSerializer
+from tcapp.serializers import ModuleSerializer, LectureSerializer, PingSerializer, AllPingSerializer, ProfileSerializer, ResetSerializer
 
 # Views
 
 # fv - below is part of 8 Jan trial to get the csv uploader working. These weren't helping, so I commented them out.
 # def csv_upload(request):
 #     return render(request, 'admin/csv_upload.html',)
-
-# def stats(request):
-#     return render(request, 'admin/stats.html',)
 
 # fv - could remove later now that this is done through Next; leaving for ability to see Django side for now
 def index(request):
@@ -81,44 +78,9 @@ def lecture_detail(request, module_name, lecture_name):
     lecture = get_object_or_404(Lecture, lecture_name=lecture_name)
     return render(request, 'tcapp/lecture.html', {'module': module, 'lecture': lecture})
 
-# class QuestionView(generic.DetailView):
-#     model = Question
-#     template_name = 'tcapp/question.html'
-
-# class ResultsView(generic.DetailView):
-#     model = Question
-#     template_name = 'tcapp/results.html'
-
-# def vote(request, question_id):
-#     # initial dummy response
-#     question = get_object_or_404(Question, pk=question_id)
-#     try:
-#         selected_choice = question.choice_set.get(pk=request.POST['choice'])
-#     except (KeyError, Choice.DoesNotExist):
-#         # Redisplay the question voting form.
-#         return render(request, 'tcapp/question.html', {
-#             'question': question,
-#             'error_message': "You didn't select a choice.",
-#         })
-#     else:
-#         selected_choice.votes += 1
-#         selected_choice.save()
-#         # Always return an HttpResponseRedirect after successfully dealing
-#         # with POST data. This prevents data from being posted twice if a
-#         # user hits the Back button.
-#         return HttpResponseRedirect(reverse('tcapp:results', args=(question.id,)))
 
 
 # API views #
-# class UserViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows users to be viewed or edited.
-#     """
-#     queryset = User.objects.all().order_by('-date_joined')
-#     serializer_class = UserSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-
-
 class ProfileView(APIView):
     """
     API endpoint with profile information, used to greet and determine staff status.
@@ -182,7 +144,6 @@ class PingView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     # queryset = Ping.objects.all().order_by('ping_date')
     # on saving/deleting hooks: https://stackoverflow.com/questions/35990589/django-rest-framework-setting-default-primarykeyrelated-field-value/35990729#35990729
     # def perform_create(self, serializer):
@@ -193,6 +154,16 @@ class PingView(APIView):
     #     student = self.request.user
     #     lecture = Lecture.objects.get(self.kwargs['lecture_name'])
     #     serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
+
+
+class AllPingViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that holds all ping data.
+    """
+    # fv - think about restricting this to just the lecturer's ping data?
+    queryset = Ping.objects.all().order_by('lecture')
+    serializer_class = AllPingSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ResetView(APIView):
@@ -261,8 +232,17 @@ class LectureTemperatureView(APIView):
         else:
             threshold = 0
         return Response(threshold)
-    permission_classes = [permissions.IsAuthenticated]
+    # allow unauthenticated requests to this particular API so the lightbulb can pull data. Only a get is defined above so no need to make read only.
+    permission_classes = [permissions.AllowAny]
 
+
+# class UserViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     queryset = User.objects.all().order_by('-date_joined')
+#     serializer_class = UserSerializer
+#     permission_classes = [permissions.IsAuthenticated]
 
 # class QuestionViewSet(viewsets.ModelViewSet):
 #     """

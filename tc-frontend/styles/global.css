@@ -81,6 +81,10 @@ a:active {
   color: #3fc6d7;
 }
 
+#index-header:hover {
+  border-bottom: none;
+}
+
 /* a {
   outline: none;
   text-decoration: none;
@@ -141,6 +145,7 @@ a.btn-start {
 }
 
 #index-header {
+  color: white;
   font-size: 7vw;
   letter-spacing: 5vw;
   font-weight: 500;

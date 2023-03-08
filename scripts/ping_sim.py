@@ -29,7 +29,7 @@ def run():
         # 2d ensures padding for 2 digits
         print(f'  {idx:2d}. {lecture.lecture_name}')
 
-    idx = int(input("Type the name of the lecture: "))
+    idx = int(input("Select a lecture: "))
     lecture = lectures[idx -1]
 
     print(f"You've selected lecture {lecture.lecture_name}")

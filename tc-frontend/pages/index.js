@@ -25,20 +25,20 @@ export default function IndexPage() {
 
         <div>
           <div className="row">
-            {/* fv - make this a link */}
-            <Image id="banner-img"
-              priority
-              src={imageURL}
-              height={400}
-              width={1800}
-              alt=""
-            />
+            <a href="/modules">
+              <Image id="banner-img"
+                priority
+                src={imageURL}
+                height={400}
+                width={1800}
+                alt=""
+              />
+            </a>
 
-            <div id="index-header">
-              {/* fv - make this a link (to modules?) */}
+            <a id="index-header" href="/modules">
               {/* https://stackoverflow.com/questions/14678154/centre-align-text-that-has-extra-letter-spacing-applied */}
               TEMPCHECK
-            </div>
+            </a>
           </div>
 
 {/* fv - make these tied in to the tempcheck name (make it a button?) and the image, so they act as login buttons */}

@@ -38,6 +38,13 @@ class PingSerializer(serializers.ModelSerializer):
         # read_only_fields = ['ping_date', 'student', 'lecture']
 
 
+class AllPingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ping
+        # depth = 1
+        fields = ['ping_date', 'student', 'lecture']
+
+
 class ResetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reset
@@ -45,21 +52,3 @@ class ResetSerializer(serializers.ModelSerializer):
         # put in read-only field for date/time so it's not required at POST but is still included 
         # read_only_fields = ['reset_time', 'lecture']
 
-
-# class QuestionSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Question
-#         fields = ['url', 'id', 'question_text', 'pub_date', 'lecture']
-#         extra_kwargs = {
-#             'url': {'view_name': 'tcapp:question-detail'},
-#             'lecture': {'view_name': 'tcapp:lecture-detail'},
-#         }
-
-# class ChoiceSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Choice
-#         fields = ['url', 'id', 'choice_text', 'votes', 'question']
-#         extra_kwargs = {
-#             'url': {'view_name': 'tcapp:choice-detail'},
-#             'question': {'view_name': 'tcapp:question-detail'},
-#         }
