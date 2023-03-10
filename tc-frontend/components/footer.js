@@ -48,7 +48,7 @@ export default function Footer() {
         <div>
             {profileData && profileData.is_staff &&
                 <div>
-                    <Link href="/">Stats</Link>
+                    <Link href="/stats">Stats</Link>
                 </div>
             }
 

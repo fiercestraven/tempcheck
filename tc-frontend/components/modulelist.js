@@ -17,7 +17,6 @@ export default function ModuleList() {
             });
             let data = await res.json();
             setModuleData(data);
-            console.log(data);
         }
 
         if (userDataLoaded && userData.username) {
