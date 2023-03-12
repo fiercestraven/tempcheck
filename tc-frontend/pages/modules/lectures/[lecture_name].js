@@ -144,11 +144,11 @@ export default function Lecture() {
                                 {errors.lecture_name && <p>Invalid lecture name submitted.</p>}
 
                                 {/* show different buttons based on staff status */}
-                                {profileData.is_staff &&
+                                {profileData?.is_staff &&
                                     <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit">Reset Temp</button>
                                 }
 
-                                {!profileData.is_staff &&
+                                {!profileData?.is_staff &&
                                     <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pingComplete}>Ping</button>
                                 }
 

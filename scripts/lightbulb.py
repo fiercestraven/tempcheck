@@ -5,14 +5,22 @@ import requests
 from lifxlan import LifxLAN, GREEN, YELLOW, ORANGE, RED
 from time import sleep
 from tcapp.models import Module
+import sys
 
 
 def run():
     # get lights
+    # assign one lightbulb for faster demo (would otherwise leave at None to let LifxLAN find all lights)
     num_lights = 1
+
     print("Discovering lights...")
     lifx = LifxLAN(num_lights)
+
+    # get devices
     devices = lifx.get_lights()
+
+    if not devices:
+        sys.exit('No lightbulbs found.')
 
     # print out lights
     print("Found {} light(s):".format(len(devices)))

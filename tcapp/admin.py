@@ -6,6 +6,7 @@ from django import forms
 from django.http import HttpResponseRedirect
 from .models import Module, Lecture, Ping, User, User_Module, Threshold, Reset
 from rest_framework.authtoken.models import TokenProxy
+from django.utils.translation import gettext_lazy as _
 
 # set basic permissions for is_staff users (delete is added in each class where required)
 class StaffPermission(object):
@@ -28,12 +29,42 @@ class csvImportForm(forms.Form):
 
 class UserAdmin(StaffPermission, UserAdmin):
     # have to use UserAdmin instead of modelAdmin and add_fieldsets because of overriding the built-in User model forms: https//docs.djangoproject.com/en/4.1/topics/auth/customizing/
+    # hide fields for groups and user permissions for everyone - modify fieldsets from Django's UserAdmin
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    # "groups",
+                    # "user_permissions",
+                ),
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+    )
     add_fieldsets = [
         ('Account info', {'fields': ['username', 'password1', 'password2', 'is_staff']}),
         ('Personal info', {"fields": ("first_name", "last_name", "email")}),
     ]
     list_filter = ('is_staff',)
     list_display = ('username', 'first_name', 'last_name', 'email', 'is_staff')
+
+    # instructors have view and add permissions, along with some change permissions, but not delete
+    # set up permissions so that only a superuser can assign a user as staff or a superuser
+    # https://stackoverflow.com/questions/20398362/field-level-permission-django
+    # https://stackoverflow.com/questions/60165306/django-admin-exclude-in-useradmin
+    def get_readonly_fields(self, request, obj=None):
+        if not request.user.is_superuser:
+            return ('is_staff', 'is_superuser', 'last_login', 'date_joined')
+        
+    def has_delete_permission(self, request, obj=None):
+        # only a superuser can do any deletion
+        return request.user.is_superuser
 
     # defining url path for csv upload: https://www.youtube.com/watch?v=BLxCnD5-Uvc
     def get_urls(self):
@@ -174,33 +205,11 @@ class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
             return request.user == obj.instructor
 
 
-# instructors do not have add, change, or delete access to pings. This is reserved for the admin user.
+# instructors do not have add, change, or delete access to pings. This is reserved for the superuser.
 class PingAdmin(admin.ModelAdmin):
     fields = ['student', 'lecture', 'ping_date']
     list_display = ('student', 'lecture', 'ping_date')
 
-# class ChoiceInline(admin.TabularInline):
-#     model = Choice
-#     extra = 3
-
-# class QuestionAdmin(admin.ModelAdmin):
-#     fieldsets = [
-#         (None,               {'fields': ['question_text']}),
-#         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
-#         (None,               {'fields': ['lecture']}),
-#     ]
-#     inlines = [ChoiceInline]
-#     list_display = ('question_text', 'lecture', 'pub_date')
-
-# class StatsAdmin(admin.ModelAdmin):
-#     model = Stats
-
-    # def get_urls(self):
-    #     view_name = '{}_{}_changelist'.format(
-    #         self.model._meta.app_label, self.model._meta.model_name)
-    #     return [
-    #         path('admin/stats/', self),
-    #     ]
 
 # Register models
 admin.site.unregister(User)

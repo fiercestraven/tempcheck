@@ -6,12 +6,12 @@ from lifxlan import LifxLAN
 
 
 def main():
-    num_lights = 1
-    # if len(sys.argv) != 2:
-    #     print("\nDiscovery will go much faster if you provide the number of lights on your LAN:")
-    #     print("  python {} <number of lights on LAN>\n".format(sys.argv[0]))
-    # else:
-    #     num_lights = int(sys.argv[1])
+    num_lights = None
+    if len(sys.argv) != 2:
+        print("\nDiscovery will go much faster if you provide the number of lights on your LAN:")
+        print("  python {} <number of lights on LAN>\n".format(sys.argv[0]))
+    else:
+        num_lights = int(sys.argv[1])
 
     # instantiate LifxLAN client, num_lights may be None (unknown).
     # In fact, you don't need to provide LifxLAN with the number of bulbs at all.
