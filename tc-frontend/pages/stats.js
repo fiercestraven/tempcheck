@@ -5,8 +5,10 @@ import Header from '../components/header';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useForm } from "react-hook-form";
 
 export default function Stats() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [moduleData, setModuleData] = useState([]);
   const [lectureData, setLectureData] = useState();
   const [pingData, setPingData] = useState();
@@ -26,15 +28,15 @@ export default function Stats() {
     }
 
     // fv ask Dan how to fetch lecture info on this page-- have to select module first. So maybe have a form that on change triggers this api call?
-    async function getLectureData() {
-      const res = await fetch(`http://localhost:8000/tcapp/api/modules/${module_name}/`, {
-        headers: {
-          'Authorization': `Bearer ${userData.access_token}`,
-        },
-      });
-      const data = await res.json();
-      setLectureData(data);
-    }
+    // async function getLectureData() {
+    //   const res = await fetch(`http://localhost:8000/tcapp/api/modules/${module_name}/`, {
+    //     headers: {
+    //       'Authorization': `Bearer ${userData.access_token}`,
+    //     },
+    //   });
+    //   const data = await res.json();
+    //   setLectureData(data);
+    // }
 
     async function getPingData() {
       const res = await fetch('http://localhost:8000/tcapp/api/pings/', {
@@ -48,13 +50,13 @@ export default function Stats() {
 
     async function getProfileData() {
       const res = await fetch(`http://localhost:8000/tcapp/api/profile/`, {
-          headers: {
-              'Authorization': `Bearer ${userData.access_token}`,
-          },
+        headers: {
+          'Authorization': `Bearer ${userData.access_token}`,
+        },
       });
       const data = await res.json();
       setProfileData(data);
-  }
+    }
 
     if (userDataLoaded && userData.username) {
       getModuleData();
@@ -71,7 +73,7 @@ export default function Stats() {
 
   // fv check that below line is working, or find a better way to handle a non-staff user here
   // if (!userData.username || !profileData.is_staff) {
-    if (!userData.username) {
+  if (!userData.username) {
     router.push("/");
   }
 
@@ -89,18 +91,20 @@ export default function Stats() {
 
         {(userData.username && moduleData.length) &&
           <div>
-            <h2>Please select a module:</h2>
             {/* dropdown for modules here */}
-            <ul>
+            <select className="form-select" aria-label="Module selection">
+              <option selected>Select a Module</option>
               {moduleData.map((module) => (
-                <li key={module.module_shortname}>
-                  <p>{module.module_name}</p>
-                </li>
+                <option value={module.module_shortname} key={module.module_shortname}>
+                  <a href="#" className="dropdown">{module.module_name}</a>
+                </option>
               ))}
-            </ul>
-            <h2>Please select a lecture:</h2>
+              {!moduleData.length &&
+                <li>There are no modules to display.</li>
+              }
+            </select>
             {/* dropdown for lectures here */}
-            <ul>
+            {/* <ul>
               {moduleData.lectures.map(({ id, lecture_name }) => (
                 <li key={id}>
                   <p>{lecture_name}</p>
@@ -109,7 +113,8 @@ export default function Stats() {
               {!moduleData.lectures.length &&
                 <p>There are no lectures associated with this module.</p>
               }
-            </ul>
+            </ul> */}
+
             <p></p>
             <Link href="/">← Home</Link>
             <p></p>

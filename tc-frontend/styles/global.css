@@ -144,6 +144,10 @@ a.btn-start {
   color: white;
 }
 
+.form-select {
+  width: 30%;
+}
+
 #index-header {
   color: white;
   font-size: 7vw;
