@@ -5,15 +5,16 @@ import Header from '../components/header';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 
 export default function Stats() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  // const { register, handleSubmit, formState: { errors } } = useForm();
+  const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
   const [moduleData, setModuleData] = useState([]);
   const [lectureData, setLectureData] = useState();
   const [pingData, setPingData] = useState();
-  const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
   const [profileData, setProfileData] = useState();
+  const [selectedModule, setSelectedModule] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -26,17 +27,6 @@ export default function Stats() {
       let data = await res.json();
       setModuleData(data);
     }
-
-    // fv ask Dan how to fetch lecture info on this page-- have to select module first. So maybe have a form that on change triggers this api call?
-    // async function getLectureData() {
-    //   const res = await fetch(`http://localhost:8000/tcapp/api/modules/${module_name}/`, {
-    //     headers: {
-    //       'Authorization': `Bearer ${userData.access_token}`,
-    //     },
-    //   });
-    //   const data = await res.json();
-    //   setLectureData(data);
-    // }
 
     async function getPingData() {
       const res = await fetch('http://localhost:8000/tcapp/api/pings/', {
@@ -58,6 +48,16 @@ export default function Stats() {
       setProfileData(data);
     }
 
+    // async function getLectureData() {
+    //   const res = await fetch(`http://localhost:8000/tcapp/api/modules/${selectedModule}/`, {
+    //     headers: {
+    //       'Authorization': `Bearer ${userData.access_token}`,
+    //     },
+    //   });
+    //   const data = await res.json();
+    //   setLectureData(data);
+    // }
+
     if (userDataLoaded && userData.username) {
       getModuleData();
       getPingData();
@@ -77,6 +77,26 @@ export default function Stats() {
     router.push("/");
   }
 
+  // take user selected data for module and look up lecture info
+  async function handleModuleChange(event) {
+    console.log(event.target.value);
+    setSelectedModule(event.target.value);
+    // getLectureData();
+
+    // fv - comes back undefined - maybe hasn't had time to properly set when it fires?
+    const res = await fetch(`http://localhost:8000/tcapp/api/modules/${selectedModule}/`, {
+      headers: {
+        'Authorization': `Bearer ${userData.access_token}`,
+      },
+    });
+    const data = await res.json();
+    setLectureData(data);
+  }
+
+  async function handleLectureChange(event) {
+    console.log(event.target.value);
+  }
+
   return (
     <Layout>
       <Head>
@@ -91,19 +111,45 @@ export default function Stats() {
 
         {(userData.username && moduleData.length) &&
           <div>
-            {/* dropdown for modules here */}
-            <select className="form-select" aria-label="Module selection">
-              <option selected>Select a Module</option>
+            {/* menu for modules here */}
+            {/* https://getbootstrap.com/docs/5.2/forms/select/ */}
+            <select
+              className="form-select"
+              aria-label="Module selection"
+              onChange={handleModuleChange}
+            >
+              {/* on using defaultValue: https://stackoverflow.com/questions/44786669/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting */}
+              <option defaultValue>Select a Module</option>
               {moduleData.map((module) => (
                 <option value={module.module_shortname} key={module.module_shortname}>
-                  <a href="#" className="dropdown">{module.module_name}</a>
+                  {module.module_name}
                 </option>
               ))}
               {!moduleData.length &&
-                <li>There are no modules to display.</li>
+                <option>There are no modules to display.</option>
               }
             </select>
-            {/* dropdown for lectures here */}
+
+            {/* menu for lectures here */}
+            {lectureData?.lecture_name &&
+              <select
+                className="form-select"
+                aria-label="Lecture selection"
+                onChange={handleLectureChange}
+              >
+                <option defaultValue>Select a Lecture</option>
+                {/* fv - what goes in place of (lecture) in line below? */}
+                {lectureData.map((lectureData) => (
+                  <option value={lectureData.lecture_name} key={lectureData.lecture_name}>
+                    {lectureData.lecture_name}
+                  </option>
+                ))}
+                {!lectureData.length &&
+                  <option>There are no lectures to display.</option>
+                }
+              </select>
+            }
+
             {/* <ul>
               {moduleData.lectures.map(({ id, lecture_name }) => (
                 <li key={id}>
