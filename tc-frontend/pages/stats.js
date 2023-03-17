@@ -48,16 +48,7 @@ export default function Stats() {
       setProfileData(data);
     }
 
-    // async function getLectureData() {
-    //   const res = await fetch(`http://localhost:8000/tcapp/api/modules/${selectedModule}/`, {
-    //     headers: {
-    //       'Authorization': `Bearer ${userData.access_token}`,
-    //     },
-    //   });
-    //   const data = await res.json();
-    //   setLectureData(data);
-    // }
-
+    // once user data is populated, do other api calls
     if (userDataLoaded && userData.username) {
       getModuleData();
       getPingData();
@@ -65,32 +56,32 @@ export default function Stats() {
     }
   }, [userData]);
 
-  if (!userDataLoaded) {
+  // wait until user data and profile data are loaded
+  if (!userDataLoaded || !profileData) {
     return (
       <div>Loading...</div>
     );
   }
 
-  // fv check that below line is working, or find a better way to handle a non-staff user here
-  // if (!userData.username || !profileData.is_staff) {
-  if (!userData.username) {
-    router.push("/");
+  // if not signed in or classed as a student user, re-route
+  if (!userData.username || !profileData?.is_staff) {
+    console.log(userData, profileData);
+    router.push("/modules");
   }
 
-  // take user selected data for module and look up lecture info
+  // take user-selected data for module and look up lecture info
   async function handleModuleChange(event) {
     console.log(event.target.value);
     setSelectedModule(event.target.value);
-    // getLectureData();
 
-    // fv - comes back undefined - maybe hasn't had time to properly set when it fires?
-    const res = await fetch(`http://localhost:8000/tcapp/api/modules/${selectedModule}/`, {
+    const res = await fetch(`http://localhost:8000/tcapp/api/modules/${event.target.value}/`, {
       headers: {
         'Authorization': `Bearer ${userData.access_token}`,
       },
     });
     const data = await res.json();
     setLectureData(data);
+    console.log(data);
   }
 
   async function handleLectureChange(event) {
@@ -131,35 +122,26 @@ export default function Stats() {
             </select>
 
             {/* menu for lectures here */}
-            {lectureData?.lecture_name &&
-              <select
-                className="form-select"
-                aria-label="Lecture selection"
-                onChange={handleLectureChange}
-              >
-                <option defaultValue>Select a Lecture</option>
-                {/* fv - what goes in place of (lecture) in line below? */}
-                {lectureData.map((lectureData) => (
-                  <option value={lectureData.lecture_name} key={lectureData.lecture_name}>
-                    {lectureData.lecture_name}
-                  </option>
-                ))}
-                {!lectureData.length &&
-                  <option>There are no lectures to display.</option>
-                }
-              </select>
+            {lectureData?.lectures &&
+              <div>
+                <p></p>
+                <select
+                  className="form-select"
+                  aria-label="Lecture selection"
+                  onChange={handleLectureChange}
+                >
+                  <option defaultValue>Select a Lecture</option>
+                  {lectureData.lectures.map((lecture) => (
+                    <option value={lecture.lecture_name} key={lecture.lecture_name}>
+                      {lecture.lecture_name}
+                    </option>
+                  ))}
+                  {!lectureData.lectures.length &&
+                    <option>There are no lectures to display.</option>
+                  }
+                </select>
+              </div>
             }
-
-            {/* <ul>
-              {moduleData.lectures.map(({ id, lecture_name }) => (
-                <li key={id}>
-                  <p>{lecture_name}</p>
-                </li>
-              ))}
-              {!moduleData.lectures.length &&
-                <p>There are no lectures associated with this module.</p>
-              }
-            </ul> */}
 
             <p></p>
             <Link href="/">← Home</Link>
