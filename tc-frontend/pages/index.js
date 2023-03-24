@@ -29,7 +29,7 @@ export default function IndexPage() {
               <Image id="banner-img"
                 priority
                 src={imageURL}
-                height={400}
+                height={500}
                 width={1800}
                 alt=""
               />

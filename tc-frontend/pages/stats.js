@@ -1,11 +1,37 @@
+// fv - don't forget to try to add capabililty for data export here
+
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../components/layout';
 import Header from '../components/header';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState } from 'react';
+// import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-// import { useForm } from "react-hook-form";
+// initialize and register chart.js elements
+import {
+  Chart as ChartJS,
+  LineController,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+
+ChartJS.register(
+  LineController,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export default function Stats() {
   // const { register, handleSubmit, formState: { errors } } = useForm();
@@ -15,7 +41,21 @@ export default function Stats() {
   const [pingData, setPingData] = useState();
   const [profileData, setProfileData] = useState();
   const [selectedModule, setSelectedModule] = useState();
+  const [selectedLecture, setSelectedLecture] = useState();
   const router = useRouter();
+  // set up options for chart
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Pings Over Time',
+      },
+    },
+  };
 
   useEffect(() => {
     async function getModuleData() {
@@ -65,7 +105,6 @@ export default function Stats() {
 
   // if not signed in or classed as a student user, re-route
   if (!userData.username || !profileData?.is_staff) {
-    console.log(userData, profileData);
     router.push("/modules");
   }
 
@@ -74,6 +113,7 @@ export default function Stats() {
     console.log(event.target.value);
     setSelectedModule(event.target.value);
 
+    // target correct API endpoint and bring in lectures for the chosen module
     const res = await fetch(`http://localhost:8000/tcapp/api/modules/${event.target.value}/`, {
       headers: {
         'Authorization': `Bearer ${userData.access_token}`,
@@ -86,70 +126,102 @@ export default function Stats() {
 
   async function handleLectureChange(event) {
     console.log(event.target.value);
-  }
+    setSelectedLecture(event.target.value);
+    // fv - insert time stamps here (for pingData.ping_date) - what I'd rather do is have the lecture start time and then every 5 min
+    const labels = [event.target.value.lecture_date];
+    // set 'lectureEnd' equal to the time of the last ping
+    for (i=0; i<lectureEnd; i+=5) {
+        labels.append(i);
+    }
 
-  return (
-    <Layout>
-      <Head>
-        <title>Stats</title>
-      </Head>
+  // set up data for chart
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: 'Lecture ' + selectedLecture.lecture_name,
+        // set ping data for chart
+        data: labels.map(() => pingData.ping_date({ min: -1000, max: 1000 })),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      // fv - may want to come back and add the option of displaying multiple lectures at once
+      // {
+      //   label: 'Dataset 2',
+      //   data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      //   borderColor: 'rgb(53, 162, 235)',
+      //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      // },
+    ],
+  };
 
-      <div className="container content">
-        <header>
-          {/* fv  - insert different stats header here */}
-          <Header />
-        </header>
+}
 
-        {(userData.username && moduleData.length) &&
-          <div>
-            {/* menu for modules here */}
-            {/* https://getbootstrap.com/docs/5.2/forms/select/ */}
-            <select
-              className="form-select"
-              aria-label="Module selection"
-              onChange={handleModuleChange}
-            >
-              {/* on using defaultValue: https://stackoverflow.com/questions/44786669/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting */}
-              <option defaultValue>Select a Module</option>
-              {moduleData.map((module) => (
-                <option value={module.module_shortname} key={module.module_shortname}>
-                  {module.module_name}
-                </option>
-              ))}
-              {!moduleData.length &&
-                <option>There are no modules to display.</option>
-              }
-            </select>
+return (
+  <Layout>
+    <Head>
+      <title>Stats</title>
+    </Head>
 
-            {/* menu for lectures here */}
-            {lectureData?.lectures &&
-              <div>
-                <p></p>
-                <select
-                  className="form-select"
-                  aria-label="Lecture selection"
-                  onChange={handleLectureChange}
-                >
-                  <option defaultValue>Select a Lecture</option>
-                  {lectureData.lectures.map((lecture) => (
-                    <option value={lecture.lecture_name} key={lecture.lecture_name}>
-                      {lecture.lecture_name}
-                    </option>
-                  ))}
-                  {!lectureData.lectures.length &&
-                    <option>There are no lectures to display.</option>
-                  }
-                </select>
-              </div>
+    <div className="container content">
+      <header>
+        {/* fv  - insert different stats header here */}
+        <Header />
+      </header>
+
+      {(userData.username && moduleData.length) &&
+        <div>
+          {/* menu for modules here */}
+          {/* https://getbootstrap.com/docs/5.2/forms/select/ */}
+          <select
+            className="form-select"
+            aria-label="Module selection"
+            onChange={handleModuleChange}
+          >
+            {/* on using defaultValue: https://stackoverflow.com/questions/44786669/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting */}
+            <option defaultValue>Select a Module</option>
+            {moduleData.map((module) => (
+              <option value={module.module_shortname} key={module.module_shortname}>
+                {module.module_name}
+              </option>
+            ))}
+            {!moduleData.length &&
+              <option>There are no modules to display.</option>
             }
+          </select>
 
-            <p></p>
-            <Link href="/">← Home</Link>
-            <p></p>
-            <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
-          </div>
-        }
-      </div>
-    </Layout>
-  );
+          {/* menu for lectures here */}
+          {lectureData?.lectures &&
+            <div>
+              <p></p>
+              <select
+                className="form-select"
+                aria-label="Lecture selection"
+                onChange={handleLectureChange}
+              >
+                <option defaultValue>Select a Lecture</option>
+                {lectureData.lectures.map((lecture) => (
+                  <option value={lecture.lecture_name} key={lecture.lecture_name}>
+                    {lecture.lecture_name}
+                  </option>
+                ))}
+                {!lectureData.lectures.length &&
+                  <option>There are no lectures to display.</option>
+                }
+              </select>
+
+              {/* fv - update this to only display after lecture is chosen */}
+              <Line options={chartOptions} data={chartData} />;
+            </div>
+          }
+
+          <p></p>
+          <Link href="/">← Home</Link>
+          <p></p>
+          <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
+        </div>
+      }
+    </div>
+  </Layout>
+);
 }
