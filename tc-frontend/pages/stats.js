@@ -43,6 +43,7 @@ export default function Stats() {
   const [selectedModule, setSelectedModule] = useState();
   const [selectedLecture, setSelectedLecture] = useState();
   const router = useRouter();
+
   // set up options for chart
   const chartOptions = {
     responsive: true,
@@ -69,6 +70,7 @@ export default function Stats() {
     }
 
     async function getPingData() {
+      // fv - change this later to just pull in pings from certain lecture
       const res = await fetch('http://localhost:8000/tcapp/api/pings/', {
         headers: {
           'Authorization': `Bearer ${userData.access_token}`,
@@ -127,24 +129,29 @@ export default function Stats() {
   async function handleLectureChange(event) {
     console.log(event.target.value);
     setSelectedLecture(event.target.value);
+
+    // fv - stop hard coding lecture here and instead use event.target.value (fix serializer or view for allPing data to use username and lecture_name)
+    let lecturePings = pingData.filter(ping => ping.lecture==45)
+    console.log(lecturePings);
+
     // fv - insert time stamps here (for pingData.ping_date) - what I'd rather do is have the lecture start time and then every 5 min
-    const labels = [event.target.value.lecture_date];
+    // const labels = [event.target.value.lecture_date];
     // set 'lectureEnd' equal to the time of the last ping
-    for (i=0; i<lectureEnd; i+=5) {
-        labels.append(i);
-    }
+    // for (i=0; i<lectureEnd; i+=5) {
+    //     labels.append(i);
+    // }
 
   // set up data for chart
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        label: 'Lecture ' + selectedLecture.lecture_name,
-        // set ping data for chart
-        data: labels.map(() => pingData.ping_date({ min: -1000, max: 1000 })),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
+  // const chartData = {
+  //   labels,
+  //   datasets: [
+  //     {
+  //       label: 'Lecture ' + selectedLecture.lecture_name,
+  //       // set ping data for chart
+  //       data: labels.map(() => pingData.ping_date({ min: -1000, max: 1000 })),
+  //       borderColor: 'rgb(255, 99, 132)',
+  //       backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  //     },
       // fv - may want to come back and add the option of displaying multiple lectures at once
       // {
       //   label: 'Dataset 2',
@@ -152,8 +159,8 @@ export default function Stats() {
       //   borderColor: 'rgb(53, 162, 235)',
       //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
       // },
-    ],
-  };
+    // ],
+  // };
 
 }
 
@@ -211,7 +218,7 @@ return (
               </select>
 
               {/* fv - update this to only display after lecture is chosen */}
-              <Line options={chartOptions} data={chartData} />;
+              {/* <Line options={chartOptions} data={chartData} />; */}
             </div>
           }
 
