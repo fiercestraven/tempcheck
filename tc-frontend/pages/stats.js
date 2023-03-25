@@ -189,7 +189,7 @@ return (
             <option defaultValue>Select a Module</option>
             {moduleData.map((module) => (
               <option value={module.module_shortname} key={module.module_shortname}>
-                {module.module_name}
+                {module.module_shortname}
               </option>
             ))}
             {!moduleData.length &&

@@ -48,19 +48,5 @@ class ModuleIndexViewTests(TestCase):
         response = self.client.get(reverse('tcapp:index'))
         self.assertQuerysetEqual(response.context['module_list'], [testmodule])
 
-# class ResultsViewTests(TestCase):
-#     def test_no_results(self):
-#         """
-#         Test that the results view displays an appropriate message if there are no results.
-#         """   
-#         response = self.client.get(reverse('tcapp:results'))
-#         self.assertEqual(response.status_code, 200)
-        # self.assertContains(response, "No results are available.")
-
 
 # https://docs.djangoproject.com/en/4.1/intro/tutorial05/
-# fv - add a similar get_queryset method to ResultsView and create a new test class for that view.
-# fv - add tests for lecture_detail view: if there are no lectures, if there are lectures in an inactive module, lectures in an active module, no modules
-# fv - then, Questions can be published on the site that have no Choices. So, our views could check for this, and exclude such Questions. Our tests would create a Question without Choices and then test that it’s not published, as well as create a similar Question with Choices, and test that it is published.
-# fv - future tests might include making sure only pings in the relevant time frame are included. Make sure no pages are returning 404 that shouldn't be.
-# fv - note - have a separate TestClass for each model or view, and a separate test method for each set of conditions you want to test

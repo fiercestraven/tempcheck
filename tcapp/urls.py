@@ -26,9 +26,6 @@ urlpatterns = [
     path('lectures/', views.LecturesView.as_view(), name='lectures'),
     path('lectures/<str:module_shortname>/<str:lecture_name>/', views.lecture_detail, name='lecture_detail'),
     path('lectures/<str:module_shortname>/<str:lecture_name>/submit/', views.submit, name='submit'),
-    # path('question/<int:pk>/', views.QuestionView.as_view(), name='question'),
-    # path('question/<int:pk>/results/', views.ResultsView.as_view(), name='results'),
-    # path('question/<int:question_id>/vote/', views.vote, name='vote'),
     path('stats/', TemplateView.as_view(template_name='tcapp/stats.html'), name='stats'),
     path('api/', include(router.urls)),
     # can't add a generic view in a router, so these api views are here instead of above

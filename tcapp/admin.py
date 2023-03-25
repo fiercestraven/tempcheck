@@ -220,7 +220,6 @@ admin.site.register(Lecture, LectureAdmin)
 admin.site.register(Reset, ResetAdmin)
 admin.site.register(Threshold, ThresholdAdmin)
 admin.site.register(Ping, PingAdmin)
-# admin.site.register(Question, QuestionAdmin)
 # admin.site.register(Stats, StatsAdmin)
 
 # remove auth token from admin display (https://stackoverflow.com/questions/51710455/hide-the-token-table-from-the-admin-panel-in-django-rest-framework)

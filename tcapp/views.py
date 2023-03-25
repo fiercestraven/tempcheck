@@ -234,28 +234,3 @@ class LectureTemperatureView(APIView):
         return Response(threshold)
     # allow unauthenticated requests to this particular API so the lightbulb can pull data. Only a get is defined above so no need to make read only.
     permission_classes = [permissions.AllowAny]
-
-
-# class UserViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows users to be viewed or edited.
-#     """
-#     queryset = User.objects.all().order_by('-date_joined')
-#     serializer_class = UserSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-
-# class QuestionViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows questions to be viewed or edited.
-#     """
-#     queryset = Question.objects.select_related('lecture').all().order_by('lecture__lecture_name')
-#     serializer_class = QuestionSerializer
-#     #permission_classes = [permissions.IsAuthenticated]
-
-# class ChoiceViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows question choices to be viewed or edited.
-#     """
-#     queryset = Choice.objects.select_related('question').all().order_by('question__question_text')
-#     serializer_class = ChoiceSerializer
-#     #permission_classes = [permissions.IsAuthenticated]

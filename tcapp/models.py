@@ -46,25 +46,3 @@ class Ping(models.Model):
     ping_date = models.DateTimeField('date and time of ping')
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
-
-# fv to do - take these out later if not using
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
-    def __str__(self):
-        return self.question_text
-    @admin.display(
-        boolean=True,
-        ordering='-pub_date',
-        description='Publication Date',
-    )
-    def is_published(self, obj):
-        return Question.pub_date is not None
-
-class Choice(models.Model):
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    def __str__(self):
-        return self.choice_text
