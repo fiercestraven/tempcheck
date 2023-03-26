@@ -122,12 +122,17 @@ class ModuleAdmin(StaffPermission, admin.ModelAdmin):
 
     # let instructors change or delete only their own modules
     def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        # if no obj given, only show change options if user is staff
         if obj is None:
             return request.user.is_staff
         else:
             return request.user == obj.instructor
 
     def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         if obj is None:
             return request.user.is_staff
         else:
@@ -141,12 +146,16 @@ class User_ModuleAdmin(StaffPermission, admin.ModelAdmin):
 
     # let instructors change and delete student-module objects only from modules that they teach
     def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         if obj is None:
             return request.user.is_staff
         else:
             return request.user == obj.module.instructor
     
     def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         if obj is None:
             return request.user.is_staff
         else:
@@ -159,12 +168,16 @@ class LectureAdmin(StaffPermission, admin.ModelAdmin):
 
     # let instructors change and delete only lectures that are part of modules that they teach
     def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         if obj is None:
             return request.user.is_staff
         else:
             return request.user == obj.module.instructor
     
     def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         if obj is None:
             return request.user.is_staff
         else:
@@ -176,12 +189,16 @@ class ResetAdmin(StaffPermission, admin.ModelAdmin):
 
     # let instructors change and delete only resets that are part of lectures that they teach
     def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         if obj is None:
             return request.user.is_staff
         else:
             return request.user == obj.module.instructor
     
     def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         if obj is None:
             return request.user.is_staff
         else:
@@ -193,23 +210,37 @@ class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
 
     # let instructors change and delete only their own thresholds
     def has_change_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         if obj is None:
             return request.user.is_staff
         else:
             return request.user == obj.instructor
     
     def has_delete_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
         if obj is None:
             return request.user.is_staff
         else:
             return request.user == obj.instructor
 
 
-# instructors do not have add, change, or delete access to pings. This is reserved for the superuser.
+# instructors can only view pings and do not have add, change, or delete access to pings. This is reserved for the superuser.
 class PingAdmin(admin.ModelAdmin):
     fields = ['student', 'lecture', 'ping_date']
     list_display = ('student', 'lecture', 'ping_date')
 
+    def has_module_permission(self, request):
+        return request.user.is_staff
+
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.lecture.module.instructor
 
 # Register models
 admin.site.unregister(User)
