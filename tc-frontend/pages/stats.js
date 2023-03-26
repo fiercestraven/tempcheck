@@ -1,62 +1,24 @@
-// fv - don't forget to try to add capabililty for data export here
-
+// fv - don't forget to try to add capabililty for data export for the chart
+import * as Plot from '@observablehq/plot';
+import * as d3 from "d3";
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../components/layout';
 import Header from '../components/header';
 import { CurrentUserContext } from '../context/auth';
-import { useContext, useEffect, useState } from 'react';
-// import { useForm } from 'react-hook-form';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
-// initialize and register chart.js elements
-import {
-  Chart as ChartJS,
-  LineController,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-
-ChartJS.register(
-  LineController,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend
-);
 
 export default function Stats() {
-  // const { register, handleSubmit, formState: { errors } } = useForm();
   const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
   const [moduleData, setModuleData] = useState([]);
   const [lectureData, setLectureData] = useState();
-  const [pingData, setPingData] = useState();
+  const [pingData, setPingData] = useState([]);
   const [profileData, setProfileData] = useState();
   const [selectedModule, setSelectedModule] = useState();
   const [selectedLecture, setSelectedLecture] = useState();
   const router = useRouter();
-
-  // set up options for chart
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Pings Over Time',
-      },
-    },
-  };
+  const chartRef = useRef();
 
   useEffect(() => {
     async function getModuleData() {
@@ -77,7 +39,11 @@ export default function Stats() {
         },
       });
       const data = await res.json();
-      setPingData(data);
+      const parsedData = data.map(datum => {
+        datum.ping_date = new Date(datum.ping_date);
+        return datum;
+      });
+      setPingData(parsedData);
     }
 
     async function getProfileData() {
@@ -97,6 +63,29 @@ export default function Stats() {
       getProfileData();
     }
   }, [userData]);
+
+  // set up chart
+  // https://observablehq.com/@observablehq/plot?collection=@observablehq/plot
+  useEffect(() => {
+    console.debug("🤪 called charting effect");
+    console.debug("pingData is:", pingData);
+    console.debug("chartRef is:", chartRef);
+    const chart = Plot.plot({
+      x: {
+        round: true
+      },
+      color: {
+        scheme: "YlGnBu"
+      },
+      marks: [
+        // fv - below not working - interval? thresholds? thresholds sets how many bins
+        // fv - client side work to discard any data more than 5 minutes prior to lecture and 30 min after
+        Plot.barX(pingData, Plot.binX({fill: "count"}, {x: "ping_date"}))
+      ]
+    });
+    chartRef?.current?.append(chart);
+    return () => chart?.remove();
+  },[chartRef.current, pingData]);
 
   // wait until user data and profile data are loaded
   if (!userDataLoaded || !profileData) {
@@ -134,33 +123,7 @@ export default function Stats() {
     let lecturePings = pingData.filter(ping => ping.lecture==45)
     console.log(lecturePings);
 
-    // fv - insert time stamps here (for pingData.ping_date) - what I'd rather do is have the lecture start time and then every 5 min
-    // const labels = [event.target.value.lecture_date];
-    // set 'lectureEnd' equal to the time of the last ping
-    // for (i=0; i<lectureEnd; i+=5) {
-    //     labels.append(i);
-    // }
 
-  // set up data for chart
-  // const chartData = {
-  //   labels,
-  //   datasets: [
-  //     {
-  //       label: 'Lecture ' + selectedLecture.lecture_name,
-  //       // set ping data for chart
-  //       data: labels.map(() => pingData.ping_date({ min: -1000, max: 1000 })),
-  //       borderColor: 'rgb(255, 99, 132)',
-  //       backgroundColor: 'rgba(255, 99, 132, 0.5)',
-  //     },
-      // fv - may want to come back and add the option of displaying multiple lectures at once
-      // {
-      //   label: 'Dataset 2',
-      //   data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      //   borderColor: 'rgb(53, 162, 235)',
-      //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      // },
-    // ],
-  // };
 
 }
 
@@ -218,7 +181,9 @@ return (
               </select>
 
               {/* fv - update this to only display after lecture is chosen */}
-              {/* <Line options={chartOptions} data={chartData} />; */}
+              {/* chart */}
+              <p></p>
+              <div ref={chartRef}></div>
             </div>
           }
 
