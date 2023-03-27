@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .models import Ping, Lecture, Module, Threshold, Reset, User_Module
-from tcapp.serializers import ModuleSerializer, LectureSerializer, PingSerializer, AllPingSerializer, ProfileSerializer, ResetSerializer
+from tcapp.serializers import ModuleSerializer, LectureSerializer, PingSerializer, ProfileSerializer, ResetSerializer
 
 # Views
 
@@ -21,64 +21,12 @@ from tcapp.serializers import ModuleSerializer, LectureSerializer, PingSerialize
 #     return render(request, 'admin/csv_upload.html',)
 
 # fv - could remove later now that this is done through Next; leaving for ability to see Django side for now
-def index(request):
-    if request.user.is_authenticated:
-        return redirect('tcapp:lectures')
-    else:
-        return render(request, 'tcapp/index.html',)
-
 @csrf_exempt
 def api_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         return HttpResponse("Hello, " + username)
-
-# def login(request):
-#     if request.user.is_authenticated:
-#         return redirect('tcapp/lectures')
-
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username = username, password = password)
-
-#         if user is not None:
-#             login(request, user)
-#             return redirect('tcapp/lectures')
-#         else:
-#             form = AuthenticationForm()
-#             return render(request,'tcapp:login',{'form':form})
-#     else:
-#         form = AuthenticationForm()
-#         return render(request, 'tcapp:login', {'form':form})
-
-@login_required
-def submit(request, module_name, lecture_name):
-    pdate=timezone.now()
-    module = get_object_or_404(Module, module_name=module_name)
-    lecture = get_object_or_404(Lecture, lecture_name=lecture_name)
-    student = request.user
-    if request.method=="POST":
-        Ping.objects.create(ping_date=pdate, student=student, lecture=lecture)
-        return render(request, 'tcapp/submit.html', {'module': module, 'lecture': lecture})
-    else:
-        # fv - is this working?
-        return HttpResponseRedirect(reverse('tcapp:lecture_detail', args=(module.module_name, lecture.lecture_name)))
-
-class LecturesView(generic.ListView):
-    template_name = 'tcapp/lectures.html'
-    context_object_name = 'module_list'
-    def get_queryset(self):
-        """Return the lists of modules."""
-        return Module.objects.order_by('module_name').filter(is_active = True)
-
-def lecture_detail(request, module_name, lecture_name):
-    module = get_object_or_404(Module, module_name=module_name)
-    lecture = get_object_or_404(Lecture, lecture_name=lecture_name)
-    return render(request, 'tcapp/lecture.html', {'module': module, 'lecture': lecture})
-
-
 
 # API views #
 class ProfileView(APIView):
@@ -116,9 +64,10 @@ class ModuleViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_superuser:
+            # return all modules
             return Module.objects.all().order_by('module_shortname')
         elif user.is_staff:
-            # return modules that the instructor teaches
+            # return only modules that the instructor teaches
             return user.module_set.all().order_by('module_shortname')
         else:
             # return active modules for which the logged-in user is enrolled
@@ -133,8 +82,6 @@ class PingView(APIView):
     """
     API endpoint that captures data from a ping submission.
     """
-    permission_classes = [permissions.IsAuthenticated]
-
     def post(self, request, lecture_name, format=None):
         student = self.request.user
         lecture = Lecture.objects.get(lecture_name=lecture_name)
@@ -144,25 +91,12 @@ class PingView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    # queryset = Ping.objects.all().order_by('ping_date')
-    # on saving/deleting hooks: https://stackoverflow.com/questions/35990589/django-rest-framework-setting-default-primarykeyrelated-field-value/35990729#35990729
-    # def perform_create(self, serializer):
-    #     student = self.request.user
-    #     lecture = Lecture.objects.get(self.kwargs['lecture_name'])
-    #     serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
-    # def perform_update(self, serializer):
-    #     student = self.request.user
-    #     lecture = Lecture.objects.get(self.kwargs['lecture_name'])
-    #     serializer.save(ping_date=datetime.now(), lecture=lecture, student=student)
+    
+    def get(self, request, lecture_name, format=None):
+        lecture = Lecture.objects.get(lecture_name=lecture_name)
+        pings = Ping.objects.filter(lecture=lecture).order_by('ping_date')
+        return Response(PingSerializer(pings, many=True).data)
 
-
-class AllPingViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that holds all ping data.
-    """
-    # fv - think about restricting this to just the lecturer's ping data?
-    queryset = Ping.objects.all().order_by('lecture')
-    serializer_class = AllPingSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

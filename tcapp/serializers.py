@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User, Module, Lecture, Ping, Reset
 
+
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -33,22 +34,10 @@ class PingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ping
         fields = ['ping_date', 'student', 'lecture']
-        # put in read-only fields so they're not required at POST but are still included 
-        # https://www.django-rest-framework.org/api-guide/fields/
-        # read_only_fields = ['ping_date', 'student', 'lecture']
-
-
-class AllPingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ping
-        # depth = 1
-        fields = ['ping_date', 'student', 'lecture']
 
 
 class ResetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reset
         fields = ['reset_time', 'instructor', 'lecture']
-        # put in read-only field for date/time so it's not required at POST but is still included 
-        # read_only_fields = ['reset_time', 'lecture']
 

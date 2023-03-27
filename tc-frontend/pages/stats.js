@@ -31,21 +31,6 @@ export default function Stats() {
       setModuleData(data);
     }
 
-    async function getPingData() {
-      // fv - change this later to just pull in pings from certain lecture
-      const res = await fetch('http://localhost:8000/tcapp/api/pings/', {
-        headers: {
-          'Authorization': `Bearer ${userData.access_token}`,
-        },
-      });
-      const data = await res.json();
-      const parsedData = data.map(datum => {
-        datum.ping_date = new Date(datum.ping_date);
-        return datum;
-      });
-      setPingData(parsedData);
-    }
-
     async function getProfileData() {
       const res = await fetch(`http://localhost:8000/tcapp/api/profile/`, {
         headers: {
@@ -59,7 +44,6 @@ export default function Stats() {
     // once user data is populated, do other api calls
     if (userDataLoaded && userData.username) {
       getModuleData();
-      getPingData();
       getProfileData();
     }
   }, [userData]);
@@ -80,12 +64,12 @@ export default function Stats() {
       marks: [
         // fv - below not working - interval? thresholds? thresholds sets how many bins
         // fv - client side work to discard any data more than 5 minutes prior to lecture and 30 min after
-        Plot.barX(pingData, Plot.binX({fill: "count"}, {x: "ping_date"}))
+        Plot.barX(pingData, Plot.binX({ fill: "count" }, { x: "ping_date" }))
       ]
     });
     chartRef?.current?.append(chart);
     return () => chart?.remove();
-  },[chartRef.current, pingData]);
+  }, [chartRef.current, pingData]);
 
   // wait until user data and profile data are loaded
   if (!userDataLoaded || !profileData) {
@@ -119,13 +103,21 @@ export default function Stats() {
     console.log(event.target.value);
     setSelectedLecture(event.target.value);
 
-    // fv - stop hard coding lecture here and instead use event.target.value (fix serializer or view for allPing data to use username and lecture_name)
-    let lecturePings = pingData.filter(ping => ping.lecture==45)
-    console.log(lecturePings);
+    // target correct API endpoint and bring in pings for chosen lecture
+    const res = await fetch(`http://localhost:8000/tcapp/api/lectures/${event.target.value}/pings/`, {
+      headers: {
+        'Authorization': `Bearer ${userData.access_token}`,
+      },
+    });
+    const data = await res.json();
+    const parsedData = data.map(datum => {
+      datum.ping_date = new Date(datum.ping_date);
+      return datum;
+    });
+    setPingData(parsedData);
+    console.log(pingData);
+  }
 
-
-
-}
 
 return (
   <Layout>
