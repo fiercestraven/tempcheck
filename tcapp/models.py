@@ -14,6 +14,7 @@ class Module(models.Model):
     module_description = models.TextField(default = "", blank=True)
     # https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.ForeignKey
     # protect on deletion so that deleting a user does not eliminate associated modules
+    # limit choices: https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.ForeignKey.limit_choices_to
     instructor = models.ForeignKey(User, on_delete=models.PROTECT, limit_choices_to={'is_staff': True},)
     is_active = models.BooleanField(default=True)
     def __str__(self):
