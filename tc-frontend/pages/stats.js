@@ -51,21 +51,26 @@ export default function Stats() {
   // set up chart
   // https://observablehq.com/@observablehq/plot?collection=@observablehq/plot
   useEffect(() => {
-    console.debug("🤪 called charting effect");
     console.debug("pingData is:", pingData);
     console.debug("chartRef is:", chartRef);
     const chart = Plot.plot({
-      x: {
-        round: true
-      },
-      color: {
-        scheme: "YlGnBu"
-      },
+      style: {background: 'transparent'}, 
       marks: [
-        // fv - below not working - interval? thresholds? thresholds sets how many bins
-        // fv - client side work to discard any data more than 5 minutes prior to lecture and 30 min after
-        Plot.barX(pingData, Plot.binX({ fill: "count" }, { x: "ping_date" }))
-      ]
+        // Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2}),
+        Plot.dot(pingData, Plot.binX(
+          {r: 'count'},
+          {x: 'normalized'}
+        )),
+        Plot.frame({stroke: 'white'}),
+        Plot.axisX({label: 'UTC Time'})
+      ],
+      insetLeft: 50,
+      insetRight: 50,
+      x: {
+        type: 'utc',
+        // set tick mark interval to 5 min
+        interval: 5 * 60 * 1000,
+      }
     });
     chartRef?.current?.append(chart);
     return () => chart?.remove();
@@ -96,7 +101,7 @@ export default function Stats() {
     });
     const data = await res.json();
     setLectureData(data);
-    console.log(data);
+    console.log("Lecture data is ", data);
   }
 
   async function handleLectureChange(event) {
@@ -110,8 +115,16 @@ export default function Stats() {
       },
     });
     const data = await res.json();
+    // turn ping date into an actual date for graphing purposes
     const parsedData = data.map(datum => {
       datum.ping_date = new Date(datum.ping_date);
+      datum.normalized = new Date(
+        // ignoring year, month, day - any given lecture occurs on only one day
+        // convert hours and minutes into milliseconds
+        (datum.ping_date.getUTCHours() * 60 * 60 * 1000) +
+        (datum.ping_date.getUTCMinutes() * 60 * 1000)
+        // ignoring seconds - too granular for the chart
+      )
       return datum;
     });
     setPingData(parsedData);
