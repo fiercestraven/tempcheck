@@ -14,6 +14,7 @@ export default function Stats() {
   const [moduleData, setModuleData] = useState([]);
   const [lectureData, setLectureData] = useState();
   const [pingData, setPingData] = useState([]);
+  const [pingFetchComplete, setPingFetchComplete] = useState(false);
   const [profileData, setProfileData] = useState();
   const [selectedModule, setSelectedModule] = useState();
   const [selectedLecture, setSelectedLecture] = useState();
@@ -54,15 +55,15 @@ export default function Stats() {
     console.debug("pingData is:", pingData);
     console.debug("chartRef is:", chartRef);
     const chart = Plot.plot({
-      style: {background: 'transparent'}, 
+      style: { background: 'transparent' },
       marks: [
         // Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2}),
         Plot.dot(pingData, Plot.binX(
-          {r: 'count'},
-          {x: 'normalized'}
+          { r: 'count' },
+          { x: 'normalized' }
         )),
-        Plot.frame({stroke: 'white'}),
-        Plot.axisX({label: 'UTC Time'})
+        Plot.frame({ stroke: 'white' }),
+        Plot.axisX({ label: 'UTC Time' })
       ],
       insetLeft: 50,
       insetRight: 50,
@@ -128,77 +129,86 @@ export default function Stats() {
       return datum;
     });
     setPingData(parsedData);
+    setPingFetchComplete(true);
     console.log(pingData);
   }
 
 
-return (
-  <Layout>
-    <Head>
-      <title>Stats</title>
-    </Head>
+  return (
+    <Layout>
+      <Head>
+        <title>Stats</title>
+      </Head>
 
-    <div className="container content">
-      <header>
-        {/* fv  - insert different stats header here */}
-        <Header />
-      </header>
+      <div className="container content">
+        <header>
+          {/* fv  - insert different stats header here */}
+          <Header />
+        </header>
 
-      {(userData.username && moduleData.length) &&
-        <div>
-          {/* menu for modules here */}
-          {/* https://getbootstrap.com/docs/5.2/forms/select/ */}
-          <select
-            className="form-select"
-            aria-label="Module selection"
-            onChange={handleModuleChange}
-          >
-            {/* on using defaultValue: https://stackoverflow.com/questions/44786669/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting */}
-            <option defaultValue>Select a Module</option>
-            {moduleData.map((module) => (
-              <option value={module.module_shortname} key={module.module_shortname}>
-                {module.module_shortname}
-              </option>
-            ))}
-            {!moduleData.length &&
-              <option>There are no modules to display.</option>
-            }
-          </select>
+        {(userData.username && moduleData.length) &&
+          <div>
+            {/* menu for modules here */}
+            {/* https://getbootstrap.com/docs/5.2/forms/select/ */}
+            <select
+              className="form-select"
+              aria-label="Module selection"
+              onChange={handleModuleChange}
+            >
+              {/* on using defaultValue: https://stackoverflow.com/questions/44786669/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting */}
+              <option defaultValue>Select a Module</option>
+              {moduleData.map((module) => (
+                <option value={module.module_shortname} key={module.module_shortname}>
+                  {module.module_shortname}
+                </option>
+              ))}
+              {!moduleData.length &&
+                <option>There are no modules to display.</option>
+              }
+            </select>
 
-          {/* menu for lectures here */}
-          {lectureData?.lectures &&
-            <div>
-              <p></p>
-              <select
-                className="form-select"
-                aria-label="Lecture selection"
-                onChange={handleLectureChange}
-              >
-                <option defaultValue>Select a Lecture</option>
-                {lectureData.lectures.map((lecture) => (
-                  <option value={lecture.lecture_name} key={lecture.lecture_name}>
-                    {lecture.lecture_name}
-                  </option>
-                ))}
-                {!lectureData.lectures.length &&
-                  <option>There are no lectures to display.</option>
+            {/* menu for lectures here */}
+            {lectureData?.lectures &&
+              <div>
+                <p></p>
+                <select
+                  className="form-select"
+                  aria-label="Lecture selection"
+                  onChange={handleLectureChange}
+                >
+                  <option defaultValue>Select a Lecture</option>
+                  {lectureData.lectures.map((lecture) => (
+                    <option value={lecture.lecture_name} key={lecture.lecture_name}>
+                      {lecture.lecture_name}
+                    </option>
+                  ))}
+                  {!lectureData.lectures.length &&
+                    <option>There are no lectures to display.</option>
+                  }
+                </select>
+
+                {/* chart here */}
+                {pingData.length &&
+                  <div>
+                    <p></p>
+                    <div ref={chartRef}></div>
+                  </div>
                 }
-              </select>
 
-              {/* fv - update this to only display after lecture is chosen */}
-              {/* chart */}
-              <p></p>
-              <div ref={chartRef}></div>
-            </div>
-          }
+                {/* if no pings for chosen lecture, display message */}
+                {pingFetchComplete && !pingData.length &&
+                  <p className="user-message">There are no pings associated with this lecture.</p>
+                }
+              </div>
+            }
 
-          <p></p>
-          <Link href="/">← Home</Link>
-          <p></p>
-          <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
-        </div>
-      }
-    </div>
-  </Layout>
-);
+            <p></p>
+            <Link href="/">← Home</Link>
+            <p></p>
+            <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
+          </div>
+        }
+      </div>
+    </Layout>
+  );
 }

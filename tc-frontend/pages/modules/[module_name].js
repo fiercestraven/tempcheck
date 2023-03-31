@@ -41,7 +41,9 @@ export default function Module() {
   return (
     <Layout>
       <Head>
+        {/* welcome user by name or by 'visitor' */}
         <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.first_name || "Visitor"}!</h3>
+        {/* assign title to head, supplying generic version if no module name available */}
         <title>{moduleData?.module_name || "Module Details"}</title>
       </Head>
 
