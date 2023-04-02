@@ -157,14 +157,8 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'tcapp-auth'
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions, or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # added per dj-rest-auth docs
+        # fv - added this per dj-rest-auth docs; not sure if the session one will break anythihng
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
