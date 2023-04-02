@@ -57,21 +57,21 @@ export default function Stats() {
     const chart = Plot.plot({
       style: { background: 'transparent' },
       marks: [
-        // Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2}),
+        // Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2, thresholds: d3.timeMinute.every(1)}),
         Plot.dot(pingData, Plot.binX(
           { r: 'count' },
-          { x: 'normalized' }
+           { x: 'normalized', thresholds: d3.timeMinute.every(1) }
         )),
         Plot.frame({ stroke: 'white' }),
-        Plot.axisX({ label: 'UTC Time' })
+        // make marks every 5 min on x-axis
+        Plot.axisX({ 
+          label: 'UTC Time', 
+          interval: d3.timeMinute.every(5)
+        }),
       ],
-      insetLeft: 50,
-      insetRight: 50,
-      x: {
-        type: 'utc',
-        // set tick mark interval to 5 min
-        interval: 5 * 60 * 1000,
-      }
+      // provide visual padding for first and last pings
+      insetLeft: 30,
+      insetRight: 30,
     });
     chartRef?.current?.append(chart);
     return () => chart?.remove();

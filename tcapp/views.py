@@ -80,7 +80,7 @@ class ModuleViewSet(viewsets.ModelViewSet):
 
 class PingView(APIView):
     """
-    API endpoint that captures data from a ping submission.
+    API endpoint that captures data from a ping submission or displays ping data for a lecture.
     """
     def post(self, request, lecture_name, format=None):
         student = self.request.user
