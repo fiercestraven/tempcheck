@@ -61,7 +61,27 @@ class UserAdmin(StaffPermission, UserAdmin):
     def get_readonly_fields(self, request, obj=None):
         if not request.user.is_superuser:
             return ('is_staff', 'is_superuser', 'last_login', 'date_joined')
+        # fix for 'NoneType' error: https://books.agiliq.com/projects/django-admin-cookbook/en/latest/uneditable_existing.html
+        if obj:
+            return []
+
+# fv - trying to troubleshoot superuser not being able to view/change users. Can delete when solved.
+    # def has_module_permission(self, request):
+    #     if request.user.is_superuser:
+    #         return True
+
+    # def has_add_permission(self, request):
+    #     if request.user.is_superuser:
+    #         return True
+    
+    # def has_view_permission(self, request, obj=None):
+    #     if request.user.is_superuser:
+    #         return True
         
+    # def has_change_permission(self, request, obj=None):
+    #     if request.user.is_superuser:
+    #         return True
+    
     def has_delete_permission(self, request, obj=None):
         # only a superuser can do any deletion
         return request.user.is_superuser
@@ -127,6 +147,7 @@ class ModuleAdmin(StaffPermission, admin.ModelAdmin):
         # if no obj given, only show change options if user is staff
         if obj is None:
             return request.user.is_staff
+        # if user is the instructor for this module, allow changes
         else:
             return request.user == obj.instructor
 
@@ -135,6 +156,7 @@ class ModuleAdmin(StaffPermission, admin.ModelAdmin):
             return True
         if obj is None:
             return request.user.is_staff
+        # if user is the instructor for this module, allow delete
         else:
             return request.user == obj.instructor
         
