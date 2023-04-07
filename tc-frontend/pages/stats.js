@@ -16,8 +16,6 @@ export default function Stats() {
   const [pingData, setPingData] = useState([]);
   const [pingFetchComplete, setPingFetchComplete] = useState(false);
   const [profileData, setProfileData] = useState();
-  const [selectedModule, setSelectedModule] = useState();
-  const [selectedLecture, setSelectedLecture] = useState();
   const router = useRouter();
   const chartRef = useRef();
 
@@ -57,15 +55,15 @@ export default function Stats() {
     const chart = Plot.plot({
       style: { background: 'transparent' },
       marks: [
-        // Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2, thresholds: d3.timeMinute.every(1)}),
+        // fv - remove this comment: Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2, thresholds: d3.timeMinute.every(1)}),
         Plot.dot(pingData, Plot.binX(
           { r: 'count' },
-           { x: 'normalized', thresholds: d3.timeMinute.every(1) }
+          { x: 'normalized', thresholds: d3.timeMinute.every(1) }
         )),
         Plot.frame({ stroke: 'white' }),
         // make marks every 5 min on x-axis
-        Plot.axisX({ 
-          label: 'UTC Time', 
+        Plot.axisX({
+          label: 'UTC Time',
           interval: d3.timeMinute.every(5)
         }),
       ],
@@ -92,7 +90,6 @@ export default function Stats() {
   // take user-selected data for module and look up lecture info
   async function handleModuleChange(event) {
     console.log(event.target.value);
-    setSelectedModule(event.target.value);
 
     // target correct API endpoint and bring in lectures for the chosen module
     const res = await fetch(`http://localhost:8000/tcapp/api/modules/${event.target.value}/`, {
@@ -107,7 +104,6 @@ export default function Stats() {
 
   async function handleLectureChange(event) {
     console.log(event.target.value);
-    setSelectedLecture(event.target.value);
 
     // target correct API endpoint and bring in pings for chosen lecture
     const res = await fetch(`http://localhost:8000/tcapp/api/lectures/${event.target.value}/pings/`, {
@@ -183,12 +179,13 @@ export default function Stats() {
                     </option>
                   ))}
                   {!lectureData.lectures.length &&
-                    <option>There are no lectures to display.</option>
+                    <option disabled>There are no lectures to display.</option>
                   }
                 </select>
 
                 {/* chart here */}
-                {pingData.length &&
+                {/* make sure pingData.length is a Boolean to prevent 0 being printed to page */}
+                {pingFetchComplete && !!pingData.length &&
                   <div>
                     <p></p>
                     <div ref={chartRef}></div>
@@ -197,7 +194,10 @@ export default function Stats() {
 
                 {/* if no pings for chosen lecture, display message */}
                 {pingFetchComplete && !pingData.length &&
-                  <p className="user-message">There are no pings associated with this lecture.</p>
+                  <div>
+                    <p></p>
+                    <p className="user-message">There are no pings associated with this lecture.</p>
+                  </div>
                 }
               </div>
             }

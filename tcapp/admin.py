@@ -9,6 +9,7 @@ from rest_framework.authtoken.models import TokenProxy
 from django.utils.translation import gettext_lazy as _
 
 # set basic permissions for is_staff users (delete is added in each class where required)
+# https://docs.djangoproject.com/en/4.1/topics/auth/default/#topic-authorization
 class StaffPermission(object):
     def has_module_permission(self, request):
         return request.user.is_staff
@@ -30,6 +31,7 @@ class csvImportForm(forms.Form):
 class UserAdmin(StaffPermission, UserAdmin):
     # have to use UserAdmin instead of modelAdmin and add_fieldsets because of overriding the built-in User model forms: https//docs.djangoproject.com/en/4.1/topics/auth/customizing/
     # hide fields for groups and user permissions for everyone - modify fieldsets from Django's UserAdmin
+    # Display options: https://stackoverflow.com/questions/60165306/django-admin-exclude-in-useradmin
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
@@ -65,23 +67,6 @@ class UserAdmin(StaffPermission, UserAdmin):
         if obj:
             return []
 
-# fv - trying to troubleshoot superuser not being able to view/change users. Can delete when solved.
-    # def has_module_permission(self, request):
-    #     if request.user.is_superuser:
-    #         return True
-
-    # def has_add_permission(self, request):
-    #     if request.user.is_superuser:
-    #         return True
-    
-    # def has_view_permission(self, request, obj=None):
-    #     if request.user.is_superuser:
-    #         return True
-        
-    # def has_change_permission(self, request, obj=None):
-    #     if request.user.is_superuser:
-    #         return True
-    
     def has_delete_permission(self, request, obj=None):
         # only a superuser can do any deletion
         return request.user.is_superuser
@@ -128,6 +113,7 @@ class UserAdmin(StaffPermission, UserAdmin):
                     email = fields[3],
                     is_staff = fields[4]
                 )
+            # reverse function: https://stackoverflow.com/questions/56711082/reverse-django-admin-urls
             url = reverse('admin:auth_user_changelist')
             return HttpResponseRedirect(url)
         form = csvImportForm
@@ -265,6 +251,7 @@ class PingAdmin(admin.ModelAdmin):
             return request.user == obj.lecture.module.instructor
 
 # Register models
+# unregister default User model before adding custom model: https://stackoverflow.com/questions/2552516/changing-user-modeladmin-for-django-admin#255%202554
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(Module, ModuleAdmin)

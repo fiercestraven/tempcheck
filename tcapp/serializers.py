@@ -18,6 +18,7 @@ class LectureSerializer(serializers.ModelSerializer):
 class ModuleSerializer(serializers.ModelSerializer):
     # explicitly using ProfileSerializer rather than the generic User here so that only desired fields are displayed
     instructor = ProfileSerializer()
+    # to add lectures to the serialized data; empty method defaults to 'get_lectures' here: https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield
     lectures = serializers.SerializerMethodField()
     class Meta:
         model = Module

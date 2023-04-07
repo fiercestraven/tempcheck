@@ -4,21 +4,13 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
-from django.views import generic
-from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .models import Ping, Lecture, Module, Threshold, Reset, User_Module
 from tcapp.serializers import ModuleSerializer, LectureSerializer, PingSerializer, ProfileSerializer, ResetSerializer
 
 # Views
-
-# fv - below is part of 8 Jan trial to get the csv uploader working. These weren't helping, so I commented them out.
-# def csv_upload(request):
-#     return render(request, 'admin/csv_upload.html',)
 
 # fv - could remove later now that this is done through Next; leaving for ability to see Django side for now
 @csrf_exempt
@@ -82,6 +74,7 @@ class PingView(APIView):
     """
     API endpoint that captures data from a ping submission or displays ping data for a lecture.
     """
+    # https://www.codespeedy.com/django-submit-form-data-with-post-method/
     def post(self, request, lecture_name, format=None):
         student = self.request.user
         lecture = Lecture.objects.get(lecture_name=lecture_name)
@@ -138,6 +131,7 @@ class LectureTemperatureView(APIView):
 
         # fv - later, make sure we're only pulling distinct students here to avoid student who try to sneaky multiple ping - could do at ping creation point or here
         # count number of pings since the last cutoff
+        # ping date: https://docs.python.org/3/library/datetime.html
         pcount = lec.ping_set.filter(ping_date__gt=cutoff).count()
 
         # get number of students enrolled in the module
