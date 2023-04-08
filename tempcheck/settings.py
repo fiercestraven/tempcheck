@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-# fv - add vercel or fly or whatever here when deploying
+# fv - add vercel or fly or whatever here to CORS and CSRF when deploying
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
@@ -179,10 +179,6 @@ SWAGGER_SETTINGS = {
     'LOGIN_URL': 'login',
     'LOGOUT_URL': 'logout',
 }
-
-# fv - hope to remove later? or at least change to localhost:8000 + deployment
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
 
 # fv - not sure if needed; per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

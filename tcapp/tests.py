@@ -64,7 +64,7 @@ def create_threshold():
     Create a threshold with sample data.
     """  
     testinstructor = User.objects.create(first_name="Trina", last_name="Tester", username="ttester", password="test123")
-    return User.objects.create(yellow_percentage=1.00, orange_percentage=2.00, red_percentage=3.00, instructor=testinstructor)
+    return User.objects.create(yellow_percentage=10.00, orange_percentage=20.00, red_percentage=30.00, instructor=testinstructor)
 
 def create_usermodule():
     """
