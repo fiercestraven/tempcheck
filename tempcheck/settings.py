@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-# fv - add vercel or fly or whatever here to CORS and CSRF when deploying
+# fv - add vercel/fly here to CORS and CSRF when deploying
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]

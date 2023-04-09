@@ -34,7 +34,7 @@ export default function Login() {
                         {...register("username", { required: true, minLength: 5, maxLength: 50 })}
                     />
                 </div>
-                {errors.username && <p>Username is required and must be between 3-50 characters.</p>}
+                {errors.username && <p>Username is required and must be between 5-50 characters.</p>}
                 <div>
                     <div className="mr-2 mt-2 mb-0 form-label"><label htmlFor="password">Password:</label></div>
                     <input
