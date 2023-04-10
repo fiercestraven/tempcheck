@@ -57,10 +57,10 @@ class ModuleViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_superuser:
             # return all modules
-            return Module.objects.all().order_by('module_shortname')
+            return Module.objects.filter(is_active=True).order_by('module_shortname')
         elif user.is_staff:
             # return only modules that the instructor teaches
-            return user.module_set.all().order_by('module_shortname')
+            return user.module_set.filter(is_active=True).order_by('module_shortname')
         else:
             # return active modules for which the logged-in user is enrolled
             # query constructed using shell
