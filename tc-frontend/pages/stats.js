@@ -55,7 +55,7 @@ export default function Stats() {
     const chart = Plot.plot({
       style: { background: 'transparent' },
       marks: [
-        // fv - remove this comment: Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2, thresholds: d3.timeMinute.every(1)}),
+        // fv - remove this comment: Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2, thresholds: d3.timeMinute.every(1)}),Plot.frame({stroke: 'white'}),
         Plot.dot(pingData, Plot.binX(
           { r: 'count' },
           { x: 'normalized', thresholds: d3.timeMinute.every(1) }

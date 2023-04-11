@@ -3,7 +3,6 @@ import { createContext, useEffect, useState } from 'react';
 export const CurrentUserContext = createContext(null);
 
 export function CurrentUserContextWrapper({ children }) {
-    // fv - consider adding [userData] as second parameter for useEffect function in order to optimize calls to local storage
     const [userData, setUserData] = useState({});
     const [userDataLoaded, setUserDataLoaded] = useState(false);
 
@@ -12,6 +11,7 @@ export function CurrentUserContextWrapper({ children }) {
         setUserData(data || {});
         setUserDataLoaded(true);
         console.debug('Got user data.', data);
+    // fv - consider adding [userData] as a dependency for useEffect function in order to optimize calls to local storage
     }, []);
 
     async function loginUser(username, password) {

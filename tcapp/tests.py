@@ -148,3 +148,26 @@ class APITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("lecture_description", response.data)
 
+    # test lecture details are not returned for a lecture in a module that an instructor does not teach
+    # def test_lecture_details_not_instructor(self):
+    #     self.client.force_authenticate(user=self.instructor_a)
+    #     response = self.client.get("http://localhost:8000/tcapp/api/lectures/module_c_lecture_1/")
+    #     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    # test lecture details are returned for a lecture in a module that a student is enrolled in
+    def test_lecture_details_student(self):
+        self.client.force_authenticate(user=self.student_a)
+        response = self.client.get("http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("lecture_description", response.data)
+
+    # test lecture details are not returned for a lecture in a module that a student is not enrolled in
+    # def test_lecture_details_not_student(self):
+    #     self.client.force_authenticate(user=self.student_a)
+    #     response = self.client.get("http://localhost:8000/tcapp/api/lectures/module_c_lecture_1/")
+    #     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    # test no lecture details are returned for an anonymous user
+    def test_anonymous_users_see_no_module_details(self):
+       response=self.client.get("http://localhost:8000/tcapp/api/lectures/module_a_lecture_1")
+       self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)

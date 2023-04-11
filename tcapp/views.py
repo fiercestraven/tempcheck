@@ -42,9 +42,23 @@ class LectureViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows lectures to be viewed or edited.
     """
-    queryset = Lecture.objects.all().order_by('lecture_name')
-    serializer_class = LectureSerializer
+    def get_queryset(self):
+        user = self.request.user
+        modules = user.module_set.filter(is_active=True).order_by('module_shortname')
+        if user.is_superuser:
+            # return all lectures
+            return Lecture.objects.all()
+        elif user.is_staff:
+            # return only lectures for active modules that the instructor teaches
+            return Lecture.objects.all()
+            # return Lecture.objects.filter(module must be in modules)
+        else:
+            # return lectures for active modules for which the user is enrolled
+            # query constructed using shell
+            return Lecture.objects.all()
+            # return Module.objects.filter(user_module__user=user, is_active=True).order_by('module_shortname')
     lookup_field = 'lecture_name'
+    serializer_class = LectureSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
@@ -56,14 +70,14 @@ class ModuleViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_superuser:
-            # return all modules
-            return Module.objects.filter(is_active=True).order_by('module_shortname')
+            # return all modules, including inactive modules
+            return Module.objects.all().order_by('module_shortname')
         elif user.is_staff:
             # return only modules that the instructor teaches
             return user.module_set.filter(is_active=True).order_by('module_shortname')
         else:
             # return active modules for which the logged-in user is enrolled
-            # query constructed using shell
+            # query constructed in the shell
             return Module.objects.filter(user_module__user=user, is_active=True).order_by('module_shortname')
     lookup_field = 'module_shortname'
     serializer_class = ModuleSerializer

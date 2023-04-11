@@ -10,7 +10,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 # on using 'basename' below to quiet to an error due to no queryset in the View: https://www.django-rest-framework.org/api-guide/routers/
 router.register(r'modules', views.ModuleViewSet, basename='modules')
-router.register(r'lectures', views.LectureViewSet)
+router.register(r'lectures', views.LectureViewSet, basename='lectures')
 
 
 app_name ="tcapp"

@@ -148,6 +148,7 @@ export default function Lecture() {
                                     <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit">Reset Temp</button>
                                 }
 
+                                {/* https://sebhastian.com/react-disable-button/ */}
                                 {!profileData?.is_staff &&
                                     <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pingComplete}>Ping</button>
                                 }
