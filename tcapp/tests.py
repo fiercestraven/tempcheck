@@ -32,7 +32,7 @@ class APITests(APITestCase):
             Lecture.objects.create(
                module=module,
                lecture_name=f"{module.module_shortname}_lecture_{n}",
-               lecture_description=f"Test lecture {n} for module {module.module_shortname}",
+               lecture_description=f"Test lecture {n} for {module.module_shortname}",
                lecture_date=datetime.date.today(),
             )
         
@@ -43,6 +43,11 @@ class APITests(APITestCase):
                  module=module,
                  user=student,
               )
+        
+        # Pings
+        cls.ping_a=Ping.objects.create(ping_date=datetime.datetime.now(), lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"), student=cls.student_a)
+        cls.ping_b=Ping.objects.create(ping_date=datetime.datetime.now(), lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"), student=cls.student_b)
+
 
     # MODULE TESTS
     # test instructor sees modules they teach
@@ -169,5 +174,95 @@ class APITests(APITestCase):
 
     # test no lecture details are returned for an anonymous user
     def test_anonymous_users_see_no_module_details(self):
-       response=self.client.get("http://localhost:8000/tcapp/api/lectures/module_a_lecture_1")
-       self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+        response=self.client.get("http://localhost:8000/tcapp/api/lectures/module_a_lecture_1")
+        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
+
+    # PING TESTS
+    # test instructors can see all pings for a given lecture
+    def test_instructor_can_see_pings(self):
+        self.client.force_authenticate(user=self.instructor_a)
+        response = self.client.get("http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/pings/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Ping.objects.count(), len(response.data))
+
+    @unittest.expectedFailure #fv - fix this so that instructors can't submit pings
+    # test instructor cannot submit a ping
+    def test_instructor_cannot_submit_ping(self):
+        self.client.force_authenticate(user=self.instructor_a)
+        response = self.client.get("http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/pings/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # attempt to submit a ping via POST
+        response = self.client.post("http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/pings/", json={
+           'ping_date': datetime.datetime.now(),
+            'lecture': Lecture.objects.create(
+               module=self.module_a,
+               lecture_name="ping_test_lecture_name",
+               lecture_description=f"Ping test description",
+               lecture_date=datetime.date.today(),
+           ),
+           'student': self.client,
+        }, headers={
+           'Authorization': 'Bearer {self.client.access_token}',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        })
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    # test students cannot see any pings
+    def test_student_cannot_see_pings(self):
+        self.client.force_authenticate(user=self.student_a)
+        response = self.client.get("http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/pings/")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    # test student can submit a ping for a lecture of a module they're enrolled in
+    def test_student_can_submit_ping(self):
+        self.client.force_authenticate(user=self.student_a)
+
+        # submit ping with POST: https://www.django-rest-framework.org/api-guide/testing/
+        response = self.client.post("http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/pings/", json={
+           'ping_date': datetime.datetime.now(),
+            'lecture': Lecture.objects.create(
+               module=self.module_a,
+               lecture_name="ping_test_lecture_name",
+               lecture_description=f"Ping test description",
+               lecture_date=datetime.date.today(),
+           ),
+           'student': self.client,
+        }, headers={
+           'Authorization': 'Bearer {self.client.access_token}',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        })
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        # fv does this make sense below? Or try an assertIn? Or skip?
+        self.assertEqual(Ping.objects.count(), len(response.data))
+
+    # test student can't submit a ping for a lecture of a module they're not enrolled in
+    @unittest.expectedFailure #fv - need to fix this in general
+    def test_student_cannot_submit_ping(self):
+        self.client.force_authenticate(user=self.student_a)
+
+        # submit ping with POST: https://www.django-rest-framework.org/api-guide/testing/
+        response = self.client.post("http://localhost:8000/tcapp/api/lectures/module_c_lecture_1/pings/", json={
+           'ping_date': datetime.datetime.now(),
+            'lecture': Lecture.objects.create(
+               module=self.module_c,
+               lecture_name="ping_test_lecture_name",
+               lecture_description=f"Ping test description",
+               lecture_date=datetime.date.today(),
+           ),
+           'student': self.client,
+        }, headers={
+           'Authorization': 'Bearer {self.client.access_token}',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        })
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+
+
+
+
+

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import HTTP_200_OK, HTTP_403_FORBIDDEN
 from rest_framework.views import APIView
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -100,10 +100,13 @@ class PingView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def get(self, request, lecture_name, format=None):
+        user = self.request.user
         lecture = Lecture.objects.get(lecture_name=lecture_name)
         pings = Ping.objects.filter(lecture=lecture).order_by('ping_date')
-        return Response(PingSerializer(pings, many=True).data)
-
+        if user.is_superuser or user.is_staff:
+            return Response(PingSerializer(pings, many=True).data)
+        else:
+            return Response(status=HTTP_403_FORBIDDEN)
     permission_classes = [permissions.IsAuthenticated]
 
 
