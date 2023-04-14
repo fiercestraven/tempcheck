@@ -51,37 +51,13 @@ class APITests(APITestCase):
             cls.student_c,
             cls.student_d,
             cls.student_e,
+            cls.student_f,
         ):
             for module in (cls.module_a, cls.module_b):
                 User_Module.objects.create(
                     module=module,
                     user=student,
                 )
-
-        # Pings
-        cls.ping_a = Ping.objects.create(
-            ping_date=datetime.datetime.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
-            student=cls.student_a,
-        )
-        cls.ping_b = Ping.objects.create(
-            ping_date=datetime.datetime.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
-            student=cls.student_b,
-        )
-
-        # Resets
-        cls.reset_a = Reset.objects.create(
-            reset_time=datetime.datetime.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
-            instructor=cls.instructor_a,
-        )
-
-        cls.reset_b = Reset.objects.create(
-            reset_time=datetime.datetime.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
-            instructor=cls.instructor_b,
-        )
 
     # MODULE TESTS
     # admin user can see all modules
@@ -327,16 +303,6 @@ class APITests(APITestCase):
         # submit ping with POST: https://www.django-rest-framework.org/api-guide/testing/
         response = self.client.post(
             "http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/pings/",
-            json={
-                "ping_date": datetime.datetime.now(),
-                "lecture": Lecture.objects.create(
-                    module=self.module_a,
-                    lecture_name="ping_test_lecture_name",
-                    lecture_description=f"Ping test description",
-                    lecture_date=datetime.date.today(),
-                ),
-                "student": self.client,
-            },
             headers={
                 "Authorization": "Bearer {self.client.access_token}",
                 "Content-Type": "application/json",
@@ -344,8 +310,7 @@ class APITests(APITestCase):
             },
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        # fv does this make sense below? Or try an assertIn? Or skip?
-        self.assertEqual(Ping.objects.count(), len(response.data))
+        self.assertEqual(1, Ping.objects.count())
 
     # test student can't submit a ping for a lecture of a module they're not enrolled in
     @unittest.expectedFailure  # fv - need to fix this in general
@@ -355,16 +320,6 @@ class APITests(APITestCase):
         # submit ping with POST: https://www.django-rest-framework.org/api-guide/testing/
         response = self.client.post(
             "http://localhost:8000/tcapp/api/lectures/module_c_lecture_1/pings/",
-            json={
-                "ping_date": datetime.datetime.now(),
-                "lecture": Lecture.objects.create(
-                    module=self.module_c,
-                    lecture_name="ping_test_lecture_name",
-                    lecture_description=f"Ping test description",
-                    lecture_date=datetime.date.today(),
-                ),
-                "student": self.client,
-            },
             headers={
                 "Authorization": "Bearer {self.client.access_token}",
                 "Content-Type": "application/json",
@@ -384,16 +339,6 @@ class APITests(APITestCase):
     def test_anonymous_users_cannot_submit_ping(self):
         response = self.client.post(
             "http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/pings/",
-            json={
-                "ping_date": datetime.datetime.now(),
-                "lecture": Lecture.objects.create(
-                    module=self.module_a,
-                    lecture_name="ping_anon_test_lecture_name",
-                    lecture_description=f"Ping test description",
-                    lecture_date=datetime.date.today(),
-                ),
-                "student": self.client,
-            },
             headers={
                 "Authorization": "Bearer {self.client.access_token}",
                 "Content-Type": "application/json",
@@ -409,16 +354,6 @@ class APITests(APITestCase):
 
         response = self.client.post(
             "http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/resets/",
-            json={
-                "reset_time": datetime.datetime.now(),
-                "lecture": Lecture.objects.create(
-                    module=self.module_a,
-                    lecture_name="reset_test_lecture_name",
-                    lecture_description=f"Reset test description",
-                    lecture_date=datetime.date.today(),
-                ),
-                "instructor": self.client,
-            },
             headers={
                 "Authorization": "Bearer {self.client.access_token}",
                 "Content-Type": "application/json",
@@ -434,16 +369,6 @@ class APITests(APITestCase):
 
         response = self.client.post(
             "http://localhost:8000/tcapp/api/lectures/module_c_lecture_1/resets/",
-            json={
-                "reset_time": datetime.datetime.now(),
-                "lecture": Lecture.objects.create(
-                    module=self.module_a,
-                    lecture_name="reset_test_lecture_name",
-                    lecture_description=f"Reset test description",
-                    lecture_date=datetime.date.today(),
-                ),
-                "instructor": self.client,
-            },
             headers={
                 "Authorization": "Bearer {self.client.access_token}",
                 "Content-Type": "application/json",
@@ -459,16 +384,6 @@ class APITests(APITestCase):
 
         response = self.client.post(
             "http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/resets/",
-            json={
-                "reset_time": datetime.datetime.now(),
-                "lecture": Lecture.objects.create(
-                    module=self.module_a,
-                    lecture_name="reset_test_lecture_name",
-                    lecture_description=f"Reset test description",
-                    lecture_date=datetime.date.today(),
-                ),
-                "instructor": User.objects.get(username="instructor_a"),
-            },
             headers={
                 "Authorization": "Bearer {self.client.access_token}",
                 "Content-Type": "application/json",
@@ -481,16 +396,6 @@ class APITests(APITestCase):
     def test_anonymous_users_cannot_submit_reset(self):
         response = self.client.post(
             "http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/resets/",
-            json={
-                "reset_time": datetime.datetime.now(),
-                "lecture": Lecture.objects.create(
-                    module=self.module_a,
-                    lecture_name="reset_anon_test_lecture_name",
-                    lecture_description=f"Reset test description",
-                    lecture_date=datetime.date.today(),
-                ),
-                "instructor": User.objects.get(username="instructor_a"),
-            },
             headers={
                 "Authorization": "Bearer {self.client.access_token}",
                 "Content-Type": "application/json",
@@ -605,5 +510,27 @@ class APITests(APITestCase):
         self.assertEqual(1, response.data)
 
         # submit another ping to cross second threshold and then check temperature is equal to 2
+        Ping.objects.create(
+            ping_date=datetime.datetime.now(),
+            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            student=User.objects.get(username="student_a"),
+        )
+
+        # check new temp is equal to 2
+        response = self.client.get(
+            "http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/temperature/"
+        )
+        self.assertEqual(2, response.data)
 
         # submit another ping to cross third threshold and then check temperature is equal to 3
+        Ping.objects.create(
+            ping_date=datetime.datetime.now(),
+            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            student=User.objects.get(username="student_a"),
+        )
+
+        # check new temp is equal to 3
+        response = self.client.get(
+            "http://localhost:8000/tcapp/api/lectures/module_a_lecture_1/temperature/"
+        )
+        self.assertEqual(3, response.data)
