@@ -62,6 +62,7 @@ class APITests(APITestCase):
 
     # PROFILE TESTS
     # profile API returns profile data if a user is logged in
+    # fv - is there a way to test more specifically that student_a and instructor_a's info is being returned? Tests fail
     def test_profile_data_authenticated(self):
         with self.subTest(who=self.student_a):
             self.client.force_authenticate(user=self.student_a)

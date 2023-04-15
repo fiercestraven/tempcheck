@@ -33,10 +33,10 @@ export default function Footer() {
             }
         }
 
-            if (userDataLoaded && userData) {
-                getProfileData();
-            }
-        }, [userData, router.query]);
+        if (userDataLoaded && userData) {
+            getProfileData();
+        }
+    }, [userData, router.query]);
 
     if (!userDataLoaded) {
         return (
@@ -48,17 +48,21 @@ export default function Footer() {
         <div>
             {profileData && profileData.is_staff &&
                 <div>
-                    <Link href="/stats">Stats</Link>
+                    <div>
+                        <Link href="/stats">Stats</Link>
+                    </div>
+
+
+                    <p></p>
+                    <Link href="http://localhost:8000/admin">Admin</Link>
+                    <p></p>
                 </div>
             }
-
-            <p></p>
-            <Link href="http://localhost:8000/admin">Admin</Link>
-            <p></p>
 
             <div>
                 <Copyright />
             </div>
+
         </div>
     );
 }
