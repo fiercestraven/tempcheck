@@ -107,6 +107,7 @@ class PingView(APIView):
         student = self.request.user
         lecture = Lecture.objects.get(lecture_name=lecture_name)
 
+        # ensure that students can only submit pings for lectures in modules they're enrolled in (query built using the shell)
         if not lecture.module.user_module_set.filter(user=student).exists():
             return Response(status=status.HTTP_403_FORBIDDEN)
 

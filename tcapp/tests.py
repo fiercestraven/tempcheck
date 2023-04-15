@@ -60,6 +60,27 @@ class APITests(APITestCase):
                     user=student,
                 )
 
+    # PROFILE TESTS
+    # profile API returns profile data if a user is logged in
+    def test_profile_data_authenticated(self):
+        with self.subTest(who=self.student_a):
+            self.client.force_authenticate(user=self.student_a)
+            response = self.client.get("/tcapp/api/profile/")
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertIn("last_name", response.data)
+
+        with self.subTest(who=self.instructor_a):
+            self.client.force_authenticate(user=self.instructor_a)
+            response = self.client.get("/tcapp/api/profile/")
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertIn("last_name", response.data)
+
+    # profile API does not return data if nobody is logged in
+    def test_profile_data_unauthenticated(self):
+        response = self.client.get("/tcapp/api/profile/")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertNotIn("last_name", response.data)
+
     # MODULE TESTS
     # admin user can see all modules
     def test_admin_see_all_modules(self):
