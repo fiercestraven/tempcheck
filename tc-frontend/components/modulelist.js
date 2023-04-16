@@ -22,7 +22,7 @@ export default function ModuleList() {
         if (userDataLoaded && userData.username) {
             getModuleData();
         }
-    }, [userData]);
+    }, [userData, router.query]);
 
     if (!userDataLoaded) {
         return (

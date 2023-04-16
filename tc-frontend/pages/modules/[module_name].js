@@ -19,11 +19,18 @@ export default function Module() {
           'Authorization': `Bearer ${userData.access_token}`,
         },
       });
-      const data = await res.json();
-      setModuleData(data);
+      // if student/instructor not associated with module, re-route to user's modules page
+      if (res.status == 404) {
+        router.push("/modules");
+      }
+      else {
+        const data = await res.json();
+        setModuleData(data);
+      }
     }
 
-    if (userDataLoaded && userData) {
+    // only get module data after the module name is resolved
+    if (userDataLoaded && userData && router.query.module_name) {
       getModuleData();
     }
   }, [userData, router.query]);

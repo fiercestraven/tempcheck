@@ -27,8 +27,14 @@ export default function Lecture() {
                     'Authorization': `Bearer ${userData.access_token}`,
                 },
             });
-            const data = await res.json();
-            setLectureData(data);
+            // if student/instructor not associated with lecture, re-route to user's modules page
+            if (res.status == 404) {
+                router.push("/modules");
+            }
+            else {
+                const data = await res.json();
+                setLectureData(data);
+            }
         }
 
         async function getProfileData() {
@@ -41,10 +47,13 @@ export default function Lecture() {
             setProfileData(data);
         }
 
-
         if (userDataLoaded && userData) {
-            getLectureData();
             getProfileData();
+        }
+
+        // only get lecture data after the lecture name is resolved
+        if (router.query.lecture_name) {
+            getLectureData();
         }
     }, [userData, router.query]);
 
