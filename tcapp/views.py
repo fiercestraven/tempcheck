@@ -111,6 +111,12 @@ class PingView(APIView):
         if not lecture.module.user_module_set.filter(user=student).exists():
             return Response(status=status.HTTP_403_FORBIDDEN)
 
+        # reject if student has pinged too recently - use '-ping_date' to retrieve the most recent (is faster than .last())
+        last_ping = student.ping_set.order_by("-ping_date").first()
+        if last_ping is not None:
+            if (timezone.now() - last_ping.ping_date) < timedelta(minutes=2):
+                return Response(status=status.HTTP_429_TOO_MANY_REQUESTS)
+
         serializer = PingSerializer(
             data={
                 "ping_date": datetime.now(),

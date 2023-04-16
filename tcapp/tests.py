@@ -291,11 +291,26 @@ class APITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(1, Ping.objects.count())
 
+    # test student cannot submit more than one ping in a 2-minute interval
+    def test_student_cannot_submit_multiple_pings_in_time_frame(self):
+        self.client.force_authenticate(user=self.student_a)
+
+        response = self.client.post(
+            "/tcapp/api/lectures/module_a_lecture_1/pings/",
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(1, Ping.objects.count())
+
+        response = self.client.post(
+            "/tcapp/api/lectures/module_a_lecture_1/pings/",
+        )
+        self.assertEqual(response.status_code, status.HTTP_429_TOO_MANY_REQUESTS)
+        self.assertEqual(1, Ping.objects.count())
+
     # test student can't submit a ping for a lecture of a module they're not enrolled in
     def test_student_cannot_submit_ping(self):
         self.client.force_authenticate(user=self.student_a)
 
-        # submit ping with POST: https://www.django-rest-framework.org/api-guide/testing/
         response = self.client.post(
             "/tcapp/api/lectures/module_c_lecture_1/pings/",
         )

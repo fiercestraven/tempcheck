@@ -16,6 +16,7 @@ export default function Lecture() {
     // variables to show state of ping and reset buttons
     const [pingComplete, setPingComplete] = useState(false);
     const [resetComplete, setResetComplete] = useState(false);
+    const [userMessage, setUserMessage] = useState(false);
     const router = useRouter();
     const { lecture_name } = router.query;
 
@@ -82,6 +83,10 @@ export default function Lecture() {
             if (res.status == 400) {
                 throw new Error("An error occurred with the submission");
             }
+            else if (res.status == 429) {
+                setUserMessage(true);
+                throw new Error("Too many submissions. One ping is allowed every two minutes.");
+            }
             const result = await res.json();
             console.log(result);
 
@@ -123,9 +128,6 @@ export default function Lecture() {
                             <h3>Lecture: {lectureData.lecture_name}</h3>
                             <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
-                            {/* timer here */}
-                            {pingComplete && < Timer onComplete={handleTimerComplete} />}
-
                             {/* show success message if reset complete */}
                             {resetComplete &&
                                 <p className="user-message">You have successfully reset to the baseline temperature.</p>
@@ -151,6 +153,13 @@ export default function Lecture() {
                                 {/* https://sebhastian.com/react-disable-button/ */}
                                 {!profileData?.is_staff &&
                                     <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pingComplete}>Ping</button>
+                                }
+
+                                {/* timer here */}
+                                {pingComplete && < Timer onComplete={handleTimerComplete} />}
+
+                                {userMessage &&
+                                    <p className="user-message">Too many submissions. One ping allowed every two mintues.</p>
                                 }
 
                             </form>
