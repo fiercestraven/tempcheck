@@ -1,6 +1,7 @@
 // fv - don't forget to try to add capabililty for data export for the chart
 import * as Plot from '@observablehq/plot';
 import * as d3 from "d3";
+import { addTooltips } from '../lib/plotTooltips';
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../components/layout';
@@ -52,14 +53,14 @@ export default function Stats() {
   useEffect(() => {
     console.debug("pingData is:", pingData);
     console.debug("chartRef is:", chartRef);
-    const chart = Plot.plot({
+    const chart = addTooltips(Plot.plot({
       style: { background: 'transparent' },
       width: 1000,
       height: 100,
       marks: [
         // fv - remove this comment: Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2, thresholds: d3.timeMinute.every(1)}),Plot.frame({stroke: 'white'}),
         Plot.dot(pingData, Plot.binX(
-          { r: 'count' },
+          { r: 'count', title: (pings) => `${pings.length} Ping${pings.length == 1 ? '' : 's'}` },
           { x: 'normalized', thresholds: d3.timeMinute.every(1) }
         )),
         Plot.frame({ stroke: 'white' }),
@@ -72,7 +73,7 @@ export default function Stats() {
       // provide visual padding for first and last pings
       insetLeft: 30,
       insetRight: 30,
-    });
+    }));
     chartRef?.current?.append(chart);
     return () => chart?.remove();
   }, [chartRef.current, pingData]);

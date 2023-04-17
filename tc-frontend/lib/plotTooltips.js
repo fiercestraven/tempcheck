@@ -13,6 +13,9 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+import * as d3 from 'd3';
+import html from 'facon';
+
 // To generate a unique ID for each chart so that they styles only apply to that chart
 const id_generator = () => {
     var S4 = function () {
@@ -40,6 +43,8 @@ const hover = (tip, pos, text) => {
         .style("dominant-baseline", "ideographic")
         .text((d) => d)
         .attr("y", (d, i) => (i - (text.length - 1)) * 15 - vertical_offset)
+        .style("color", "black")
+        .style("font-size", "14px")
         .style("font-weight", (d, i) => (i === 0 ? "bold" : "normal"));
 
     const bbox = tip.node().getBBox();
@@ -147,3 +152,6 @@ const addTooltips = (chart, styles) => {
 
     return chart;
 }
+
+
+export { addTooltips };
