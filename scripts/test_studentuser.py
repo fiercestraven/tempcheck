@@ -1,3 +1,4 @@
+import re
 from playwright.sync_api import Playwright, sync_playwright, expect
 
 # if test does not time out or fail, everything is working okay
@@ -10,7 +11,8 @@ def test_student_workflow() -> None:
         page = context.new_page()
         page.goto("http://localhost:3000/")
         page.get_by_role("link", name="Start").click()
-        # expect(page).not.toHaveURL(/.*stats/)
+        expect(page).not_to_have_url(re.compile(".*stats.*"))
+        expect(page).not_to_have_url(re.compile(".*admin.*"))
         page.get_by_placeholder("Enter your username").click()
         page.get_by_placeholder("Enter your username").fill("Alejandra")
         page.get_by_placeholder("Enter your username").press("Tab")

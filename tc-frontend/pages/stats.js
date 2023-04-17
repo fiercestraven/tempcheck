@@ -54,6 +54,8 @@ export default function Stats() {
     console.debug("chartRef is:", chartRef);
     const chart = Plot.plot({
       style: { background: 'transparent' },
+      width: 1000,
+      height: 100,
       marks: [
         // fv - remove this comment: Plot.ruleX(pingData, {x: 'normalized', strokeOpacity: 0.2, thresholds: d3.timeMinute.every(1)}),Plot.frame({stroke: 'white'}),
         Plot.dot(pingData, Plot.binX(
