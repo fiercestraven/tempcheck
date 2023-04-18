@@ -62,8 +62,6 @@ export default function Module() {
             </header>
           </div>
 
-          {/* fv - handle student landing here accidentally or through specific url but not being enrolled */}
-
           {moduleData?.module_name &&
             <div className="col-6">
               <h2>{moduleData.module_name}</h2>

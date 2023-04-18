@@ -156,12 +156,12 @@ export default function Lecture() {
 
                                 {/* show different buttons based on staff status */}
                                 {profileData?.is_staff &&
-                                    <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit">Reset Temp</button>
+                                    <button className="w-30 mt-2 mb-3 btn btn-md btn-light" id="ping_btn" type="submit">Reset Temp</button>
                                 }
 
                                 {/* https://sebhastian.com/react-disable-button/ */}
                                 {!profileData?.is_staff &&
-                                    <button className="w-30 mt-2 mb-5 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pingComplete}>Ping</button>
+                                    <button className="w-30 mt-2 mb-3 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pingComplete}>Ping</button>
                                 }
 
                                 {/* timer here */}
@@ -177,7 +177,7 @@ export default function Lecture() {
                             <p></p>
                             <Link href="/">← Home</Link>
                             <p></p>
-                            <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
+                            <button className="w-30 mt-2 mb-1 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
                         </div>
                     }
                 </div>

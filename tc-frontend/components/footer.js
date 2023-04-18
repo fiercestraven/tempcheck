@@ -46,22 +46,26 @@ export default function Footer() {
 
     return (
         <div>
-            {profileData && profileData.is_staff &&
-                <div>
-                    <div>
-                        <Link href="/stats">Stats</Link>
-                    </div>
-
-
-                    <p></p>
-                    <Link href="http://localhost:8000/admin">Admin</Link>
-                    <p></p>
-                </div>
-            }
-
-            <div>
+            <div className="copyright footer-info">
                 <Copyright />
             </div>
+            {profileData && profileData.is_staff &&
+                <div className="footer-info">
+                    <nav className="main-nav">
+                        <ul>
+                            <li className="index-collection active-link">
+                                <Link href="/">Home</Link>
+                            </li>
+                            <li className="page-collection">
+                                <Link href="/stats">Stats</Link>
+                            </li>
+                            <li className="page-collection">
+                                <Link href="http://localhost:8000/admin">Admin</Link>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            }
 
         </div>
     );
