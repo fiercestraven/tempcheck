@@ -1,6 +1,8 @@
 html,
 body {
-  height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
   padding: 0;
   margin: 0 auto;
   width: 100%;
@@ -16,7 +18,7 @@ body {
 
 main {
   display: flex;
-  flex: 1;
+  flex: 1 0 auto;
   flex-direction: column;
 }
 
@@ -29,21 +31,16 @@ p {
 }
 
 a {
-  color: #d2e069;
+  color: #ffffff;
   text-decoration: none;
 }
 
-a:hover {
-  border-bottom: 1px solid;
-  color: #cdfeaa;
-}
-
 a:link {
-  color: #d2e069;
+  color: #ffffff;
 }
 
 a:visited {
-  color: #3fc6d7;
+  color: #bebebe;
 }
 
 a:focus {
@@ -53,15 +50,10 @@ a:focus {
 
 a:hover {
   border-bottom: 1px solid;
-}
-
-*/ a:active {
-  background: #d2e069;
-  color: #cdfeaa;
+  color: #ffffff;
 }
 
 #header-link {
-  color: #d2e069;
   text-transform: uppercase;
 }
 
@@ -69,12 +61,17 @@ a:hover {
   border-bottom: none;
 }
 
-#header-link:visited {
-  color: #3fc6d7;
-}
-
 #index-header:hover {
   border-bottom: none;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-size: 38px;
+}
+
+h3 {
+  font-size: 22px;
 }
 
 img {
@@ -84,6 +81,8 @@ img {
 
 .content {
   margin-top: 8rem;
+  margin-bottom: 6rem;
+  flex: 1 0 auto;
 }
 
 form {
@@ -92,16 +91,18 @@ form {
 }
 
 header {
-  margin: 1.5rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 footer {
-  margin: 3rem 3rem 0 0;
-  display: flex;
-  flex-direction: column;
+  /* fixing footer to bottom fv-work on this */
+  /* position: fixed;
+  bottom: 0;
+  left: 0; */
+  right: 0;
   text-align: left;
   font-size: 15px;
   line-height: 1.6em;
@@ -110,7 +111,6 @@ footer {
   letter-spacing: 1px;
   font-weight: 400;
   font-style: normal;
-  position: relative;
   z-index: 890;
   padding: 20px;
 }
@@ -157,13 +157,14 @@ a.btn-start {
 
 #index-header {
   color: white;
+  text-align: center;
   font-size: 7vw;
   letter-spacing: 5vw;
   font-weight: 500;
   /* put in padding equal to letter spacing to ensure text is centered */
   padding-left: 5vw;
-  margin: 0;
-  text-align: center;
+  width: 100%;
+  display: inline-block;
 }
 
 .user-message {
@@ -172,10 +173,11 @@ a.btn-start {
 
 #banner-img {
   width: 100%;
+  border-bottom: 4px solid white;
 }
 
 #header-img {
-  margin: 20px;
+  /* margin: 20px; */
   float: left;
 }
 

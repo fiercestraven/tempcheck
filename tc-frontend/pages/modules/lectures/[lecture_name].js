@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../components/layout';
+import Header from '../../../components/header';
 import Thermometer from '../../../components/thermometer';
 import Timer from '../../../components/timer';
 import { CurrentUserContext } from '../../../context/auth';
@@ -124,6 +125,10 @@ export default function Lecture() {
                 <title>{lectureData?.lecture_name || "Lecture Details"}</title>
             </Head>
 
+            <header>
+                <Header />
+            </header>
+
             <div className="container content">
                 <div className="row">
                     <div className="col-6 logo">
@@ -174,8 +179,6 @@ export default function Lecture() {
                             </form>
                             <p></p>
                             <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>
-                            <p></p>
-                            <Link href="/">← Home</Link>
                             <p></p>
                             <button className="w-30 mt-2 mb-1 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
                         </div>

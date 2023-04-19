@@ -205,9 +205,6 @@ export default function Stats() {
               </div>
             }
 
-            <p></p>
-            <Link href="/">← Home</Link>
-            <p></p>
             <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
           </div>
         }

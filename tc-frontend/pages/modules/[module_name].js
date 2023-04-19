@@ -49,17 +49,19 @@ export default function Module() {
     <Layout>
       <Head>
         {/* welcome user by name or by 'visitor' */}
-        <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.first_name || "Visitor"}!</h3>
+        <h3>Welcome, {userData?.first_name || "Visitor"}!</h3>
         {/* assign title to head, supplying generic version if no module name available */}
         <title>{moduleData?.module_name || "Module Details"}</title>
       </Head>
 
+
+      <header>
+        <Header />
+      </header>
+
       <div className="container content">
         <div className="row">
           <div className="col-6">
-            <header>
-              <Header />
-            </header>
           </div>
 
           {moduleData?.module_name &&
@@ -80,8 +82,6 @@ export default function Module() {
                 }
               </ul>
               <Link href="/modules">← Modules List</Link>
-              <p></p>
-              <Link href="/">← Home</Link>
               <p></p>
               <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
             </div>

@@ -49,23 +49,35 @@ export default function Footer() {
             <div className="copyright footer-info">
                 <Copyright />
             </div>
-            {profileData && profileData.is_staff &&
-                <div className="footer-info">
-                    <nav className="main-nav">
+
+            <div className="footer-info">
+                <nav className="main-nav">
+                    {/* for students, nav menu only shows home link */}
+                    {profileData && !profileData.is_staff &&
                         <ul>
                             <li className="index-collection active-link">
                                 <Link href="/">Home</Link>
                             </li>
+                        </ul>
+                    }
+                    {/* for staff, nav menu shows home, stats, and admin links */}
+                    {profileData && profileData.is_staff &&
+                        <ul>
+                            <li className="index-collection active-link">
+                                <Link href="/">Home</Link>
+                            </li>
+
                             <li className="page-collection">
                                 <Link href="/stats">Stats</Link>
                             </li>
+
                             <li className="page-collection">
                                 <Link href="http://localhost:8000/admin">Admin</Link>
                             </li>
                         </ul>
-                    </nav>
-                </div>
-            }
+                    }
+                </nav>
+            </div>
 
         </div>
     );

@@ -31,7 +31,7 @@ export default function IndexPage() {
                 src={imageURL}
                 height={500}
                 width={1800}
-                alt=""
+                alt="temperature gradient from green to red"
               />
             </a>
 
@@ -41,7 +41,6 @@ export default function IndexPage() {
             </a>
           </div>
 
-{/* fv - make these tied in to the tempcheck name (make it a button?) and the image, so they act as login buttons */}
           <div className="row">
             <div className="col-5"></div>
             <div className="col-2">
@@ -54,7 +53,7 @@ export default function IndexPage() {
               {userData.username && (
                 // if already logged in, just show links to other pages
                 <div>
-                  <button className="w-30 mt-2 mb-5 btn btn-outline-light btn-start" type={'submit'} onClick={logoutUser}>Log Out</button>
+                  <button className="w-30 mt-3 mb-5 btn btn-outline-light btn-start" type={'submit'} onClick={logoutUser}>Log Out</button>
                 </div>
               )}
             </div>

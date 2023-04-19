@@ -18,12 +18,14 @@ export default function HomePage() {
                     <title>Tempcheck Login</title>
                 </Head>
 
+                <header>
+                    <Header />
+                </header>
+
                 <div className="container content">
                     <div className="row">
                         <div className="col-6">
-                            <header>
-                                <Header />
-                            </header>
+
                         </div>
 
                         <div className="col-6">
@@ -35,9 +37,6 @@ export default function HomePage() {
                                 <ModuleList />
                             )}
 
-                            <p></p>
-                            <Link href="/">← Home</Link>
-                            <p></p>
                         </div>
 
                     </div>
