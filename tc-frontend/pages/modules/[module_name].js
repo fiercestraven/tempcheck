@@ -60,15 +60,17 @@ export default function Module() {
       </header>
 
       <div className="container content">
+        {moduleData?.module_name &&
+          <h1>{moduleData.module_name}</h1>
+        }
+
         <div className="row">
           <div className="col-6">
           </div>
 
           {moduleData?.module_name &&
             <div className="col-6">
-              <h2>{moduleData.module_name}</h2>
               <p>{moduleData.module_description}</p>
-
               <p>Lecturer: {moduleData.instructor.first_name} {moduleData.instructor.last_name}</p>
               <p>Lectures:</p>
               <ul>

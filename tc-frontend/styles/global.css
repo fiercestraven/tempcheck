@@ -70,8 +70,9 @@ h2 {
   font-size: 38px;
 }
 
-h3 {
-  font-size: 22px;
+h1 {
+  font-size: 60px;
+  font-family: Monument Grotesk;
 }
 
 img {
@@ -80,7 +81,7 @@ img {
 }
 
 .content {
-  margin-top: 8rem;
+  margin-top: 3rem;
   margin-bottom: 6rem;
   flex: 1 0 auto;
 }
@@ -173,7 +174,7 @@ a.btn-start {
 
 #banner-img {
   width: 100%;
-  border-bottom: 4px solid white;
+  border-bottom: 1px solid white;
 }
 
 #header-img {

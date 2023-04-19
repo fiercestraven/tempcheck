@@ -40,12 +40,13 @@ export default function ModuleList() {
                 <title>Modules</title>
             </Head>
 
-            <div className="container">
+            <h1>Modules</h1>
+
+            <div className="container content">
                 <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.first_name || "Visitor"}!</h3>
 
                 {(userData.username && moduleData.length) &&
                     <div className="container">
-                        <h3>Modules</h3>
                         <section>
                             <ul>
                                 {moduleData.map((module) => (

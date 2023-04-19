@@ -130,6 +130,14 @@ export default function Lecture() {
             </header>
 
             <div className="container content">
+
+                {lectureData?.lecture_name &&
+                    <div>
+                        <h1>Lecture: {lectureData.lecture_name}</h1>
+                        <h2>{lectureData.module.module_name}</h2>
+                    </div>
+                }
+
                 <div className="row">
                     <div className="col-6 logo">
                         {/* call Thermometer component and pass in the lecture name so it knows the correct api address */}
@@ -138,8 +146,6 @@ export default function Lecture() {
 
                     {lectureData?.lecture_name &&
                         <div className="col-6">
-                            <h2>{lectureData.module.module_name}</h2>
-                            <h3>Lecture: {lectureData.lecture_name}</h3>
                             <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
                             {/* show success message if reset complete */}
