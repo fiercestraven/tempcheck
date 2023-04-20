@@ -10,9 +10,9 @@ def test_student_workflow() -> None:
         context = browser.new_context()
         page = context.new_page()
         page.goto("http://localhost:3000/")
-        page.get_by_role("link", name="Start").click()
 
         # check that logging in as a student works
+        page.get_by_role("link", name="Start").click()
         page.get_by_placeholder("Enter your username").click()
         page.get_by_placeholder("Enter your username").fill("Alejandra")
         page.get_by_placeholder("Enter your username").press("Tab")
@@ -60,6 +60,3 @@ def test_student_workflow() -> None:
         # ---------------------
         context.close()
         browser.close()
-
-
-# fv - on "unhappy" student path, try clicking ping button twice, look for error message, then try to manually navigate to a wrong module, a wrong lecture, and the stats and admin pages
