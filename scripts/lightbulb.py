@@ -20,14 +20,14 @@ def run():
     devices = lifx.get_lights()
 
     if not devices:
-        sys.exit('No lightbulbs found.')
+        sys.exit("No lightbulbs found.")
 
     # print out lights
     print("Found {} light(s):".format(len(devices)))
     for idx, device in enumerate(devices, start=1):
         try:
             # 2d ensures padding for 2 digits
-            print(f'  {idx:2d}. {device.get_label()}')
+            print(f"  {idx:2d}. {device.get_label()}")
         except:
             pass
 
@@ -47,7 +47,7 @@ def run():
     for idx, module in enumerate(modules, start=1):
         try:
             # 2d ensures padding for 2 digits
-            print(f'  {idx:2d}. {module.module_shortname}')
+            print(f"  {idx:2d}. {module.module_shortname}")
         except:
             pass
 
@@ -62,20 +62,20 @@ def run():
     for idx, lecture in enumerate(lectures, start=1):
         try:
             # 2d ensures padding for 2 digits
-            print(f'  {idx:2d}. {lecture.lecture_name}')
+            print(f"  {idx:2d}. {lecture.lecture_shortname}")
         except:
             pass
 
     idx = int(input("Select a lecture: "))
     lecture = lectures[idx - 1]
 
-    print(f"You've selected lecture {lecture.lecture_name}")
+    print(f"You've selected lecture {lecture.lecture_shortname}")
 
     # connect to api to retrieve temp
     print("Checking current temperature...")
     while True:
         # format url string to handle variable: https://stackoverflow.com/questions/58944189/using-variable-in-an-api-request-in-python
-        url = f'http://localhost:8000/tcapp/api/lectures/{lecture.lecture_name}/temperature'
+        url = f"http://localhost:8000/tcapp/api/lectures/{lecture.lecture_shortname}/temperature"
         res = requests.get(url)
         response = json.loads(res.text)
         print(response)

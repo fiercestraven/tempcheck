@@ -192,8 +192,13 @@ class User_ModuleAdmin(StaffPermission, admin.ModelAdmin):
 
 
 class LectureAdmin(StaffPermission, admin.ModelAdmin):
-    fields = ["module", "lecture_name", "lecture_description", "lecture_date"]
-    list_display = ("module", "lecture_name", "lecture_description", "lecture_date")
+    fields = ["module", "lecture_shortname", "lecture_description", "lecture_date"]
+    list_display = (
+        "module",
+        "lecture_shortname",
+        "lecture_description",
+        "lecture_date",
+    )
 
     # let instructors change and delete only lectures that are part of modules that they teach
     def has_change_permission(self, request, obj=None):

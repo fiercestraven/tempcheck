@@ -40,7 +40,7 @@ class APITests(APITestCase):
             for n in (1, 2):
                 Lecture.objects.create(
                     module=module,
-                    lecture_name=f"{module.module_shortname}_lecture_{n}",
+                    lecture_shortname=f"{module.module_shortname}_lecture_{n}",
                     lecture_description=f"Test lecture {n} for {module.module_shortname}",
                     lecture_date=datetime.date.today(),
                 )
@@ -456,7 +456,7 @@ class APITests(APITestCase):
         # class size is 6; submit 1 ping to cross first threshold
         Ping.objects.create(
             ping_date=timezone.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
             student=User.objects.get(username="student_a"),
         )
 
@@ -469,7 +469,7 @@ class APITests(APITestCase):
         # submit another ping to cross second threshold and then check temperature is equal to 2
         Ping.objects.create(
             ping_date=timezone.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
             student=User.objects.get(username="student_a"),
         )
 
@@ -482,7 +482,7 @@ class APITests(APITestCase):
         # submit another ping to cross third threshold and then check temperature is equal to 3
         Ping.objects.create(
             ping_date=timezone.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
             student=User.objects.get(username="student_a"),
         )
 
@@ -512,7 +512,7 @@ class APITests(APITestCase):
         # class size is 6; submit 1 ping to cross first threshold
         Ping.objects.create(
             ping_date=timezone.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
             student=User.objects.get(username="student_a"),
         )
 
@@ -525,12 +525,12 @@ class APITests(APITestCase):
         # submit another 2 pings to cross second threshold and then check temperature is equal to 2
         Ping.objects.create(
             ping_date=timezone.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
             student=User.objects.get(username="student_a"),
         )
         Ping.objects.create(
             ping_date=timezone.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
             student=User.objects.get(username="student_a"),
         )
 
@@ -543,13 +543,13 @@ class APITests(APITestCase):
         # submit another 1 pings to bring total to 5 to cross third threshold and then check temperature is equal to 3
         Ping.objects.create(
             ping_date=timezone.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
             student=User.objects.get(username="student_a"),
         )
 
         Ping.objects.create(
             ping_date=timezone.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
             student=User.objects.get(username="student_a"),
         )
 
@@ -562,7 +562,7 @@ class APITests(APITestCase):
     # test that temperature automatically resets after 3 minutes have passed
     def test_temperature_decreases_with_time(self):
         # check initial threshold level
-        lecture = Lecture.objects.get(lecture_name="module_a_lecture_1")
+        lecture = Lecture.objects.get(lecture_shortname="module_a_lecture_1")
         self.client.force_authenticate(user=self.instructor_a)
         response = self.client.get(
             "/tcapp/api/lectures/module_a_lecture_1/temperature/"
@@ -611,7 +611,7 @@ class APITests(APITestCase):
         # class size is 6; submit 1 ping to cross first threshold
         Ping.objects.create(
             ping_date=timezone.now(),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
             student=User.objects.get(username="student_a"),
         )
 
@@ -625,7 +625,7 @@ class APITests(APITestCase):
         Reset.objects.create(
             reset_time=timezone.now(),
             instructor=User.objects.get(username="instructor_a"),
-            lecture=Lecture.objects.get(lecture_name="module_a_lecture_1"),
+            lecture=Lecture.objects.get(lecture_shortname="module_a_lecture_1"),
         )
 
         # check that temperature is reset back to 0

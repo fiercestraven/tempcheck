@@ -13,7 +13,7 @@ class LectureSerializer(serializers.ModelSerializer):
         model = Lecture
         depth = 1
         fields = [
-            "lecture_name",
+            "lecture_shortname",
             "lecture_description",
             "lecture_date",
             "module",
@@ -40,7 +40,7 @@ class ModuleSerializer(serializers.ModelSerializer):
         ]
 
     def get_lectures(self, obj):
-        lectures = obj.lecture_set.all().order_by("lecture_name")
+        lectures = obj.lecture_set.all().order_by("lecture_shortname")
         return LectureSerializer(lectures, many=True).data
 
 

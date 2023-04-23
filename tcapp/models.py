@@ -22,14 +22,14 @@ class Module(models.Model):
 
 
 class Lecture(models.Model):
-    lecture_name = models.CharField(max_length=200, unique=True)
+    lecture_shortname = models.CharField(max_length=200, unique=True)
     lecture_description = models.TextField(default="", blank=True)
     lecture_date = models.DateField("date of lecture", blank=True)
     # foreign key to module_id
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.lecture_name
+        return self.lecture_shortname
 
 
 class Reset(models.Model):

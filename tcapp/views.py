@@ -66,7 +66,7 @@ class LectureViewSet(viewsets.ModelViewSet):
             # query constructed using shell
             return Lecture.objects.filter(module__user_module__user=user)
 
-    lookup_field = "lecture_name"
+    lookup_field = "lecture_shortname"
     serializer_class = LectureSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -103,9 +103,9 @@ class PingView(APIView):
     """
 
     # https://www.codespeedy.com/django-submit-form-data-with-post-method/
-    def post(self, request, lecture_name, format=None):
+    def post(self, request, lecture_shortname, format=None):
         student = self.request.user
-        lecture = Lecture.objects.get(lecture_name=lecture_name)
+        lecture = Lecture.objects.get(lecture_shortname=lecture_shortname)
 
         # ensure that students can only submit pings for lectures in modules they're enrolled in (query built using the shell)
         if not lecture.module.user_module_set.filter(user=student).exists():
@@ -129,9 +129,9 @@ class PingView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request, lecture_name, format=None):
+    def get(self, request, lecture_shortname, format=None):
         user = self.request.user
-        lecture = Lecture.objects.get(lecture_name=lecture_name)
+        lecture = Lecture.objects.get(lecture_shortname=lecture_shortname)
         pings = Ping.objects.filter(lecture=lecture).order_by("ping_date")
         if user.is_superuser or user.is_staff:
             return Response(PingSerializer(pings, many=True).data)
@@ -148,9 +148,9 @@ class ResetView(APIView):
 
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, lecture_name, format=None):
+    def post(self, request, lecture_shortname, format=None):
         user = self.request.user
-        lecture = Lecture.objects.get(lecture_name=lecture_name)
+        lecture = Lecture.objects.get(lecture_shortname=lecture_shortname)
 
         if user != lecture.module.instructor:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -173,9 +173,9 @@ class LectureTemperatureView(APIView):
     API endpoint for transmitting ping threshold.
     """
 
-    def get(self, request, lecture_name, format=None):
+    def get(self, request, lecture_shortname, format=None):
         # count pings in the last two minutes
-        lec = Lecture.objects.get(lecture_name=lecture_name)
+        lec = Lecture.objects.get(lecture_shortname=lecture_shortname)
 
         # set cutoff time
         cutoff = timezone.now() - timedelta(minutes=2)

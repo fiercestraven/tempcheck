@@ -28,17 +28,19 @@ urlpatterns = [
     path("api/", include(router.urls)),
     # can't add a generic view in a router, so these api views are here instead of above
     path(
-        "api/lectures/<str:lecture_name>/temperature/",
+        "api/lectures/<str:lecture_shortname>/temperature/",
         views.LectureTemperatureView.as_view(),
         name="temperature",
     ),
     path(
-        "api/lectures/<str:lecture_name>/resets/",
+        "api/lectures/<str:lecture_shortname>/resets/",
         views.ResetView.as_view(),
         name="resets",
     ),
     path(
-        "api/lectures/<str:lecture_name>/pings/", views.PingView.as_view(), name="pings"
+        "api/lectures/<str:lecture_shortname>/pings/",
+        views.PingView.as_view(),
+        name="pings",
     ),
     path("api/profile/", views.ProfileView.as_view(), name="profile"),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
