@@ -5,14 +5,19 @@ from .models import User, Module, Lecture, Ping, Reset
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'is_staff']
+        fields = ["username", "first_name", "last_name", "is_staff"]
 
 
 class LectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lecture
         depth = 1
-        fields = ['lecture_name', 'lecture_description', 'lecture_date', 'module']
+        fields = [
+            "lecture_name",
+            "lecture_description",
+            "lecture_date",
+            "module",
+        ]
 
 
 class ModuleSerializer(serializers.ModelSerializer):
@@ -20,25 +25,32 @@ class ModuleSerializer(serializers.ModelSerializer):
     instructor = ProfileSerializer()
     # adding lectures to the serialized data; empty method defaults to 'get_lectures' here: https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield
     lectures = serializers.SerializerMethodField()
+
     class Meta:
         model = Module
-        ordering = ['module_shortname', 'lectures']
+        ordering = ["module_shortname", "lectures"]
         depth = 1
-        fields = ['module_shortname', 'module_name', 'module_description', 'instructor', 'is_active', 'lectures']
+        fields = [
+            "module_shortname",
+            "module_name",
+            "module_description",
+            "instructor",
+            "is_active",
+            "lectures",
+        ]
 
     def get_lectures(self, obj):
-        lectures = obj.lecture_set.all().order_by('lecture_name')
+        lectures = obj.lecture_set.all().order_by("lecture_name")
         return LectureSerializer(lectures, many=True).data
 
 
 class PingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ping
-        fields = ['ping_date', 'student', 'lecture']
+        fields = ["ping_date", "student", "lecture"]
 
 
 class ResetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reset
-        fields = ['reset_time', 'instructor', 'lecture']
-
+        fields = ["reset_time", "instructor", "lecture"]

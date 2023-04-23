@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-kma66lvr0y#_+7rcwlbpgdk-v5*s(8djf1=tg=hw*j2f%b#)x9'
+SECRET_KEY = "django-insecure-kma66lvr0y#_+7rcwlbpgdk-v5*s(8djf1=tg=hw*j2f%b#)x9"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,66 +31,66 @@ ALLOWED_HOSTS = []
 # Application definition
 # cors: https://stackoverflow.com/questions/35760943/how-can-i-enable-cors-on-django-rest-framework
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'corsheaders',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'dj_rest_auth',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "corsheaders",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
     # https://stackoverflow.com/questions/56711082/reverse-django-admin-urls
-    'django_extensions',
-    'tcapp.apps.TcappConfig',
+    "django_extensions",
+    "tcapp.apps.TcappConfig",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 # fv - add vercel/fly here to CORS and CSRF when deploying
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    "http://localhost:3000",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
+    "http://localhost:3000",
 ]
 
-ROOT_URLCONF = 'tempcheck.urls'
+ROOT_URLCONF = "tempcheck.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'tcreact/build'], 
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates", BASE_DIR / "tcreact/build"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'tempcheck.wsgi.application'
+WSGI_APPLICATION = "tempcheck.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "tempcheck",
         "USER": "admin_fv",
@@ -105,25 +105,25 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'Europe/Belfast'
+TIME_ZONE = "Europe/Belfast"
 
 USE_I18N = True
 
@@ -133,12 +133,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "/tcapp/accounts/login/"
 LOGIN_REDIRECT_URL = "/tcapp/lectures/"
@@ -149,36 +149,36 @@ REST_SESSION_LOGIN = True
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
 
 # See: https://dj-rest-auth.readthedocs.io/en/latest/installation.html
 REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'tcapp-auth'
+JWT_AUTH_COOKIE = "tcapp-auth"
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    "DEFAULT_AUTHENTICATION_CLASSES": [
         # added per dj-rest-auth docs
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
+    "DEFAULT_PERMISSION_CLASSES": [
         # let authenticated users view the api (lock down as appropriate in views): https://www.django-rest-framework.org/api-guide/permissions/
-        'rest_framework.permissions.IsAuthenticated',
+        "rest_framework.permissions.IsAuthenticated",
     ],
 }
 
 # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html#access-token-lifetime
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=300),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=300),
 }
 
 # fv - per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py, not sure if needed?
 SWAGGER_SETTINGS = {
-    'LOGIN_URL': 'login',
-    'LOGOUT_URL': 'logout',
+    "LOGIN_URL": "login",
+    "LOGOUT_URL": "logout",
 }
 
 # fv - not sure if needed; per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
