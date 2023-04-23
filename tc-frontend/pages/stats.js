@@ -139,12 +139,11 @@ export default function Stats() {
         <title>Stats</title>
       </Head>
 
-      <div className="container content">
-        <header>
-          {/* fv  - insert different stats header here */}
-          <Header />
-        </header>
+      <header>
+        <Header />
+      </header>
 
+      <div className="container content">
         {(userData.username && moduleData.length) &&
           <div>
             {/* menu for modules here */}

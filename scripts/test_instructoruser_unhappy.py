@@ -19,12 +19,13 @@ def test_bad_instructor_workflow() -> None:
 
         # manually navigate to unauthorized module; check that re-route to modules page occurs
         page.goto("http://localhost:3000/modules/CS270_2023_SUM")
-        # fv ask Dan how to frame this test - it DOES redirect properly, as this auto-generated test shows, but how to demonstrate? See unhappy student path as well
-        page.goto("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/modules")
+        expect(page).to_have_url("http://localhost:3000/modules")
 
         # manually navigate to unauthorized lecture; check that re-route to modules page occurs
         page.goto("http://localhost:3000/modules/lectures/CS270_W1_L1_2023_SUM")
-        page.goto("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/modules")
+        expect(page).to_have_url("http://localhost:3000/modules")
 
         # log out
         page.get_by_role("button", name="Log Out").click()

@@ -25,12 +25,8 @@ def test_instructor_workflow() -> None:
         # navigate to lecture 1 for week 2
         page.get_by_role("link", name="CS158_W2_L1_2023_SUM").click()
 
-        # fv check here for orange icon if possible to simulate pings???
-
         # reset temp
         page.get_by_role("button", name="Reset Temp").click()
-
-        # fv check here for green icon
 
         # navigate to stats page
         page.get_by_role("listitem").filter(has_text="Stats").click()
@@ -45,10 +41,17 @@ def test_instructor_workflow() -> None:
             "CS155_W1_L2_2023_SUM"
         )
 
-        # fv check here for graph
+        # fv check here for graph - this could be wrong
+        expect(
+            page.locator(
+                ".container > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)"
+            )
+        ).to_be_visible()
 
         # navigate to admin page and log in
         page.get_by_role("link", name="Admin").click()
+        page.get_by_label("Username:").click()
+        page.get_by_label("Username:").fill("TaliaSinegold")
         page.get_by_label("Password:").click()
         page.get_by_label("Password:").fill("ruminant.3Dethrone")
         page.get_by_role("button", name="Log in").click()
@@ -65,7 +68,11 @@ def test_instructor_workflow() -> None:
         page.get_by_label("Lecture description:").fill("Intro and necessary paperwork")
         page.get_by_role("button", name="Save", exact=True).click()
 
-        # fv check here for new text "necessary"
+        # fv check if working
+        locator = page.locator(
+            "#result_list > tbody:nth-child(2) > tr:nth-child(35) > td:nth-child(4)"
+        )
+        expect(locator).to_contain_text("necessary")
 
         # log out
         page.get_by_role("button", name="Log out").click()

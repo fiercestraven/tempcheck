@@ -14,17 +14,15 @@ def test_student_workflow() -> None:
         # check that logging in as a student works
         page.get_by_role("link", name="Start").click()
         page.get_by_placeholder("Enter your username").click()
-        page.get_by_placeholder("Enter your username").fill("Alejandra")
-        page.get_by_placeholder("Enter your username").press("Tab")
-        page.get_by_placeholder("Enter your username").click()
         page.get_by_placeholder("Enter your username").fill("AlejandraLeopold")
-        page.get_by_placeholder("Enter your username").press("Tab")
         page.get_by_placeholder("Enter your password").click()
         page.get_by_placeholder("Enter your password").fill("1nap.vale.Musty")
         page.get_by_role("button", name="Login").click()
 
         # using CSS Selector locator to check for welcome statement
-        locator = page.locator("div.container:nth-child(1) > h3:nth-child(1)")
+        locator = page.locator(
+            "div.col-6:nth-child(2) > div:nth-child(1) > div:nth-child(2) > h3:nth-child(1)"
+        )
         expect(locator).to_contain_text(re.compile(r"Alejandra"))
 
         # check for no stats or admin links on modules page
@@ -41,12 +39,14 @@ def test_student_workflow() -> None:
 
         # navigate to lecture page
         page.get_by_role("link", name="CS158_W1_L1_2023_SUM").click()
+
+        # check that Ping button exists and click it
+        page.get_by_role("button", name="Ping").click()
+
         # check for no stats or admin links on lecture page
         expect(page).not_to_have_url(re.compile(".*stats.*"))
         expect(page).not_to_have_url(re.compile(".*admin.*"))
 
-        # check that Ping button exists and click it
-        page.get_by_role("button", name="Ping").click()
         page.get_by_role("link", name="← Back to Module").click()
 
         # check for no stats or admin links on homepage

@@ -15,12 +15,13 @@ def test_bad_student_workflow() -> None:
         page.get_by_role("link", name="Start").click()
         page.get_by_placeholder("Enter your username").click()
         page.get_by_placeholder("Enter your username").fill("AlejandraLeopold")
-        page.get_by_placeholder("Enter your username").press("Tab")
+        page.get_by_placeholder("Enter your password").click()
         page.get_by_placeholder("Enter your password").fill("1nap.vale.Musty2")
+        page.get_by_role("button", name="Login").click()
 
         # check for invalid entry error text
         locator = page.locator(".user-message")
-        expect(locator).to_contain_text(re.compile(r"Invalid login credentials"))
+        expect(locator).to_contain_text(re.compile(r"Invalid"))
 
         # log in correctly
         page.get_by_placeholder("Enter your password").fill("1nap.vale.Musty")
@@ -44,15 +45,18 @@ def test_bad_student_workflow() -> None:
 
         # manually navigate to unauthorized module; check that re-route to modules page occurs
         page.goto("http://localhost:3000/modules/CS152_2023_SUM")
-        page.goto("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/modules")
+        expect(page).to_have_url("http://localhost:3000/modules")
 
         # manually navigate to unauthorized lecture; check that re-route to modules page occurs
         page.goto("http://localhost:3000/modules/lectures/CS152_W1_L1_2023_SUM")
-        page.goto("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/modules")
+        expect(page).to_have_url("http://localhost:3000/modules")
 
         # manually navigate to stats page; check that re-route to modules page occurs
         page.goto("http://localhost:3000/stats")
-        page.goto("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/modules")
+        expect(page).to_have_url("http://localhost:3000/modules")
 
         # manually navigate to admin page; check that user is not allowed in
         page.goto("http://localhost:8000/admin/login/?next=/admin/")
