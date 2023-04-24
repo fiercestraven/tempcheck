@@ -176,8 +176,8 @@ export default function Stats() {
                 >
                   <option defaultValue>Select a Lecture</option>
                   {lectureData.lectures.map((lecture) => (
-                    <option value={lecture.lecture_name} key={lecture.lecture_name}>
-                      {lecture.lecture_name}
+                    <option value={lecture.lecture_shortname} key={lecture.lecture_shortname}>
+                      {lecture.lecture_shortname}
                     </option>
                   ))}
                   {!lectureData.lectures.length &&
