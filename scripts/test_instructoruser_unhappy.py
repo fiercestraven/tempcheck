@@ -27,10 +27,6 @@ def test_bad_instructor_workflow() -> None:
         page.wait_for_url("http://localhost:3000/modules")
         expect(page).to_have_url("http://localhost:3000/modules")
 
-        # log out
-        page.get_by_role("button", name="Log Out").click()
-        page.get_by_role("button", name="Close").click()
-
         # ---------------------
         context.close()
         browser.close()
