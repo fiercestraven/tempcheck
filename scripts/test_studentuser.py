@@ -38,7 +38,7 @@ def test_student_workflow() -> None:
         expect(page).not_to_have_url(re.compile(".*admin.*"))
 
         # navigate to lecture page
-        page.get_by_role("link", name="CS158_W1_L1_2023_SUM").click()
+        page.get_by_role("link", name="Week 1, Lecture 1").click()
 
         # check that Ping button exists and click it
         page.get_by_role("button", name="Ping").click()

@@ -31,7 +31,7 @@ def test_bad_student_workflow() -> None:
         page.get_by_role("link", name="CS270_2023_SUM: Computer Organisation").click()
 
         # navigate to lecture 1 of week 1
-        page.get_by_role("link", name="CS270_W1_L1_2023_SUM").click()
+        page.get_by_role("link", name="Week 1, Lecture 1").click()
 
         # submit first ping
         page.get_by_role("button", name="Ping").click()

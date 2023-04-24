@@ -23,7 +23,7 @@ def test_instructor_workflow() -> None:
         ).click()
 
         # navigate to lecture 1 for week 2
-        page.get_by_role("link", name="CS158_W2_L1_2023_SUM").click()
+        page.get_by_role("link", name="Week 2, Lecture 1").click()
 
         # reset temp
         page.get_by_role("button", name="Reset Temp").click()
@@ -62,7 +62,7 @@ def test_instructor_workflow() -> None:
         # select lecture to edit
         page.get_by_role(
             "row",
-            name="Mathematical Algorithms in C CS158_W1_L1_2023_SUM Intro July 10, 2023",
+            name="Mathematical Algorithms in C CS158_W1_L1_2023_SUM Week 1, Lecture 1 Intro July 10, 2023",
         ).get_by_role("link", name="Mathematical Algorithms in C").click()
         page.get_by_label("Lecture description:").click()
         page.get_by_label("Lecture description:").fill("Intro and necessary paperwork")
@@ -70,7 +70,7 @@ def test_instructor_workflow() -> None:
 
         # fv check if working
         locator = page.locator(
-            "#result_list > tbody:nth-child(2) > tr:nth-child(35) > td:nth-child(4)"
+            "#result_list > tbody:nth-child(2) > tr:nth-child(35) > td:nth-child(5)"
         )
         expect(locator).to_contain_text("necessary")
 
