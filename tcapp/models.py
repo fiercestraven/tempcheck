@@ -23,6 +23,7 @@ class Module(models.Model):
 
 class Lecture(models.Model):
     lecture_shortname = models.CharField(max_length=200, unique=True)
+    lecture_name = models.CharField(max_length=200)
     lecture_description = models.TextField(default="", blank=True)
     lecture_date = models.DateField("date of lecture", blank=True)
     # foreign key to module_id

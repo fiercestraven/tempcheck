@@ -19,11 +19,11 @@ export default function Lecture() {
     const [resetComplete, setResetComplete] = useState(false);
     const [userMessage, setUserMessage] = useState(false);
     const router = useRouter();
-    const { lecture_name } = router.query;
+    const { lecture_shortname } = router.query;
 
     useEffect(() => {
         async function getLectureData() {
-            const res = await fetch(`http://localhost:8000/tcapp/api/lectures/${lecture_name}/`, {
+            const res = await fetch(`http://localhost:8000/tcapp/api/lectures/${lecture_shortname}/`, {
                 headers: {
                     'Authorization': `Bearer ${userData.access_token}`,
                 },
@@ -53,7 +53,7 @@ export default function Lecture() {
         }
 
         // only get lecture data after the lecture name is resolved
-        if (router.query.lecture_name) {
+        if (router.query.lecture_shortname) {
             getLectureData();
         }
     }, [userData, router.query]);
@@ -77,7 +77,7 @@ export default function Lecture() {
         console.log(data);
         try {
             console.log('fetching');
-            let url = profileData.is_staff ? `http://localhost:8000/tcapp/api/lectures/${lecture_name}/resets/` : `http://localhost:8000/tcapp/api/lectures/${lecture_name}/pings/`
+            let url = profileData.is_staff ? `http://localhost:8000/tcapp/api/lectures/${lecture_shortname}/resets/` : `http://localhost:8000/tcapp/api/lectures/${lecture_shortname}/pings/`
             let res = await fetch(url, {
                 method: 'POST',
                 credentials: 'omit',
@@ -122,7 +122,7 @@ export default function Lecture() {
     return (
         <Layout>
             <Head>
-                <title>{lectureData?.lecture_name || "Lecture Details"}</title>
+                <title>{lectureData?.lecture_shortname || "Lecture Details"}</title>
             </Head>
 
             <header>
@@ -131,7 +131,7 @@ export default function Lecture() {
 
             <div className="container content">
 
-                {lectureData?.lecture_name &&
+                {lectureData?.lecture_shortname &&
                     <div>
                         <h1>Lecture: {lectureData.lecture_name}</h1>
                         <h2>{lectureData.module.module_name}</h2>
@@ -141,10 +141,10 @@ export default function Lecture() {
                 <div className="row">
                     <div className="col-6 logo">
                         {/* call Thermometer component and pass in the lecture name so it knows the correct api address */}
-                        <Thermometer lectureName={lecture_name} />
+                        <Thermometer lectureShortName={lecture_shortname} />
                     </div>
 
-                    {lectureData?.lecture_name &&
+                    {lectureData?.lecture_shortname &&
                         <div className="col-6">
                             <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
@@ -156,14 +156,14 @@ export default function Lecture() {
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div>
                                     <input
-                                        value={lectureData.lecture_name}
+                                        value={lectureData.lecture_shortname}
                                         type="hidden"
-                                        id="lecture_name"
-                                        name="lecture_name"
-                                        {...register("lecture_name", { required: true, maxLength: 50 })}
+                                        id="lecture_shortname"
+                                        name="lecture_shortname"
+                                        {...register("lecture_shortname", { required: true, maxLength: 50 })}
                                     />
                                 </div>
-                                {errors.lecture_name && <p>Invalid lecture name submitted.</p>}
+                                {errors.lecture_shortname && <p>Invalid lecture name submitted.</p>}
 
                                 {/* show different buttons based on staff status */}
                                 {profileData?.is_staff &&

@@ -62,14 +62,14 @@ def run():
     for idx, lecture in enumerate(lectures, start=1):
         try:
             # 2d ensures padding for 2 digits
-            print(f"  {idx:2d}. {lecture.lecture_shortname}")
+            print(f"  {idx:2d}. {lecture.lecture_name}")
         except:
             pass
 
     idx = int(input("Select a lecture: "))
     lecture = lectures[idx - 1]
 
-    print(f"You've selected lecture {lecture.lecture_shortname}")
+    print(f"You've selected lecture {lecture.lecture_name}")
 
     # connect to api to retrieve temp
     print("Checking current temperature...")

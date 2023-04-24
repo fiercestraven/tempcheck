@@ -192,10 +192,17 @@ class User_ModuleAdmin(StaffPermission, admin.ModelAdmin):
 
 
 class LectureAdmin(StaffPermission, admin.ModelAdmin):
-    fields = ["module", "lecture_shortname", "lecture_description", "lecture_date"]
+    fields = [
+        "module",
+        "lecture_shortname",
+        "lecture_name",
+        "lecture_description",
+        "lecture_date",
+    ]
     list_display = (
         "module",
         "lecture_shortname",
+        "lecture_name",
         "lecture_description",
         "lecture_date",
     )

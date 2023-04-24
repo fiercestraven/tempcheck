@@ -6,6 +6,7 @@ body {
   padding: 0;
   margin: 0 auto;
   width: 100%;
+  height: auto;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
     Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   color: white;
@@ -77,6 +78,7 @@ h1 {
 
 img {
   max-width: 100%;
+  /* height: auto; */
   display: block;
 }
 
@@ -146,6 +148,7 @@ footer {
 .btn-start {
   display: block;
   width: 100%;
+  height: auto;
 }
 
 a.btn-start {
@@ -154,6 +157,7 @@ a.btn-start {
 
 .form-select {
   width: 30%;
+  height: auto;
 }
 
 #index-header {
@@ -174,6 +178,7 @@ a.btn-start {
 
 #banner-img {
   width: 100%;
+  height: auto;
   border-bottom: 1px solid white;
 }
 

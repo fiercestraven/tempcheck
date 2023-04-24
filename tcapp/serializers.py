@@ -14,6 +14,7 @@ class LectureSerializer(serializers.ModelSerializer):
         depth = 1
         fields = [
             "lecture_shortname",
+            "lecture_name",
             "lecture_description",
             "lecture_date",
             "module",

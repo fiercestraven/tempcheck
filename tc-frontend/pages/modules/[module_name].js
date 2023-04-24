@@ -74,9 +74,9 @@ export default function Module() {
               <p>Lecturer: {moduleData.instructor.first_name} {moduleData.instructor.last_name}</p>
               <p>Lectures:</p>
               <ul>
-                {moduleData.lectures.map(({ id, lecture_name }) => (
+                {moduleData.lectures.map(({ id, lecture_shortname, lecture_name }) => (
                   <li key={id}>
-                    <a href={`lectures/${lecture_name}`}>{lecture_name}</a>
+                    <a href={`lectures/${lecture_shortname}`}>{lecture_name}</a>
                   </li>
                 ))}
                 {!moduleData.lectures.length &&
