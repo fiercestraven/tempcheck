@@ -12,7 +12,7 @@
 # TEMPCHECK
 
 <!-- <img class="img" src="http://www.clker.com/cliparts/n/R/U/q/8/1/red-to-green-gradient-thermometer-md.png" alt="Thermometer logo for Tempcheck"/> -->
-![Thermometer logo for Tempcheck](tc-frontend/public/images/thermometer.png)
+<img src="tc-frontend/public/images/thermometer.png" alt="Thermometer logo for Tempcheck" width="100"/>
 
 Tempcheck is a web app designed to help instructors track how well students are understanding a lecture by providing a simple interface for students to ping and visual feedback for instructors and students.
 
