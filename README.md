@@ -31,6 +31,11 @@ Tempcheck is a web app designed to be minimally intrusive to students and instru
 
 Tempcheck is designed to be flexible. Instructors can adjust their threshold settings, choose whether to include a lightbulb, and reset the temperature at any time during the lecture. While Tempcheck is designed to be used in lectures, it works equally well in other settings, such as a group lab session.
 
+### CODE OVERVIEW
+The back end is built with Django and Python. It is set up in the tcapp folder and includes admin templates (such as the CSV upload tool), the system files (set aside in a folder called "tempcheck"), and the main back end production files, which are housed in a folder called "tcapp". This includes the models.py, views.py, serializers.py, and urls.py, which form the backbone of the Python/Django structure. 
+
+The front end work, based in React/Next.js, is found in the tc-frontend folder. There are two folders that contain component pieces of pages: one is the Lib folder, which contains files that are pure JSX, and the other is the Component folder, which contains files whose return includes HTML. A context folder holds the auth.js file, which handles fetching and storing the user's authentication information in local storage. A pages folder holds files for the actual web pages the user encounters, while a public -> images folder holds all the images used on the site. A styles folder holds the CSS file for Tempcheck.
+
 ### PASSWORD RECOMMENDATIONS
 User passwords are recommended to be between 8-20 characters and contain at least one number and one uppercase letter.
 
@@ -52,15 +57,15 @@ Tempcheck has two forms of automated testing set up:
 1. Integration testing through Django to test API access parameters
 2. Web automation testing through Playwright to check for end-to-end user functionality
 
-Integration tests are located at tcapp/tests.py and can be run in the terminal with the command
+Integration tests are located at tcapp/tests.py and can be run in the terminal:
 > python manage.py test tcapp
 
-Playwright tests are located in the scripts folder and all begin with test_. A simple command in the terminal will run these tests
+Playwright tests are located in the scripts folder and all begin with test_. A simple command in the terminal will run these tests:
 > pytest
 
 ## FUTURE FEATURES
-- Official deployment to follow
-- Button integration on web app for lightbulb functionality
+- Official deployment coming summer 2023
+- Button integration on instructor page of web app to enable lightbulb functionality
 - Account maintenance for students
 - Student ability to be anonymous
 - Email and smart watch notifications for colour changes

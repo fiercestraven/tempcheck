@@ -56,7 +56,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-# fv - add vercel/fly here to CORS and CSRF when deploying
+# add vercel/fly here to CORS and CSRF when deploying
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
@@ -174,11 +174,11 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=300),
 }
 
-# fv - per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py, not sure if needed?
+# per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py
 SWAGGER_SETTINGS = {
     "LOGIN_URL": "login",
     "LOGOUT_URL": "logout",
 }
 
-# fv - not sure if needed; per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py
+# per https://github.com/iMerica/dj-rest-auth/blob/master/demo/demo/settings.py
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

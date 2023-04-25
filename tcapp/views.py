@@ -19,7 +19,7 @@ from tcapp.serializers import (
 # Views
 
 
-# fv - could remove later now that this is done through Next; leaving for ability to see Django side for now
+# below is a remant left for the ability to see former Django front end
 @csrf_exempt
 def api_login(request):
     if request.method == "POST":
@@ -187,7 +187,6 @@ class LectureTemperatureView(APIView):
         if last_reset is not None:
             cutoff = max(last_reset.reset_time + timedelta(minutes=2), cutoff)
 
-        # fv - later, make sure we're only pulling distinct students here to avoid student who try to sneaky multiple ping - could do at ping creation point or here
         # count number of pings since the last cutoff
         # ping date: https://docs.python.org/3/library/datetime.html
         pcount = lec.ping_set.filter(ping_date__gt=cutoff).count()

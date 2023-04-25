@@ -66,7 +66,7 @@ def test_bad_student_workflow() -> None:
         page.get_by_label("Password:").fill("1nap.vale.Musty")
         page.get_by_role("button", name="Log in").click()
 
-        # fv check for error message here
+        # check for error message
         locator = page.locator(".errornote")
         expect(locator).to_contain_text(
             re.compile(

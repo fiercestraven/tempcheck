@@ -1,7 +1,4 @@
-# fv - below admin part is from tutorial https://learndjango.com/tutorials/django-login-and-logout-tutorial; not sure if needed
-from django.contrib import admin
 from django.urls import path, include
-from django.views.generic.base import TemplateView
 from . import views
 from django.contrib.auth import views as auth_views
 from rest_framework import routers
@@ -16,7 +13,6 @@ router.register(r"lectures", views.LectureViewSet, basename="lectures")
 app_name = "tcapp"
 urlpatterns = [
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
-    # fv - remove below ones not using?
     # https://docs.djangoproject.com/en/4.1/topics/auth/default/#django.contrib.auth.views.LoginView
     path(
         "accounts/login/",

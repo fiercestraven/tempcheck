@@ -41,7 +41,7 @@ def test_instructor_workflow() -> None:
             "CS155_W1_L2_2023_SUM"
         )
 
-        # fv check here for graph - this could be wrong
+        # check for graph here
         expect(
             page.locator(
                 ".container > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)"
@@ -68,7 +68,7 @@ def test_instructor_workflow() -> None:
         page.get_by_label("Lecture description:").fill("Intro and necessary paperwork")
         page.get_by_role("button", name="Save", exact=True).click()
 
-        # fv check if working
+        # check that update took effect
         locator = page.locator(
             "#result_list > tbody:nth-child(2) > tr:nth-child(35) > td:nth-child(5)"
         )

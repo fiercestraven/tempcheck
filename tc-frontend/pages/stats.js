@@ -1,4 +1,4 @@
-// fv - don't forget to try to add capabililty for data export for the chart
+
 import * as Plot from '@observablehq/plot';
 import * as d3 from "d3";
 import { addTooltips } from '../lib/plotTooltips';
