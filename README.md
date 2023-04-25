@@ -1,18 +1,19 @@
 
 <!-- https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax -->
 
-<style>
+<!-- <style>
 .img {
   display:block;
   margin-left: auto;
   margin-right: auto;
 }
-</style>
+</style> -->
 
 # TEMPCHECK
 
-<img class="img" src="http://www.clker.com/cliparts/n/R/U/q/8/1/red-to-green-gradient-thermometer-md.png" alt="Thermometer logo for Tempcheck"/>
-<!-- ![Thermometer logo for Tempcheck]() -->
+<!-- <img class="img" src="http://www.clker.com/cliparts/n/R/U/q/8/1/red-to-green-gradient-thermometer-md.png" alt="Thermometer logo for Tempcheck"/> -->
+![Thermometer logo for Tempcheck](tempcheck/tc-frontend/public/images/thermometer.png)
+
 Tempcheck is a web app designed to help instructors track how well students are understanding a lecture by providing a simple interface for students to ping and visual feedback for instructors and students.
 
 This is the software piece of the capstone dissertation project for the completion of the MSc in Software Development at Queen's University Belfast in 2023.
