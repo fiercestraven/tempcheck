@@ -10,8 +10,7 @@
 </style> -->
 
 # TEMPCHECK
-
-<!-- <img class="img" src="http://www.clker.com/cliparts/n/R/U/q/8/1/red-to-green-gradient-thermometer-md.png" alt="Thermometer logo for Tempcheck"/> -->
+<!-- https://stackoverflow.com/questions/14675913/changing-image-size-in-markdown -->
 <img src="tc-frontend/public/images/thermometer.png" alt="Thermometer logo for Tempcheck" width="100"/>
 
 Tempcheck is a web app designed to help instructors track how well students are understanding a lecture by providing a simple interface for students to ping and visual feedback for instructors and students.
@@ -19,43 +18,59 @@ Tempcheck is a web app designed to help instructors track how well students are 
 This is the software piece of the capstone dissertation project for the completion of the MSc in Software Development at Queen's University Belfast in 2023.
 
 ## FEATURES
--Non-intrusive
--Supports in-person or virtual lectures
--Applicable in other settings, such as lab sessions
--Customisation options available
--Statistical analysis for instructors
+- Non-intrusive
+- Supports in-person or virtual lectures
+- Applicable in other settings, such as lab sessions
+- Customisation options available
+- Statistical analysis for instructors
 
 ## OVERVIEW
 Academic lectures are often given to large groups of students, increasingly in an online environment. These two factors make it difficult for instructors to gauge the reaction of students to the material, and for students to sense the overall understanding of the material by their peers. Traditional solutions, such as online polls, showing hands, or physical notecards are all fairly intrusive and are more difficult to implement in an online environment.
 
-Tempcheck is a web app designed to be minimall intrusive to students and instructors alike. Student log in to a web app and have the opportunity to "ping" at any point in the lecture. Instructors have the ability to pre-set threshold levels according to their comfort. When the number of pings in a 2-minute time frame passes a threshold, an icon of a thermometer on the web app changes colour, slowly "heating up" from green to yellow to orange to red. An optional smart lightbulb can be connected to the lecture in order to provide a more ambient visual indicator of the mood of the class. 
+Tempcheck is a web app designed to be minimally intrusive to students and instructors alike. Student log in to a web app and have the opportunity to "ping" at any point in the lecture. Instructors have the ability to pre-set threshold levels according to their comfort. When the number of pings in a 2-minute time frame passes a threshold, an icon of a thermometer on the web app changes colour, slowly "heating up" from green to yellow to orange to red. An optional smart lightbulb can be connected to the lecture in order to provide a more ambient visual indicator of the mood of the class. 
 
 Tempcheck is designed to be flexible. Instructors can adjust their threshold settings, choose whether to include a lightbulb, and reset the temperature at any time during the lecture. While Tempcheck is designed to be used in lectures, it works equally well in other settings, such as a group lab session.
 
-### BATCH USER UPLOAD VIA CSV
-There is a csv file upload available through the Django admin interface to facilitate batch importing student and/or staff data. This file must be of type .csv and should follow either of the following formats:
-username,first_name,last_name,email,is_staff
-username,first_name,last_name,email,password,is_staff
-*please note that in the second instance above, assigned passwords may not contain any comma ',' characters. 
-
 ### PASSWORD RECOMMENDATIONS
 User passwords are recommended to be between 8-20 characters and contain at least one number and one uppercase letter.
+
+### BATCH USER UPLOAD VIA CSV
+There is a csv file upload available through the Django admin interface to facilitate batch importing student and/or staff data. This file must be of type .csv and should follow either of the following formats:
+
+- username,first_name,last_name,email,is_staff
+- username,first_name,last_name,email,password,is_staff
+
+*please note that in the second instance above, assigned passwords may not contain any comma ',' characters. 
+
 
 ## DEMO
 <!-- fv link to video here -->
 
 ## TESTS
-<!-- fv Provide examples on how to run them here. -->
+Tempcheck has two forms of automated testing set up:
+
+1. Integration testing through Django to test API access parameters
+2. Web automation testing through Playwright to check for end-to-end user functionality
+
+Integration tests are located at tcapp/tests.py and can be run in the terminal with the command
+> python manage.py test tcapp
+
+Playwright tests are located in the scripts folder and all begin with test_. A simple command in the terminal will run these tests
+> pytest
 
 ## FUTURE FEATURES
-<!-- fv list improvements here -->
+- Official deployment to follow
+- Button integration on web app for lightbulb functionality
+- Account maintenance for students
+- Student ability to be anonymous
+- Email and smart watch notifications for colour changes
+- Continuous integration for bug fixes
 
 ## BUILT WITH
-<!-- fv check this with Dan -->
-Django / Python
-Next.js / React / JavaScript
-HTML
-CSS
+- Django / Python
+- Next.js / React / JavaScript
+- HTML
+- CSS
 
 ## ACKNOWLEDGEMENTS
 
