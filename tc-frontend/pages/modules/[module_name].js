@@ -42,7 +42,7 @@ export default function Module() {
   }
 
   if (!userData.username) {
-    router.push("/");
+    router.push("/modules");
   }
 
   return (

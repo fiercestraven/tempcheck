@@ -65,7 +65,7 @@ export default function Lecture() {
     }
 
     if (!userData.username) {
-        router.push("/");
+        router.push("/modules");
     }
 
     function handleTimerComplete() {

@@ -84,13 +84,15 @@ class ModuleViewSet(viewsets.ModelViewSet):
             return Module.objects.all().order_by("module_shortname")
         elif user.is_staff:
             # return only modules that the instructor teaches
-            return user.module_set.filter(is_active=True).order_by("module_shortname")
+            # do not filter by is_active status here, as the stats page needs to pull in all types of modules
+            return user.module_set.order_by("module_shortname")
         else:
             # return active modules for which the logged-in user is enrolled
             # query constructed in the shell
-            return Module.objects.filter(
-                user_module__user=user, is_active=True
-            ).order_by("module_shortname")
+            # do not filter by is_active status here, as the stats page needs to pull in all types of modules
+            return Module.objects.filter(user_module__user=user).order_by(
+                "module_shortname"
+            )
 
     lookup_field = "module_shortname"
     serializer_class = ModuleSerializer
