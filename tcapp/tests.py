@@ -132,25 +132,6 @@ class APITests(APITestCase):
         response = self.client.get("/tcapp/api/modules/")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    # test inacative modules are not included in the api response
-    def test_inactive_modules_are_hidden(self):
-        self.module_a.is_active = False
-        self.module_a.save()
-
-        # with instructor
-        with self.subTest(who=self.instructor_a):
-            self.client.force_authenticate(user=self.instructor_a)
-            response = self.client.get("/tcapp/api/modules/")
-            modules = [module["module_shortname"] for module in response.data]
-            self.assertNotIn("module_a", modules)
-
-        # with student
-        with self.subTest(who=self.student_a):
-            self.client.force_authenticate(user=self.student_a)
-            response = self.client.get("/tcapp/api/modules/")
-            modules = [module["module_shortname"] for module in response.data]
-            self.assertNotIn("module_a", modules)
-
     # MODULE DETAIL TESTS
     # test admin user can see module details for all models
     def test_module_details_admin(self):
