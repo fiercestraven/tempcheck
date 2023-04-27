@@ -179,6 +179,14 @@ class LectureTemperatureView(APIView):
         # count pings in the last two minutes
         lec = Lecture.objects.get(lecture_shortname=lecture_shortname)
 
+        # get number of students enrolled in the module
+        mod = lec.module
+        num_students = mod.user_module_set.count()
+
+        # early return of temp 0 if no students in module
+        if num_students == 0:
+            return Response(0)
+
         # set cutoff time
         cutoff = timezone.now() - timedelta(minutes=2)
         # adjust cutoff if the reset button has been pressed more recently than the cutoff time
@@ -190,10 +198,6 @@ class LectureTemperatureView(APIView):
         # count number of pings since the last cutoff
         # ping date: https://docs.python.org/3/library/datetime.html
         pcount = lec.ping_set.filter(ping_date__gt=cutoff).count()
-
-        # get number of students enrolled in the module
-        mod = lec.module
-        num_students = mod.user_module_set.count()
 
         # get instructor and their thresholds
         try:

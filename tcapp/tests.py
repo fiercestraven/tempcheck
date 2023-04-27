@@ -61,19 +61,18 @@ class APITests(APITestCase):
 
     # PROFILE TESTS
     # profile API returns profile data if a user is logged in
-    # fv - is there a way to test more specifically that student_a and instructor_a's info is being returned? Tests fail
     def test_profile_data_authenticated(self):
         with self.subTest(who=self.student_a):
             self.client.force_authenticate(user=self.student_a)
             response = self.client.get("/tcapp/api/profile/")
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            self.assertIn("last_name", response.data)
+            self.assertEqual(response.data["username"], "student_a")
 
         with self.subTest(who=self.instructor_a):
             self.client.force_authenticate(user=self.instructor_a)
             response = self.client.get("/tcapp/api/profile/")
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            self.assertIn("last_name", response.data)
+            self.assertEqual(response.data["username"], "instructor_a")
 
     # profile API does not return data if nobody is logged in
     def test_profile_data_unauthenticated(self):
@@ -380,13 +379,12 @@ class APITests(APITestCase):
                 )
                 self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-            # fv - below doesn't work because no students are enrolled in module_c so it causes a "division by 0" error. Ask Dan whether to care.
             # for lecture from module_c
-            # with self.subTest():
-            #     response = self.client.get(
-            #         "/tcapp/api/lectures/module_c_lecture_1/temperature/"
-            #     )
-            #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+            with self.subTest():
+                response = self.client.get(
+                    "/tcapp/api/lectures/module_c_lecture_1/temperature/"
+                )
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # for a student
         with self.subTest(who=self.student_a):
