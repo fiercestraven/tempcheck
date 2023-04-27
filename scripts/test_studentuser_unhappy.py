@@ -1,8 +1,6 @@
 import re
 from playwright.sync_api import Playwright, sync_playwright, expect
 
-# if test does not time out or fail, everything is working okay
-
 
 def test_bad_student_workflow() -> None:
     with sync_playwright() as playwright:

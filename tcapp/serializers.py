@@ -46,12 +46,17 @@ class ModuleSerializer(serializers.ModelSerializer):
 
 
 class PingSerializer(serializers.ModelSerializer):
+    # return the student username and the lecture shortname here instead of pk numbers
+    student = serializers.CharField(source="student.username")
+    lecture = serializers.CharField(source="lecture.lecture_shortname")
+
     class Meta:
         model = Ping
         fields = ["ping_date", "student", "lecture"]
 
 
 class ResetSerializer(serializers.ModelSerializer):
+    # could do same as pings above if this information is ever needed for export or if returning usernames and lecture names is desirable in future
     class Meta:
         model = Reset
         fields = ["reset_time", "instructor", "lecture"]

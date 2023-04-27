@@ -3,7 +3,6 @@ import Layout from '../components/layout';
 import Header from '../components/header';
 import Login from '../components/login';
 import ModuleList from '../components/modulelist';
-import Link from 'next/link';
 import React, { useContext } from 'react';
 import { CurrentUserContext } from '../context/auth';
 

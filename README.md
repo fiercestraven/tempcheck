@@ -1,13 +1,6 @@
 
 <!-- https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax -->
 
-<!-- <style>
-.img {
-  display:block;
-  margin-left: auto;
-  margin-right: auto;
-}
-</style> -->
 
 # TEMPCHECK
 <!-- https://stackoverflow.com/questions/14675913/changing-image-size-in-markdown -->

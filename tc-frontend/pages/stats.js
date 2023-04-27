@@ -3,12 +3,13 @@ import * as Plot from '@observablehq/plot';
 import * as d3 from "d3";
 import { addTooltips } from '../lib/plotTooltips';
 import Head from 'next/head';
-import Link from 'next/link';
 import Layout from '../components/layout';
 import Header from '../components/header';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
+// https://www.npmjs.com/package/react-csv-downloader
+import CsvDownloader from 'react-csv-downloader';
 
 export default function Stats() {
   const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
@@ -125,12 +126,21 @@ export default function Stats() {
         (datum.ping_date.getUTCMinutes() * 60 * 1000)
         // ignoring seconds - too granular for the chart
       )
+      // make a version of the date for csv export that is more easily readable
+      datum.readableDate = datum.ping_date.toISOString().slice(11, 19);
       return datum;
     });
     setPingData(parsedData);
     setPingFetchComplete(true);
     console.log(pingData);
   }
+
+  // set up column names for csv export file
+  const csvColumns = [
+    { id: 'readableDate', displayName: 'Ping Date' },
+    { id: 'student', displayName: 'Student' },
+    { id: 'lecture', displayName: 'Lecture' }
+  ]
 
 
   return (
@@ -177,7 +187,7 @@ export default function Stats() {
                   <option defaultValue>Select a Lecture</option>
                   {lectureData.lectures.map((lecture) => (
                     <option value={lecture.lecture_shortname} key={lecture.lecture_shortname}>
-                      {lecture.lecture_shortname}
+                      {lecture.lecture_name}
                     </option>
                   ))}
                   {!lectureData.lectures.length &&
@@ -203,6 +213,36 @@ export default function Stats() {
                 }
               </div>
             }
+
+            {/* temp table for ping csv here */}
+            {pingFetchComplete && pingData.length &&
+              <div>
+                <table>
+                  <tr>
+                    <th>Ping Date</th>
+                    <th>Student</th>
+                    <th>Lecture</th>
+                  </tr>
+                  {pingData.map((ping) => (
+                    <tr>
+                      {/* return string of date here instead of object, and slice it to return only the time, not date */}
+                      <td>{ping.readableDate}</td>
+                      <td>{ping.student}</td>
+                      <td>{ping.lecture}</td>
+                    </tr>
+                  ))}
+                  {!pingData.length &&
+                    <tr>
+                      <td>There are no pings to display.</td>
+                    </tr>
+                  }
+                </table>
+                <CsvDownloader datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
+              </div>
+            }
+
+
+
 
             <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
           </div>

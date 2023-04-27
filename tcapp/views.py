@@ -2,12 +2,12 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_403_FORBIDDEN
+from rest_framework.status import HTTP_403_FORBIDDEN
 from rest_framework.views import APIView
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from .models import Ping, Lecture, Module, Threshold, Reset, User_Module
+from .models import Ping, Lecture, Module, Threshold
 from tcapp.serializers import (
     ModuleSerializer,
     LectureSerializer,
