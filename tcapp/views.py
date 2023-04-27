@@ -122,8 +122,8 @@ class PingView(APIView):
         serializer = PingSerializer(
             data={
                 "ping_date": datetime.now(),
-                "lecture": lecture.pk,
-                "student": student.pk,
+                "lecture": lecture.lecture_shortname,
+                "student": student.username,
             }
         )
         if serializer.is_valid():

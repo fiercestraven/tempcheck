@@ -50,6 +50,15 @@ class PingSerializer(serializers.ModelSerializer):
     student = serializers.CharField(source="student.username")
     lecture = serializers.CharField(source="lecture.lecture_shortname")
 
+    def create(self, validated_data):
+        lecture = Lecture.objects.get(
+            lecture_shortname=validated_data["lecture"]["lecture_shortname"]
+        )
+        student = User.objects.get(username=validated_data["student"]["username"])
+        return Ping.objects.create(
+            lecture=lecture, student=student, ping_date=validated_data["ping_date"]
+        )
+
     class Meta:
         model = Ping
         fields = ["ping_date", "student", "lecture"]
