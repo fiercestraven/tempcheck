@@ -29,6 +29,8 @@ The back end is built with Django and Python. It is set up in the tcapp folder a
 
 The front end work, based in React/Next.js, is found in the tc-frontend folder. There are two folders that contain component pieces of pages: one is the Lib folder, which contains files that are pure JSX, and the other is the Component folder, which contains files whose return includes HTML. A context folder holds the auth.js file, which handles fetching and storing the user's authentication information in local storage. A pages folder holds files for the actual web pages the user encounters, while a public -> images folder holds all the images used on the site. A styles folder holds the CSS file for Tempcheck.
 
+### IMPLEMENTATION
+
 ### PASSWORD RECOMMENDATIONS
 User passwords are recommended to be between 8-20 characters and contain at least one number and one uppercase letter.
 
