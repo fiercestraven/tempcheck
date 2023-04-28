@@ -189,3 +189,16 @@ a.btn-start {
   margin: 30px;
   float: left;
 }
+
+table {
+  margin-top: 3rem;
+}
+
+tr {
+  border-bottom: 1px solid #ddd;
+}
+
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}

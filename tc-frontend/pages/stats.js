@@ -214,7 +214,7 @@ export default function Stats() {
               </div>
             }
 
-            {/* temp table for ping csv here */}
+            {/* table for ping csv here */}
             {pingFetchComplete && pingData.length &&
               <div>
                 <table>
@@ -237,12 +237,9 @@ export default function Stats() {
                     </tr>
                   }
                 </table>
-                <CsvDownloader datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
+                <CsvDownloader className="w-30 mt-4 mb-5 btn btn-md btn-light" datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
               </div>
             }
-
-
-
 
             <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
           </div>
