@@ -71,6 +71,14 @@ class UserAdmin(StaffPermission, UserAdmin):
         if obj:
             return []
 
+    # fv below is not working to fix superuser bug for adding
+    # def has_add_permission(self, request, obj=None):
+    #     # true for superuser and staff
+    #     if request.user.is_superuser or request.user.is_staff:
+    #         return True
+    #     if obj:
+    #         return []
+
     def has_delete_permission(self, request, obj=None):
         # only a superuser can do any deletion
         return request.user.is_superuser

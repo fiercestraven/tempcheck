@@ -40,13 +40,12 @@ export default function ModuleList() {
                 <title>Modules</title>
             </Head>
 
-            <h1>Modules</h1>
-
             <div className="container content">
-                <h3 style={{ fontStyle: 'italic' }}>Welcome, {userData?.first_name || "Visitor"}!</h3>
+                <h1>modules</h1>
+                <h3>Welcome, {userData?.first_name || "Visitor"}!</h3>
 
                 {(userData.username && moduleData.length) &&
-                    <div className="container">
+                    <div className="container modules-section">
                         <section>
                             <ul>
                                 {moduleData.filter((module) => module.is_active).map((module) => (

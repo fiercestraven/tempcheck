@@ -5,10 +5,12 @@ import Login from '../components/login';
 import ModuleList from '../components/modulelist';
 import React, { useContext } from 'react';
 import { CurrentUserContext } from '../context/auth';
+import Image from 'next/image';
 
 export default function HomePage() {
     // get user management functions from context
     const { userData } = useContext(CurrentUserContext);
+    const imageURL = "/images/thermometer.png"
 
     return (
         <div>
@@ -21,10 +23,17 @@ export default function HomePage() {
                     <Header />
                 </header>
 
-                <div className="container content">
-                    <div className="row">
-                        <div className="col-6">
+                <div>
+                    <div className="row container content">
+                        <div className="col-2"></div>
 
+                        <div className="col-3 sidebar">
+                            <Image id="side-img"
+                                priority
+                                src={imageURL}
+                                width={380}
+                                height={380}
+                            />
                         </div>
 
                         <div className="col-6">
@@ -37,6 +46,8 @@ export default function HomePage() {
                             )}
 
                         </div>
+
+                        <div className="col-2"></div>
 
                     </div>
                 </div>

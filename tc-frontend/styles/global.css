@@ -54,26 +54,49 @@ a:hover {
   color: #ffffff;
 }
 
-#header-link {
-  text-transform: uppercase;
-}
-
-#header-link:hover {
+.header-link {
   border-bottom: none;
-}
-
-#index-header:hover {
-  border-bottom: none;
-}
-
-h2 {
   text-transform: uppercase;
-  font-size: 38px;
+  color: white;
+}
+
+.header-link:hover {
+  border-bottom: none;
+  color: #a6a8a5;
+}
+
+.header-link:visited {
+  color: white;
+}
+
+.heading2Xl {
+  font-family: futura;
+  font-size: 2.5rem;
+  color: white;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.05rem;
+  margin: 1rem 0;
+  text-align: center;
 }
 
 h1 {
-  font-size: 60px;
-  font-family: Monument Grotesk;
+  font-family: futura;
+  font-size: 70px;
+  letter-spacing: 1rem;
+  /* text-transform: uppercase; */
+}
+
+h2 {
+  font-family: futura;
+  font-size: 38px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+h3 {
+  font-size: 22px;
+  font-style: italic;
 }
 
 img {
@@ -86,6 +109,11 @@ img {
   margin-bottom: 6rem;
   flex: 1 0 auto;
 }
+
+/* 
+.modules-section {
+  margin-top: 0.5rem;
+} */
 
 form {
   margin-top: 1rem;
@@ -135,15 +163,6 @@ footer {
   padding-left: 30px;
 }
 
-.heading2Xl {
-  font-size: 2.5rem;
-  line-height: 1.2;
-  font-weight: 500;
-  letter-spacing: -0.05rem;
-  margin: 1rem 0;
-  text-align: center;
-}
-
 .btn-start {
   display: block;
   width: 100%;
@@ -155,11 +174,12 @@ a.btn-start {
 }
 
 .form-select {
-  width: 30%;
+  width: 25%;
   height: auto;
 }
 
 #index-header {
+  background-color: black;
   color: white;
   text-align: center;
   font-size: 7vw;
@@ -177,12 +197,19 @@ a.btn-start {
 
 #banner-img {
   width: 100%;
-  border-bottom: 1px solid white;
 }
 
 #header-img {
   /* margin: 20px; */
   float: left;
+}
+
+.sidebar {
+  position: sticky;
+}
+
+.side-img {
+  position: absolute;
 }
 
 #thermometer-img {

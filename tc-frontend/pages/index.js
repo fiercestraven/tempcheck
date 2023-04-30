@@ -23,7 +23,7 @@ export default function IndexPage() {
 
         <div>
           <div className="row">
-            <a href="/modules">
+            <a className="header-link" href="/modules">
               <Image id="banner-img"
                 priority
                 src={imageURL}
@@ -32,8 +32,10 @@ export default function IndexPage() {
                 alt="temperature gradient from green to red"
               />
             </a>
+          </div>
 
-            <a id="index-header" href="/modules">
+          <div id="index-header">
+            <a className="header-link" href="/modules">
               {/* https://stackoverflow.com/questions/14678154/centre-align-text-that-has-extra-letter-spacing-applied */}
               TEMPCHECK
             </a>
@@ -51,7 +53,7 @@ export default function IndexPage() {
               {userData.username && (
                 // if already logged in, just show links to other pages
                 <div>
-                  <button className="w-30 mt-3 mb-5 btn btn-outline-light btn-start" type={'submit'} onClick={logoutUser}>Log Out</button>
+                  <button className="w-30 mt-5 mb-5 btn btn-outline-light btn-start" type={'submit'} onClick={logoutUser}>Log Out</button>
                 </div>
               )}
             </div>

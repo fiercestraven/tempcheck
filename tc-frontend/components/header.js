@@ -6,14 +6,14 @@ export default function Header() {
 
     return (
         <div>
-            <div>
-                <a id="index-header" href="/modules">
+            <div id="index-header">
+                <a className="header-link" href="/modules">
                     {/* https://stackoverflow.com/questions/14678154/centre-align-text-that-has-extra-letter-spacing-applied */}
                     TEMPCHECK
                 </a>
             </div>
 
-            <div>
+            {/* <div>
                 <Image id="header-img"
                     priority
                     src={imageURL}
@@ -21,7 +21,7 @@ export default function Header() {
                     width={1800}
                     alt="temperature gradient from green to red"
                 />
-            </div>
-        </div>
+            </div> */}
+        </div >
     );
 }

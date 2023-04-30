@@ -18,8 +18,10 @@ export default function Stats() {
   const [pingData, setPingData] = useState([]);
   const [pingFetchComplete, setPingFetchComplete] = useState(false);
   const [profileData, setProfileData] = useState();
+  const [lectureFetchComplete, setLectureFetchComplete] = useState(false);
   const router = useRouter();
-  const chartRef = useRef();
+  const dotChartRef = useRef();
+  const pingsPerModuleChartRef = useRef();
 
   useEffect(() => {
     async function getModuleData() {
@@ -49,11 +51,11 @@ export default function Stats() {
     }
   }, [userData]);
 
-  // set up chart
+  // set up ping visualisation chart
   // https://observablehq.com/@observablehq/plot?collection=@observablehq/plot
   useEffect(() => {
     console.debug("pingData is:", pingData);
-    console.debug("chartRef is:", chartRef);
+    console.debug("dotChartRef is:", dotChartRef);
     const chart = addTooltips(Plot.plot({
       style: { background: 'transparent' },
       width: 1000,
@@ -75,9 +77,20 @@ export default function Stats() {
       insetLeft: 30,
       insetRight: 30,
     }));
-    chartRef?.current?.append(chart);
+    dotChartRef?.current?.append(chart);
     return () => chart?.remove();
-  }, [chartRef.current, pingData]);
+  }, [dotChartRef.current, pingData]);
+
+  // set up avg pings per module bar chart
+  useEffect(() => {
+    console.debug("pingData is:", pingData);
+    console.debug("pingsPerModuleChartRef is:", pingsPerModuleChartRef);
+    const chart = addTooltips(Plot.plot({
+
+    }));
+    pingsPerModuleChartRef?.current?.append(chart);
+    return () => chart?.remove();
+  }, [pingsPerModuleChartRef.current, lectureData]);
 
   // wait until user data and profile data are loaded
   if (!userDataLoaded || !profileData) {
@@ -103,6 +116,7 @@ export default function Stats() {
     });
     const data = await res.json();
     setLectureData(data);
+    setLectureFetchComplete(true);
     console.log("Lecture data is ", data);
   }
 
@@ -175,6 +189,12 @@ export default function Stats() {
               }
             </select>
 
+            {/* pings per module graph here */}
+            {lectureFetchComplete &&
+              <div className="mt-3 mb-2" ref={pingsPerModuleChartRef}>
+              </div>
+            }
+
             {/* menu for lectures here */}
             {lectureData?.lectures &&
               <div>
@@ -200,7 +220,7 @@ export default function Stats() {
                 {pingFetchComplete && !!pingData.length &&
                   <div>
                     <p></p>
-                    <div ref={chartRef}></div>
+                    <div ref={dotChartRef}></div>
                   </div>
                 }
 
@@ -240,11 +260,13 @@ export default function Stats() {
                 <CsvDownloader className="w-30 mt-4 mb-5 btn btn-md btn-light" datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
               </div>
             }
-
-            <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
           </div>
         }
+
+        <div>
+          <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
+        </div>
       </div>
-    </Layout>
+    </Layout >
   );
 }
