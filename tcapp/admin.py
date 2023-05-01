@@ -68,16 +68,7 @@ class UserAdmin(StaffPermission, UserAdmin):
         if not request.user.is_superuser:
             return ("is_staff", "is_superuser", "last_login", "date_joined")
         # fix for 'NoneType' error: https://books.agiliq.com/projects/django-admin-cookbook/en/latest/uneditable_existing.html
-        if obj:
-            return []
-
-    # fv below is not working to fix superuser bug for adding
-    # def has_add_permission(self, request, obj=None):
-    #     # true for superuser and staff
-    #     if request.user.is_superuser or request.user.is_staff:
-    #         return True
-    #     if obj:
-    #         return []
+        return []
 
     def has_delete_permission(self, request, obj=None):
         # only a superuser can do any deletion
