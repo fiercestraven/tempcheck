@@ -110,7 +110,7 @@ img {
   flex: 1 0 auto;
 }
 
-/* 
+/* fv
 .modules-section {
   margin-top: 0.5rem;
 } */
@@ -121,7 +121,7 @@ form {
 }
 
 header {
-  margin-top: 2rem;
+  margin: 4rem 0 2rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -142,14 +142,16 @@ footer {
   font-weight: 400;
   font-style: normal;
   z-index: 890;
-  padding: 20px;
+  padding: 60px;
+  margin-bottom: 3rem;
 }
 
-.footer-info {
+.footer-header-info {
   display: inline;
 }
 
 .main-nav ul {
+  text-transform: uppercase;
   list-style: none;
 }
 
@@ -178,8 +180,8 @@ a.btn-start {
   height: auto;
 }
 
-#index-header {
-  background-color: black;
+.index-header {
+  /* background-color: black; */
   color: white;
   text-align: center;
   font-size: 7vw;

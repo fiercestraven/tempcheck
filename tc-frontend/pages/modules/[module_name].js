@@ -54,7 +54,6 @@ export default function Module() {
         <title>{moduleData?.module_name || "Module Details"}</title>
       </Head>
 
-
       <header>
         <Header />
       </header>

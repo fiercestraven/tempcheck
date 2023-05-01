@@ -10,7 +10,7 @@ import Image from 'next/image';
 export default function HomePage() {
     // get user management functions from context
     const { userData } = useContext(CurrentUserContext);
-    const imageURL = "/images/thermometer.png"
+    const imageURL = "/images/rainbow_thermometer.svg"
 
     return (
         <div>
@@ -27,12 +27,12 @@ export default function HomePage() {
                     <div className="row container content">
                         <div className="col-2"></div>
 
-                        <div className="col-3 sidebar">
+                        <div className="col-2 sidebar">
                             <Image id="side-img"
                                 priority
                                 src={imageURL}
-                                width={380}
-                                height={380}
+                                width={220}
+                                height={360}
                             />
                         </div>
 

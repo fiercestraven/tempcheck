@@ -76,7 +76,11 @@ export default function Stats() {
       // provide visual padding for first and last pings
       insetLeft: 30,
       insetRight: 30,
-    }));
+    }), {
+      stroke: 'white',
+      fill: 'gray',
+      'stroke-width': 4,
+    });
     dotChartRef?.current?.append(chart);
     return () => chart?.remove();
   }, [dotChartRef.current, pingData]);
@@ -85,10 +89,49 @@ export default function Stats() {
   useEffect(() => {
     console.debug("pingData is:", pingData);
     console.debug("pingsPerModuleChartRef is:", pingsPerModuleChartRef);
-    const chart = addTooltips(Plot.plot({
+    let chart;
 
-    }));
-    pingsPerModuleChartRef?.current?.append(chart);
+    async function fetchPingsBarChart() {
+      // fv check for lectureData complete here
+
+      // create map of lecture names and average ping values
+      const pingSummary = [];
+
+      for (const lecture of lectureData.lectures) {
+        const res = await fetch(`http://localhost:8000/tcapp/api/lectures/${lecture.lecture_shortname}/pings`, {
+          headers: {
+            'Authorization': `Bearer ${userData.access_token}`,
+          },
+        });
+        const data = await res.json();
+        // count and store number of pings for each lecture in the numPings structure
+        pingSummary.push({ 'name': lecture.lecture_name, 'pings': data.length });
+      }
+      console.log(pingSummary);
+      chart = addTooltips(Plot.plot({
+        marginBottom: 80,
+        x: {
+          tickRotate: -30,
+          label: '',
+        },
+        style: { background: 'transparent' },
+        marks: [
+          Plot.ruleY([0]),
+          Plot.barY(pingSummary, {
+            x: 'name',
+            y: 'pings',
+            title: (summary) => `${summary.pings} Ping${summary.pings == 1 ? '' : 's'}`
+          })
+        ]
+      }), {
+        stroke: 'white',
+        fill: 'gray',
+        'stroke-width': 4,
+      });
+      pingsPerModuleChartRef?.current?.append(chart);
+    }
+    // if lectureData exists, run ping bar chart function
+    lectureData && fetchPingsBarChart();
     return () => chart?.remove();
   }, [pingsPerModuleChartRef.current, lectureData]);
 
