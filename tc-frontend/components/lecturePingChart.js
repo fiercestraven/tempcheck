@@ -109,27 +109,31 @@ export default function LecturePingChart({ lectureName }) {
         <>
             <p></p>
             <div ref={dotChartRef}></div>
-            <table>
-                <tr>
-                    <th>Ping Date</th>
-                    <th>Student</th>
-                    <th>Lecture</th>
-                </tr>
-                {pingData.map((ping) => (
+            {/* show/hide ping data table */}
+            <details>
+                <summary>Show Ping Table</summary>
+                <table>
                     <tr>
-                        {/* return string of date here instead of object, and slice it to return only the time, not date */}
-                        <td>{ping.readableDate}</td>
-                        <td>{ping.student}</td>
-                        <td>{ping.lecture}</td>
+                        <th>Ping Date</th>
+                        <th>Student</th>
+                        <th>Lecture</th>
                     </tr>
-                ))}
-                {!pingData.length &&
-                    <tr>
-                        <td>There are no pings to display.</td>
-                    </tr>
-                }
-            </table>
-            <CsvDownloader className="w-30 mt-4 mb-5 btn btn-md btn-light" datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
+                    {pingData.map((ping) => (
+                        <tr>
+                            {/* return string of date here instead of object, and slice it to return only the time, not date */}
+                            <td>{ping.readableDate}</td>
+                            <td>{ping.student}</td>
+                            <td>{ping.lecture}</td>
+                        </tr>
+                    ))}
+                    {!pingData.length &&
+                        <tr>
+                            <td>There are no pings to display.</td>
+                        </tr>
+                    }
+                </table>
+            </details>
+            <CsvDownloader className="w-30 mt-4 mb-5 btn btn-md btn-light" text="Download Ping Data" datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
         </>
     )
 }

@@ -1,10 +1,9 @@
 
-import * as Plot from '@observablehq/plot';
-import { addTooltips } from '../lib/plotTooltips';
 import Head from 'next/head';
 import Layout from '../components/layout';
 import Header from '../components/header';
 import LecturePingChart from '../components/lecturePingChart';
+import ModulePingChart from '../components/modulePingChart';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
@@ -13,12 +12,8 @@ export default function Stats() {
   const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
   const [moduleData, setModuleData] = useState([]);
   const [lectureData, setLectureData] = useState();
-  const [pingData, setPingData] = useState([]);
   const [profileData, setProfileData] = useState();
-  const [lectureFetchComplete, setLectureFetchComplete] = useState(false);
   const router = useRouter();
-  const dotChartRef = useRef();
-  const pingsPerModuleChartRef = useRef();
   const [selectedLecture, setSelectedLecture] = useState();
 
   useEffect(() => {
@@ -49,56 +44,6 @@ export default function Stats() {
     }
   }, [userData]);
 
-  // set up avg pings per module bar chart
-  useEffect(() => {
-    console.debug("pingData is:", pingData);
-    console.debug("pingsPerModuleChartRef is:", pingsPerModuleChartRef);
-    let chart;
-
-    async function fetchPingsBarChart() {
-      // fv check for lectureData complete here
-
-      // create map of lecture names and average ping values
-      const pingSummary = [];
-
-      for (const lecture of lectureData.lectures) {
-        const res = await fetch(`http://localhost:8000/tcapp/api/lectures/${lecture.lecture_shortname}/pings`, {
-          headers: {
-            'Authorization': `Bearer ${userData.access_token}`,
-          },
-        });
-        const data = await res.json();
-        // count and store number of pings for each lecture in the numPings structure
-        pingSummary.push({ 'name': lecture.lecture_name, 'pings': data.length });
-      }
-      console.log(pingSummary);
-      chart = addTooltips(Plot.plot({
-        marginBottom: 80,
-        x: {
-          tickRotate: -30,
-          label: '',
-        },
-        style: { background: 'transparent' },
-        marks: [
-          Plot.ruleY([0]),
-          Plot.barY(pingSummary, {
-            x: 'name',
-            y: 'pings',
-            title: (summary) => `${summary.pings} Ping${summary.pings == 1 ? '' : 's'}`
-          })
-        ]
-      }), {
-        stroke: 'white',
-        fill: 'gray',
-        'stroke-width': 4,
-      });
-      pingsPerModuleChartRef?.current?.append(chart);
-    }
-    // if lectureData exists, run ping bar chart function
-    lectureData && fetchPingsBarChart();
-    return () => chart?.remove();
-  }, [pingsPerModuleChartRef.current, lectureData]);
-
   // wait until user data and profile data are loaded
   if (!userDataLoaded || !profileData) {
     return (
@@ -113,19 +58,21 @@ export default function Stats() {
 
   // take user-selected data for module and look up lecture info
   async function handleModuleChange(event) {
+    // reset state to prevent old charts hanging around
     setSelectedLecture(undefined);
-    console.log(event.target.value);
+    setLectureData(undefined);
 
     // target correct API endpoint and bring in lectures for the chosen module
-    const res = await fetch(`http://localhost:8000/tcapp/api/modules/${event.target.value}/`, {
-      headers: {
-        'Authorization': `Bearer ${userData.access_token}`,
-      },
-    });
-    const data = await res.json();
-    setLectureData(data);
-    setLectureFetchComplete(true);
-    console.log("Lecture data is ", data);
+    if (event.target.value) {
+      const res = await fetch(`http://localhost:8000/tcapp/api/modules/${event.target.value}/`, {
+        headers: {
+          'Authorization': `Bearer ${userData.access_token}`,
+        },
+      });
+      const data = await res.json();
+      setLectureData(data);
+      console.log("Lecture data is ", data);
+    }
   }
 
   return (
@@ -160,14 +107,11 @@ export default function Stats() {
               }
             </select>
 
-            {/* pings per module graph here */}
-            {lectureFetchComplete &&
-              <div className="mt-3 mb-2" ref={pingsPerModuleChartRef}>
-              </div>
-            }
+            {/* pings per module chart here */}
+            < ModulePingChart lectures={lectureData?.lectures} />
 
             {/* menu for lectures here */}
-            {lectureData?.lectures &&
+            {lectureData?.lectures && lectureData.lectures.length != 0 &&
               <div>
                 <p></p>
                 <select
@@ -181,12 +125,9 @@ export default function Stats() {
                       {lecture.lecture_name}
                     </option>
                   ))}
-                  {!lectureData.lectures.length &&
-                    <option disabled>There are no lectures to display.</option>
-                  }
                 </select>
 
-                {/* chart here */}
+                {/* lecture ping chart here */}
                 <LecturePingChart lectureName={selectedLecture} />
               </div>
             }
