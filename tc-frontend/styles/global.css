@@ -30,6 +30,7 @@ main {
 
 p {
   line-height: 1.4;
+  margin-bottom: 0.5rem;
 }
 
 a {
@@ -90,10 +91,10 @@ h1 {
 
 h2 {
   font-family: futura;
-  font-size: 32px;
+  font-size: 42px;
   font-weight: 500;
-  letter-spacing: -.25rem;
-  text-transform: uppercase;
+  /* letter-spacing: -.25rem; */
+  text-transform: lowercase;
 }
 
 h3 {
@@ -107,7 +108,9 @@ img {
 }
 
 .content {
-  margin: 1rem 0rem 3rem 0rem;
+  margin: 0rem 0rem 3rem 0rem;
+  padding-right: 5rem;
+  padding-left: 3rem;
   flex: 1 0 auto;
 }
 
@@ -198,6 +201,15 @@ a.btn-start {
 .form-select {
   width: 25%;
   height: auto;
+}
+
+.input-box {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 10px;
+  border: 1px solid #bbb9b9;
+  border-radius: 10px;
+  /* box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.06); */
 }
 
 .index-header {

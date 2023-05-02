@@ -21,12 +21,13 @@ export default function Login() {
     }
 
     return (
-        <div>
+        <div className="container content">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <div className="mr-2 form=label"><label htmlFor="username">Username:</label></div>
                     <input
-                        placeholder="Enter your username"
+                        className="input-box"
+                        // placeholder="Enter your username"
                         value={userData.username}
                         type="text"
                         id="username"
@@ -38,7 +39,8 @@ export default function Login() {
                 <div>
                     <div className="mr-2 mt-2 mb-0 form-label"><label htmlFor="password">Password:</label></div>
                     <input
-                        placeholder="Enter your password"
+                        className="input-box"
+                        // placeholder="Enter your password"
                         value={userData.password}
                         type="password"
                         id="password"
