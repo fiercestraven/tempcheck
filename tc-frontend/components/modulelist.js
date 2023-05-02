@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 export default function ModuleList() {
-    const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
+    const { userData, userDataLoaded } = useContext(CurrentUserContext);
     const [moduleData, setModuleData] = useState([]);
     const router = useRouter();
 
@@ -31,7 +31,7 @@ export default function ModuleList() {
     }
 
     if (!userData.username) {
-        router.push("/modules");
+        router.push("/");
     }
 
     return (
@@ -40,9 +40,9 @@ export default function ModuleList() {
                 <title>Modules</title>
             </Head>
 
+            <h3 className="welcome-message">Welcome, {userData?.first_name || "Visitor"}!</h3>
             <div className="container content">
                 <h1>modules</h1>
-                <h3>Welcome, {userData?.first_name || "Visitor"}!</h3>
 
                 {(userData.username && moduleData.length) &&
                     <div className="container modules-section">
@@ -55,8 +55,6 @@ export default function ModuleList() {
                                 ))}
                             </ul>
                         </section>
-                        <p></p>
-                        <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
                     </div>
                 }
 

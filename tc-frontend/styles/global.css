@@ -9,12 +9,13 @@ body {
   height: auto;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
     Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  color: white;
+  color: black;
   font-size: 1.2rem;
   line-height: 1.4;
   font-size: 18px;
   box-sizing: border-box;
-  background-color: #484951;
+  /* background-color: rgb(241, 240, 240); */
+  background-color: rgb(246, 249, 225)
 }
 
 main {
@@ -32,47 +33,47 @@ p {
 }
 
 a {
-  color: #ffffff;
+  color: #bbb9b9;
   text-decoration: none;
 }
 
 a:link {
-  color: #ffffff;
+  color: #bbb9b9;
 }
 
 a:visited {
-  color: #bebebe;
+  color: #8b8c89;
 }
 
 a:focus {
   border-bottom: 1px solid;
-  color: #a6a8a5;
+  color: #8b8c89;
 }
 
 a:hover {
   border-bottom: 1px solid;
-  color: #ffffff;
+  color: #bbb9b9;
 }
 
 .header-link {
   border-bottom: none;
   text-transform: uppercase;
-  color: white;
+  color: black;
 }
 
 .header-link:hover {
   border-bottom: none;
-  color: #a6a8a5;
+  color: #8b8c89;
 }
 
 .header-link:visited {
-  color: white;
+  color: black;
 }
 
 .heading2Xl {
   font-family: futura;
   font-size: 2.5rem;
-  color: white;
+  color: black;
   line-height: 1.2;
   font-weight: 500;
   letter-spacing: -0.05rem;
@@ -89,8 +90,9 @@ h1 {
 
 h2 {
   font-family: futura;
-  font-size: 38px;
+  font-size: 32px;
   font-weight: 500;
+  letter-spacing: -.25rem;
   text-transform: uppercase;
 }
 
@@ -101,12 +103,11 @@ h3 {
 
 img {
   max-width: 100%;
-  display: block;
+  display: inline-block;
 }
 
 .content {
-  margin-top: 3rem;
-  margin-bottom: 6rem;
+  margin: 1rem 0rem 3rem 0rem;
   flex: 1 0 auto;
 }
 
@@ -122,16 +123,12 @@ form {
 
 header {
   margin: 4rem 0 2rem 0;
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   align-items: center;
 }
 
 footer {
-  /* fixing footer to bottom fv-work on this */
-  /* position: fixed;
-  bottom: 0;
-  left: 0; */
   right: 0;
   text-align: left;
   font-size: 15px;
@@ -142,27 +139,36 @@ footer {
   font-weight: 400;
   font-style: normal;
   z-index: 890;
-  padding: 60px;
+  padding-right: 60px;
   margin-bottom: 3rem;
 }
 
 .footer-header-info {
-  display: inline;
+  display: inline-block;
 }
 
 .main-nav ul {
   text-transform: uppercase;
   list-style: none;
+  padding-left: 0px;
 }
 
 .main-nav li {
   display: inline-block;
-  padding-left: 30px;
+  margin-right: 40px;
 }
 
 .copyright {
   float: right;
   padding-left: 30px;
+}
+
+.btn {
+  color: #696a67;
+}
+
+.btn:hover {
+  color: #8b8c89;
 }
 
 .btn-start {
@@ -172,7 +178,21 @@ footer {
 }
 
 a.btn-start {
-  color: white;
+  color: black;
+}
+
+.btn-login {
+  background-color: rgb(196, 193, 193);
+  color: black;
+}
+
+.btn-login:hover {
+  background-color: rgb(215, 213, 213)
+}
+
+.logout {
+  color: rgb(226, 36, 36);
+  align-items: right;
 }
 
 .form-select {
@@ -181,20 +201,22 @@ a.btn-start {
 }
 
 .index-header {
-  /* background-color: black; */
-  color: white;
-  text-align: center;
+  color: black;
+  text-align: left;
   font-size: 7vw;
-  letter-spacing: 5vw;
-  font-weight: 500;
-  /* put in padding equal to letter spacing to ensure text is centered */
-  padding-left: 5vw;
+  letter-spacing: 3vw;
+  font-weight: 600;
   width: 100%;
   display: inline-block;
 }
 
 .user-message {
-  color: rgb(252, 242, 48);
+  color: rgb(226, 36, 36);
+}
+
+.welcome-message {
+  /* text-align: right; */
+  margin: -2.5rem 8rem 4rem 0;
 }
 
 #banner-img {
@@ -207,11 +229,14 @@ a.btn-start {
 }
 
 .sidebar {
-  position: sticky;
+  margin: 4rem 0rem 3rem 0rem;
+  padding-left: 6rem;
+  position: relative;
 }
 
 .side-img {
   position: absolute;
+  display: inline-block;
 }
 
 #thermometer-img {
@@ -224,10 +249,10 @@ table {
 }
 
 tr {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid black;
 }
 
 td {
-  border: 1px solid #ddd;
+  border: 1px solid black;
   padding: 10px;
 }

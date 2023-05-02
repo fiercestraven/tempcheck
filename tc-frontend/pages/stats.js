@@ -53,7 +53,7 @@ export default function Stats() {
 
   // if not signed in or classed as a student user, re-route
   if (!userData.username || !profileData?.is_staff) {
-    router.push("/modules");
+    router.push("/");
   }
 
   // take user-selected data for module and look up lecture info

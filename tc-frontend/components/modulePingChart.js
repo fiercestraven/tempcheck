@@ -56,7 +56,7 @@ export default function ModulePingChart({ lectures }) {
                 })
             ]
         }), {
-            stroke: 'white',
+            stroke: 'black',
             fill: 'gray',
             'stroke-width': 4,
         });

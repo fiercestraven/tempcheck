@@ -30,7 +30,7 @@ export default function Lecture() {
             });
             // if student/instructor not associated with lecture, re-route to user's modules page
             if (res.status == 404) {
-                router.push("/modules");
+                router.push("/");
             }
             else {
                 const data = await res.json();
@@ -65,7 +65,7 @@ export default function Lecture() {
     }
 
     if (!userData.username) {
-        router.push("/modules");
+        router.push("/");
     }
 
     function handleTimerComplete() {

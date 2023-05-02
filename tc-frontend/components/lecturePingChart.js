@@ -60,7 +60,7 @@ export default function LecturePingChart({ lectureName }) {
                     { r: 'count', title: (pings) => `${pings.length} Ping${pings.length == 1 ? '' : 's'}` },
                     { x: 'normalized', thresholds: d3.timeMinute.every(1) }
                 )),
-                Plot.frame({ stroke: 'white' }),
+                Plot.frame({ stroke: 'black' }),
                 // make marks every 5 min on x-axis
                 Plot.axisX({
                     label: 'UTC Time',
@@ -71,7 +71,7 @@ export default function LecturePingChart({ lectureName }) {
             insetLeft: 30,
             insetRight: 30,
         }), {
-            stroke: 'white',
+            stroke: 'black',
             fill: 'gray',
             'stroke-width': 4,
         });
@@ -133,7 +133,7 @@ export default function LecturePingChart({ lectureName }) {
                     }
                 </table>
             </details>
-            <CsvDownloader className="w-30 mt-4 mb-5 btn btn-md btn-light" text="Download Ping Data" datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
+            <CsvDownloader className="w-30 mt-4 mb-5 btn btn-md btn-primary" text="Download Ping Data" datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
         </>
     )
 }

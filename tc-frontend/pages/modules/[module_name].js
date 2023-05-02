@@ -21,7 +21,7 @@ export default function Module() {
       });
       // if student/instructor not associated with module, re-route to user's modules page
       if (res.status == 404) {
-        router.push("/modules");
+        router.push("/");
       }
       else {
         const data = await res.json();
@@ -42,7 +42,7 @@ export default function Module() {
   }
 
   if (!userData.username) {
-    router.push("/modules");
+    router.push("/");
   }
 
   return (
@@ -82,7 +82,7 @@ export default function Module() {
                   <p>There are no lectures associated with this module.</p>
                 }
               </ul>
-              <Link href="/modules">← Modules List</Link>
+              <Link href="/">← Modules List</Link>
               <p></p>
               <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
             </div>

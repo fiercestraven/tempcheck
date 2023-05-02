@@ -8,7 +8,7 @@ export default function Header() {
     const name = "Tempcheck";
     const imageURL = "/images/gradient-fully-saturated.jpg"
     const [profileData, setProfileData] = useState();
-    const { userData, userDataLoaded } = useContext(CurrentUserContext);
+    const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
     const router = useRouter();
 
     useEffect(() => {
@@ -40,21 +40,6 @@ export default function Header() {
 
     return (
         <div>
-            <a className="header-link index-header" href="/modules">
-                {/* https://stackoverflow.com/questions/14678154/centre-align-text-that-has-extra-letter-spacing-applied */}
-                TEMPCHECK
-            </a>
-
-            {/* <div>
-                <Image id="header-img"
-                    priority
-                    src={imageURL}
-                    height={20}
-                    width={1800}
-                    alt="temperature gradient from green to red"
-                />
-            </div> */}
-
             <div className="footer-header-info">
                 <nav className="main-nav">
                     {/* for students, nav menu only shows home link */}
@@ -63,6 +48,7 @@ export default function Header() {
                             <li className="index-collection active-link">
                                 <Link href="/">Home</Link>
                             </li>
+                            <li className="page-collection logout" type={'submit'} onClick={logoutUser}>Log Out</li>
                         </ul>
                     }
                     {/* for staff, nav menu shows home, stats, and admin links */}
@@ -79,10 +65,29 @@ export default function Header() {
                             <li className="page-collection">
                                 <Link href="http://localhost:8000/admin">Admin</Link>
                             </li>
+                            <li className="page-collection logout" type={'submit'} onClick={logoutUser}>Log Out</li>
                         </ul>
                     }
+
                 </nav>
             </div>
+
+            <a className="header-link index-header" href="/">
+                {/* https://stackoverflow.com/questions/14678154/centre-align-text-that-has-extra-letter-spacing-applied */}
+                TEMPCHECK
+            </a>
+
+            {/* fv remove this */}
+            {/* <div>
+                <Image id="header-img"
+                    priority
+                    src={imageURL}
+                    height={20}
+                    width={1800}
+                    alt="temperature gradient from green to red"
+                />
+            </div> */}
+
         </div >
     );
 }

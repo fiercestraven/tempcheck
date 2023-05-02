@@ -54,7 +54,7 @@ export default function Login() {
                 )}
                 {/* possible error message */}
                 {userMsg && (<p className="user-message">{userMsg}</p>)}
-                <button className="w-30 mt-4 mb-5 btn btn-md btn-light" type="submit">Login</button>
+                <button className="w-30 mt-4 mb-5 btn btn-md btn-login" type="submit">Login</button>
             </form>
         </div>
     );

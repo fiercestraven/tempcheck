@@ -1,67 +1,51 @@
 import Head from 'next/head';
 import Layout from '../components/layout';
-import Image from 'next/image';
+import Header from '../components/header';
+import Login from '../components/login';
+import ModuleList from '../components/modulelist';
+import React, { useContext } from 'react';
 import { CurrentUserContext } from '../context/auth';
-import { useContext } from 'react';
+import Image from 'next/image';
 
-export default function IndexPage() {
-  const { userData, logoutUser, userDataLoaded } = useContext(CurrentUserContext);
-  const imageURL = "/images/gradient-fully-saturated.jpg"
+export default function HomePage() {
+    // get user management functions from context
+    const { userData } = useContext(CurrentUserContext);
+    const imageURL = "/images/rainbow_thermometer.svg"
 
-  if (!userDataLoaded) {
     return (
-      <div>Loading...</div>
-    );
-  }
-
-  return (
-    <div>
-      <Layout>
-        <Head>
-          <title>Tempcheck</title>
-        </Head>
-
         <div>
-          <div className="row">
-            <a className="header-link" href="/modules">
-              <Image id="banner-img"
-                priority
-                src={imageURL}
-                height={500}
-                width={1800}
-                alt="temperature gradient from green to red"
-              />
-            </a>
-          </div>
+            <Layout>
+                <Head>
+                    <title>Tempcheck Login</title>
+                </Head>
 
-          <div id="index-header">
-            <a className="header-link" href="/modules">
-              {/* https://stackoverflow.com/questions/14678154/centre-align-text-that-has-extra-letter-spacing-applied */}
-              TEMPCHECK
-            </a>
-          </div>
+                <div class="row">
+                    <div className="col-3 sidebar">
+                        <Image id="side-img"
+                            priority
+                            src={imageURL}
+                            width={420}
+                            height={700}
+                        />
+                    </div>
 
-          <div className="row">
-            <div className="col-5"></div>
-            <div className="col-2">
-              {!userData.username && (
-                <div>
-                  <a href="/modules" className="w-30 mt-2 mb-5 btn btn-outline-light btn-start" type={'submit'}>Start</a>
+                    <div className="col-9 content">
+                        <header>
+                            <Header />
+                        </header>
+
+                        <div>
+                            {!userData.username && (
+                                <Login />
+                            )}
+
+                            {userData.username && (
+                                <ModuleList />
+                            )}
+                        </div>
+                    </div>
                 </div>
-              )}
-
-              {userData.username && (
-                // if already logged in, just show links to other pages
-                <div>
-                  <button className="w-30 mt-5 mb-5 btn btn-outline-light btn-start" type={'submit'} onClick={logoutUser}>Log Out</button>
-                </div>
-              )}
-            </div>
-            <div className="col-5"></div>
-          </div>
-
+            </Layout>
         </div>
-      </Layout>
-    </div>
-  );
+    );
 }
