@@ -1,18 +1,16 @@
+import Image from 'next/image';
 
-function Sidebar() {
-    return (
-        <div>
-            {/* {'©'} */}
-            <a href="https://github.com/fiercestraven/tempcheck/">Frances Veit </a>
-            <>| {new Date().getFullYear()}</>
-        </div>
-    );
-}
+export default function Sidebar() {
+    const imageURL = "/images/rainbow_thermometer.svg"
 
-export default function Footer() {
     return (
         <div className="mb-4 copyright footer-header-info">
-            <Copyright />
+            <Image id="side-img"
+                priority
+                src={imageURL}
+                width={420}
+                height={700}
+            />
         </div>
 
     );
