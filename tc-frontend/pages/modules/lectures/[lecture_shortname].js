@@ -125,70 +125,70 @@ export default function Lecture() {
                 <title>{lectureData?.lecture_shortname || "Lecture Details"}</title>
             </Head>
 
-            <header>
-                <Header />
-            </header>
+            <div class="row">
+                <div className="col-3 thermometer">
+                    {/* call Thermometer component and pass in the lecture name so it knows the correct api address */}
+                    <Thermometer lectureShortName={lecture_shortname} />
+                </div>
 
-            <div className="container content">
+                <div className="col-9 content">
+                    <header>
+                        <Header />
+                    </header>
 
-                {lectureData?.lecture_shortname &&
-                    <div>
-                        <h1>Lecture: {lectureData.lecture_name}</h1>
-                        <h2>{lectureData.module.module_name}</h2>
+                    <div className="container content">
+
+                        {lectureData?.lecture_shortname &&
+                            <div>
+                                <h2>Lecture: {lectureData.lecture_name}</h2>
+                                <h3>{lectureData.module.module_name}</h3>
+                            </div>
+                        }
+
+                        {lectureData?.lecture_shortname &&
+                            <div>
+                                <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
+
+                                {/* show success message if reset complete */}
+                                {resetComplete &&
+                                    <p className="user-message">You have successfully reset to the baseline temperature.</p>
+                                }
+
+                                <form onSubmit={handleSubmit(onSubmit)}>
+                                    <div>
+                                        <input
+                                            value={lectureData.lecture_shortname}
+                                            type="hidden"
+                                            id="lecture_shortname"
+                                            name="lecture_shortname"
+                                            {...register("lecture_shortname", { required: true, maxLength: 50 })}
+                                        />
+                                    </div>
+                                    {errors.lecture_shortname && <p>Invalid lecture name submitted.</p>}
+
+                                    {/* show different buttons based on staff status */}
+                                    {profileData?.is_staff &&
+                                        <button className="w-30 mt-2 mb-3 btn btn-md" type="submit">Reset Temp</button>
+                                    }
+
+                                    {/* https://sebhastian.com/react-disable-button/ */}
+                                    {!profileData?.is_staff &&
+                                        <button className="w-30 mt-4 mb-5 btn btn-md" type="submit" disabled={pingComplete}>Ping</button>
+                                    }
+
+                                    {/* timer here */}
+                                    {pingComplete && < Timer onComplete={handleTimerComplete} />}
+
+                                    {userMessage &&
+                                        <p className="user-message">Too many submissions. One ping allowed every two mintues.</p>
+                                    }
+
+                                </form>
+                                <p></p>
+                                <Link className="fancy-link" href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>
+                            </div>
+                        }
                     </div>
-                }
-
-                <div className="row">
-                    <div className="col-6 logo">
-                        {/* call Thermometer component and pass in the lecture name so it knows the correct api address */}
-                        <Thermometer lectureShortName={lecture_shortname} />
-                    </div>
-
-                    {lectureData?.lecture_shortname &&
-                        <div className="col-6">
-                            <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
-
-                            {/* show success message if reset complete */}
-                            {resetComplete &&
-                                <p className="user-message">You have successfully reset to the baseline temperature.</p>
-                            }
-
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div>
-                                    <input
-                                        value={lectureData.lecture_shortname}
-                                        type="hidden"
-                                        id="lecture_shortname"
-                                        name="lecture_shortname"
-                                        {...register("lecture_shortname", { required: true, maxLength: 50 })}
-                                    />
-                                </div>
-                                {errors.lecture_shortname && <p>Invalid lecture name submitted.</p>}
-
-                                {/* show different buttons based on staff status */}
-                                {profileData?.is_staff &&
-                                    <button className="w-30 mt-2 mb-3 btn btn-md btn-light" id="ping_btn" type="submit">Reset Temp</button>
-                                }
-
-                                {/* https://sebhastian.com/react-disable-button/ */}
-                                {!profileData?.is_staff &&
-                                    <button className="w-30 mt-2 mb-3 btn btn-md btn-light" id="ping_btn" type="submit" disabled={pingComplete}>Ping</button>
-                                }
-
-                                {/* timer here */}
-                                {pingComplete && < Timer onComplete={handleTimerComplete} />}
-
-                                {userMessage &&
-                                    <p className="user-message">Too many submissions. One ping allowed every two mintues.</p>
-                                }
-
-                            </form>
-                            <p></p>
-                            <Link href={`/modules/${lectureData.module.module_shortname}`}>← Back to Module</Link>
-                            <p></p>
-                            <button className="w-30 mt-2 mb-1 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
-                        </div>
-                    }
                 </div>
             </div>
 

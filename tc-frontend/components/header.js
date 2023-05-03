@@ -46,7 +46,7 @@ export default function Header() {
                     {profileData && !profileData.is_staff &&
                         <ul>
                             <li className="index-collection active-link">
-                                <Link href="/">Home</Link>
+                                <Link className="nav-link" href="/">Home</Link>
                             </li>
                             <li className="page-collection logout" type={'submit'} onClick={logoutUser}>Log Out</li>
                         </ul>
@@ -55,17 +55,17 @@ export default function Header() {
                     {profileData && profileData.is_staff &&
                         <ul>
                             <li className="index-collection active-link">
-                                <Link href="/">Home</Link>
+                                <Link className="nav-link" href="/">Home</Link>
                             </li>
 
                             <li className="page-collection">
-                                <Link href="/stats">Stats</Link>
+                                <Link className="nav-link" href="/stats">Stats</Link>
                             </li>
 
                             <li className="page-collection">
-                                <Link href="http://localhost:8000/admin">Admin</Link>
+                                <Link className="nav-link" href="http://localhost:8000/admin">Admin</Link>
                             </li>
-                            <li className="page-collection logout" type={'submit'} onClick={logoutUser}>Log Out</li>
+                            <li className="page-collection logout nav-link" type={'submit'} onClick={logoutUser}>Log Out</li>
                         </ul>
                     }
 
@@ -76,17 +76,6 @@ export default function Header() {
                 {/* https://stackoverflow.com/questions/14678154/centre-align-text-that-has-extra-letter-spacing-applied */}
                 TEMPCHECK
             </a>
-
-            {/* fv remove this */}
-            {/* <div>
-                <Image id="header-img"
-                    priority
-                    src={imageURL}
-                    height={20}
-                    width={1800}
-                    alt="temperature gradient from green to red"
-                />
-            </div> */}
 
         </div >
     );

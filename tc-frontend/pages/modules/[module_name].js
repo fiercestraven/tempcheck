@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/layout';
 import Header from '../../components/header';
+import Sidebar from '../../components/sidebar';
 import { CurrentUserContext } from '../../context/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -48,46 +49,44 @@ export default function Module() {
   return (
     <Layout>
       <Head>
-        {/* welcome user by name or by 'visitor' */}
-        <h3>Welcome, {userData?.first_name || "Visitor"}!</h3>
         {/* assign title to head, supplying generic version if no module name available */}
         <title>{moduleData?.module_name || "Module Details"}</title>
       </Head>
 
-      <header>
-        <Header />
-      </header>
+      <div class="row">
+        <div className="col-3 sidebar">
+          <Sidebar />
+        </div>
 
-      <div className="container content">
-        {moduleData?.module_name &&
-          <h1>{moduleData.module_name}</h1>
-        }
+        <div className="col-9 content">
+          <header>
+            <Header />
+          </header>
 
-        <div className="row">
-          <div className="col-6">
+          <div className="container content">
+            {moduleData?.module_name &&
+              <h2>{moduleData.module_name}</h2>
+            }
+
+            {moduleData?.module_name &&
+              <div>
+                <p>{moduleData.module_description}</p>
+                <p>Lecturer: {moduleData.instructor.first_name} {moduleData.instructor.last_name}</p>
+                <p>Lectures:</p>
+                <ul>
+                  {moduleData.lectures.map(({ id, lecture_shortname, lecture_name }) => (
+                    <li key={id}>
+                      <a className="fancy-link" href={`lectures/${lecture_shortname}`}>{lecture_name}</a>
+                    </li>
+                  ))}
+                  {!moduleData.lectures.length &&
+                    <p>There are no lectures associated with this module.</p>
+                  }
+                </ul>
+                <Link className="fancy-link" href="/">← Modules List</Link>
+              </div>
+            }
           </div>
-
-          {moduleData?.module_name &&
-            <div className="col-6">
-              <p>{moduleData.module_description}</p>
-              <p>Lecturer: {moduleData.instructor.first_name} {moduleData.instructor.last_name}</p>
-              <p>Lectures:</p>
-              <ul>
-                {moduleData.lectures.map(({ id, lecture_shortname, lecture_name }) => (
-                  <li key={id}>
-                    <a href={`lectures/${lecture_shortname}`}>{lecture_name}</a>
-                  </li>
-                ))}
-                {!moduleData.lectures.length &&
-                  <p>There are no lectures associated with this module.</p>
-                }
-              </ul>
-              <Link href="/">← Modules List</Link>
-              <p></p>
-              <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
-            </div>
-
-          }
         </div>
       </div>
     </Layout>

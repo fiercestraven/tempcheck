@@ -31,7 +31,7 @@ export default function ModuleList() {
     }
 
     if (!userData.username) {
-        router.push("/");
+        router.push("/modules");
     }
 
     return (
@@ -41,16 +41,17 @@ export default function ModuleList() {
             </Head>
 
             <h3 className="welcome-message">Welcome, {userData?.first_name || "Visitor"}!</h3>
-            <div className="container content">
+
+            <div className="content">
                 <h1>modules</h1>
 
                 {(userData.username && moduleData.length) &&
-                    <div className="container modules-section">
+                    <div>
                         <section>
                             <ul>
                                 {moduleData.filter((module) => module.is_active).map((module) => (
                                     <li key={module.module_shortname}>
-                                        <a href={`modules/${module.module_shortname}`}>{module.module_shortname}: {module.module_name}</a>
+                                        <a className="fancy-link" href={`modules/${module.module_shortname}`}>{module.module_shortname}: {module.module_name}</a>
                                     </li>
                                 ))}
                             </ul>

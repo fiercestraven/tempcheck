@@ -3,7 +3,7 @@ function Copyright() {
     return (
         <div>
             {/* {'©'} */}
-            <a href="https://github.com/fiercestraven/tempcheck/">Frances Veit </a>
+            <a className="fancy-link" href="https://github.com/fiercestraven/tempcheck/">Frances Veit </a>
             <>| {new Date().getFullYear()}</>
         </div>
     );

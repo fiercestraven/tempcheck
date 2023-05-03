@@ -58,14 +58,12 @@ export default function Thermometer({ lectureShortName }) {
     }
 
     return (
-        <div>
-            <Image id="thermometer-img"
-                priority
-                src={imageURL}
-                height={350}
-                width={400}
-                alt=""
-            />
-        </div>
+        <Image id="thermometer-img"
+            priority
+            src={imageURL}
+            width={280}
+            height={700}
+            alt="thermometer reflecting the current mood temperature of the group"
+        />
     );
 }

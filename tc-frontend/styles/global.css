@@ -33,27 +33,70 @@ p {
   margin-bottom: 0.5rem;
 }
 
+/* fancy link stuff */
+/* https://codepen.io/eehayman/pen/WoWzWd */
+.fancy-link {
+  /* transition: background-size .4s ease; */
+  background: linear-gradient(to bottom, transparent 62%, #59a4ff 0) center/0% 75% no-repeat;
+  padding: 0 6px 2px 6px;
+  cursor: pointer;
+  color: #6c6c6a;
+}
+
+/* nav links here */
+/* https://codepen.io/elwinvdhazel/pen/VWqqML */
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  position: relative;
+  transition: all .3s cubic-bezier(.2, 0, 0, 1);
+  z-index: 1;
+}
+
+.nav-link:after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 1.25rem;
+  left: 1.25rem;
+  background-color: #f3ea6d;
+  transition: all .3s cubic-bezier(.2, 0, 0, 1);
+  transform-origin: bottom center;
+  z-index: -1;
+}
+
+.nav-link:hover {
+  color: #2D2D2D;
+}
+
+.nav-link:hover:after {
+  right: 0;
+  left: 0;
+  height: 100%;
+}
+
+.fancy-link:hover {
+  background-size: 100% 100%;
+}
+
+.fancy-link:active {
+  background-size: 80% 100%;
+}
+
 a {
-  color: #bbb9b9;
+  color: #6c6c6a;
   text-decoration: none;
 }
 
 a:link {
-  color: #bbb9b9;
-}
-
-a:visited {
-  color: #8b8c89;
-}
-
-a:focus {
-  border-bottom: 1px solid;
-  color: #8b8c89;
+  color: #6c6c6a;
+  text-decoration: none;
 }
 
 a:hover {
-  border-bottom: 1px solid;
-  color: #bbb9b9;
+  color: #696968;
 }
 
 .header-link {
@@ -64,7 +107,7 @@ a:hover {
 
 .header-link:hover {
   border-bottom: none;
-  color: #8b8c89;
+  color: #696968;
 }
 
 .header-link:visited {
@@ -114,18 +157,13 @@ img {
   flex: 1 0 auto;
 }
 
-/* fv
-.modules-section {
-  margin-top: 0.5rem;
-} */
-
 form {
   margin-top: 1rem;
   max-width: 36rem;
 }
 
 header {
-  margin: 4rem 0 2rem 0;
+  margin: 6rem 0 2rem 0;
   display: inline-block;
   flex-direction: column;
   align-items: center;
@@ -150,6 +188,10 @@ footer {
   display: inline-block;
 }
 
+li {
+  padding-bottom: 0.3rem;
+}
+
 .main-nav ul {
   text-transform: uppercase;
   list-style: none;
@@ -167,11 +209,14 @@ footer {
 }
 
 .btn {
-  color: #696a67;
+  background-color: white;
+  color: #595959;
+  border: 1px solid #737372;
 }
 
 .btn:hover {
-  color: #8b8c89;
+  background-color: rgb(222, 221, 221);
+  color: #696968;
 }
 
 .btn-start {
@@ -227,7 +272,6 @@ a.btn-start {
 }
 
 .welcome-message {
-  /* text-align: right; */
   margin: -2.5rem 8rem 4rem 0;
 }
 
@@ -241,7 +285,7 @@ a.btn-start {
 }
 
 .sidebar {
-  margin: 4rem 0rem 3rem 0rem;
+  margin: 2rem 0rem 3rem 0rem;
   padding-left: 6rem;
   position: relative;
 }
@@ -251,9 +295,16 @@ a.btn-start {
   display: inline-block;
 }
 
+.thermometer {
+  margin: 6rem 0rem 3rem 0rem;
+  align-items: right;
+  position: relative;
+}
+
 #thermometer-img {
-  margin: 30px;
-  float: left;
+  position: absolute;
+  display: inline-block;
+  margin-left: 7rem;
 }
 
 table {

@@ -58,7 +58,7 @@ export default function LecturePingChart({ lectureName }) {
             marks: [
                 Plot.dot(pingData, Plot.binX(
                     { r: 'count', title: (pings) => `${pings.length} Ping${pings.length == 1 ? '' : 's'}` },
-                    { x: 'normalized', thresholds: d3.timeMinute.every(1) }
+                    { x: 'normalized', thresholds: d3.timeMinute.every(1), fill: 'coral' },
                 )),
                 Plot.frame({ stroke: 'black' }),
                 // make marks every 5 min on x-axis
@@ -71,9 +71,9 @@ export default function LecturePingChart({ lectureName }) {
             insetLeft: 30,
             insetRight: 30,
         }), {
-            stroke: 'black',
-            fill: 'gray',
-            'stroke-width': 4,
+            stroke: 'white',
+            fill: 'steelblue',
+            'stroke-width': 2,
         });
         dotChartRef?.current?.append(chart);
         return () => chart?.remove();
@@ -133,7 +133,7 @@ export default function LecturePingChart({ lectureName }) {
                     }
                 </table>
             </details>
-            <CsvDownloader className="w-30 mt-4 mb-5 btn btn-md btn-primary" text="Download Ping Data" datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
+            <CsvDownloader className="w-30 mt-4 mb-5 btn btn-md" text="Download Ping Data" datas={pingData} columns={csvColumns} filename={`${pingData[0].lecture}.csv`} />
         </>
     )
 }

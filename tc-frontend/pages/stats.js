@@ -81,61 +81,63 @@ export default function Stats() {
         <title>Stats</title>
       </Head>
 
-      <header>
-        <Header />
-      </header>
+      <div class="row">
+        <div className="col-1"></div>
 
-      <div className="container content">
-        {(userData.username && moduleData.length) &&
+        <div className="col-10 content">
+          <header>
+            <Header />
+          </header>
+
           <div>
-            {/* menu for modules here */}
-            {/* https://getbootstrap.com/docs/5.2/forms/select/ */}
-            <select
-              className="form-select"
-              aria-label="Module selection"
-              onChange={handleModuleChange}
-            >
-              {/* on using defaultValue: https://stackoverflow.com/questions/44786669/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting */}
-              <option defaultValue value="">Select a Module</option>
-              {moduleData.map((module) => (
-                <option value={module.module_shortname} key={module.module_shortname}>
-                  {module.module_shortname}
-                </option>
-              ))}
-              {!moduleData.length &&
-                <option>There are no modules to display.</option>
-              }
-            </select>
-
-            {/* pings per module chart here */}
-            < ModulePingChart lectures={lectureData?.lectures} />
-
-            {/* menu for lectures here */}
-            {lectureData?.lectures && lectureData.lectures.length != 0 &&
+            {(userData.username && moduleData.length) &&
               <div>
-                <p></p>
+                {/* menu for modules here */}
+                {/* https://getbootstrap.com/docs/5.2/forms/select/ */}
                 <select
                   className="form-select"
-                  aria-label="Lecture selection"
-                  onChange={(event) => { setSelectedLecture(event.target.value) }}
+                  aria-label="Module selection"
+                  onChange={handleModuleChange}
                 >
-                  <option defaultValue value="">Select a Lecture</option>
-                  {lectureData.lectures.map((lecture) => (
-                    <option value={lecture.lecture_shortname} key={lecture.lecture_shortname}>
-                      {lecture.lecture_name}
+                  {/* on using defaultValue: https://stackoverflow.com/questions/44786669/warning-use-the-defaultvalue-or-value-props-on-select-instead-of-setting */}
+                  <option defaultValue value="">Select a Module</option>
+                  {moduleData.map((module) => (
+                    <option value={module.module_shortname} key={module.module_shortname}>
+                      {module.module_shortname}
                     </option>
                   ))}
+                  {!moduleData.length &&
+                    <option>There are no modules to display.</option>
+                  }
                 </select>
 
-                {/* lecture ping chart here */}
-                <LecturePingChart lectureName={selectedLecture} />
+                {/* pings per module chart here */}
+                < ModulePingChart lectures={lectureData?.lectures} />
+
+                {/* menu for lectures here */}
+                {lectureData?.lectures && lectureData.lectures.length != 0 &&
+                  <div>
+                    <p></p>
+                    <select
+                      className="form-select"
+                      aria-label="Lecture selection"
+                      onChange={(event) => { setSelectedLecture(event.target.value) }}
+                    >
+                      <option defaultValue value="">Select a Lecture</option>
+                      {lectureData.lectures.map((lecture) => (
+                        <option value={lecture.lecture_shortname} key={lecture.lecture_shortname}>
+                          {lecture.lecture_name}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/* lecture ping chart here */}
+                    <LecturePingChart lectureName={selectedLecture} />
+                  </div>
+                }
               </div>
             }
           </div>
-        }
-
-        <div>
-          <button className="w-30 mt-2 mb-5 btn btn-md btn-light" type={'submit'} onClick={logoutUser}>Log Out</button>
         </div>
       </div>
     </Layout >

@@ -52,12 +52,13 @@ export default function ModulePingChart({ lectures }) {
                 Plot.barY(pingSummary, {
                     x: 'name',
                     y: 'pings',
-                    title: (summary) => `${summary.pings} Ping${summary.pings == 1 ? '' : 's'}`
+                    title: (summary) => `${summary.pings} Ping${summary.pings == 1 ? '' : 's'}`,
+                    fill: 'yellowgreen'
                 })
             ]
         }), {
-            stroke: 'black',
-            fill: 'gray',
+            stroke: 'white',
+            fill: 'steelblue',
             'stroke-width': 4,
         });
         pingsPerModuleChartRef?.current?.append(chart);
