@@ -40,7 +40,7 @@ def run():
     bulb.set_power("on")
 
     # Fetch modules
-    modules = Module.objects.all()
+    modules = Module.objects.all().order_by("module_shortname")
 
     # print out module options and take in user input
     print("Which module would you like to select?")
@@ -57,7 +57,7 @@ def run():
     print(f"You've selected module {module.module_shortname}")
 
     # print out lecture options and take in user input
-    lectures = module.lecture_set.all()
+    lectures = module.lecture_set.all().order_by("lecture_name")
     print("Which lecture would you like to select?")
     for idx, lecture in enumerate(lectures, start=1):
         try:
