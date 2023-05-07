@@ -10,22 +10,21 @@ def test_bad_instructor_workflow() -> None:
         page.goto("http://localhost:3000/")
 
         # log in
-        page.get_by_role("link", name="Start").click()
-        page.get_by_placeholder("Enter your username").click()
-        page.get_by_placeholder("Enter your username").fill("TaliaSinegold")
-        page.get_by_placeholder("Enter your password").click()
-        page.get_by_placeholder("Enter your password").fill("ruminant.3Dethrone")
-        page.get_by_placeholder("Enter your password").press("Enter")
+        page.get_by_label("Username:").click()
+        page.get_by_label("Username:").fill("TaliaSinegold")
+        page.get_by_label("Password:").click()
+        page.get_by_label("Password:").fill("ruminant.3Dethrone")
+        page.get_by_role("button", name="Login").click()
 
         # manually navigate to unauthorized module; check that re-route to modules page occurs
         page.goto("http://localhost:3000/modules/CS270_2023_SUM")
-        page.wait_for_url("http://localhost:3000/modules")
-        expect(page).to_have_url("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/")
+        expect(page).to_have_url("http://localhost:3000/")
 
         # manually navigate to unauthorized lecture; check that re-route to modules page occurs
         page.goto("http://localhost:3000/modules/lectures/CS270_W1_L1_2023_SUM")
-        page.wait_for_url("http://localhost:3000/modules")
-        expect(page).to_have_url("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/")
+        expect(page).to_have_url("http://localhost:3000/")
 
         # ---------------------
         context.close()

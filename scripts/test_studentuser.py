@@ -10,17 +10,14 @@ def test_student_workflow() -> None:
         page.goto("http://localhost:3000/")
 
         # check that logging in as a student works
-        page.get_by_role("link", name="Start").click()
-        page.get_by_placeholder("Enter your username").click()
-        page.get_by_placeholder("Enter your username").fill("AlejandraLeopold")
-        page.get_by_placeholder("Enter your password").click()
-        page.get_by_placeholder("Enter your password").fill("1nap.vale.Musty")
+        page.get_by_label("Username:").click()
+        page.get_by_label("Username:").fill("AlejandraLeopold")
+        page.get_by_label("Password:").click()
+        page.get_by_label("Password:").fill("1nap.vale.Musty")
         page.get_by_role("button", name="Login").click()
 
         # using CSS Selector locator to check for welcome statement
-        locator = page.locator(
-            "div.col-6:nth-child(2) > div:nth-child(1) > div:nth-child(2) > h3:nth-child(1)"
-        )
+        locator = page.locator(".welcome-message")
         expect(locator).to_contain_text(re.compile(r"Alejandra"))
 
         # check for no stats or admin links on modules page
@@ -53,7 +50,7 @@ def test_student_workflow() -> None:
         page.get_by_role("link", name="Home").click()
 
         # log out
-        page.get_by_role("button", name="Log Out").click()
+        page.get_by_text("Log Out").click()
 
         # ---------------------
         context.close()

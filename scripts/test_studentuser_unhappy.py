@@ -10,11 +10,10 @@ def test_bad_student_workflow() -> None:
         page.goto("http://localhost:3000/")
 
         # log in incorrectly
-        page.get_by_role("link", name="Start").click()
-        page.get_by_placeholder("Enter your username").click()
-        page.get_by_placeholder("Enter your username").fill("AlejandraLeopold")
-        page.get_by_placeholder("Enter your password").click()
-        page.get_by_placeholder("Enter your password").fill("1nap.vale.Musty2")
+        page.get_by_label("Username:").click()
+        page.get_by_label("Username:").fill("AlejandraLeopold")
+        page.get_by_label("Password:").click()
+        page.get_by_label("Password:").fill("1nap.vale.Musty2")
         page.get_by_role("button", name="Login").click()
 
         # check for invalid entry error text
@@ -22,7 +21,7 @@ def test_bad_student_workflow() -> None:
         expect(locator).to_contain_text(re.compile(r"Invalid"))
 
         # log in correctly
-        page.get_by_placeholder("Enter your password").fill("1nap.vale.Musty")
+        page.get_by_label("Password:").fill("1nap.vale.Musty")
         page.get_by_role("button", name="Login").click()
 
         # navigate to module CS270
@@ -43,18 +42,18 @@ def test_bad_student_workflow() -> None:
 
         # manually navigate to unauthorized module; check that re-route to modules page occurs
         page.goto("http://localhost:3000/modules/CS152_2023_SUM")
-        page.wait_for_url("http://localhost:3000/modules")
-        expect(page).to_have_url("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/")
+        expect(page).to_have_url("http://localhost:3000/")
 
         # manually navigate to unauthorized lecture; check that re-route to modules page occurs
         page.goto("http://localhost:3000/modules/lectures/CS152_W1_L1_2023_SUM")
-        page.wait_for_url("http://localhost:3000/modules")
-        expect(page).to_have_url("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/")
+        expect(page).to_have_url("http://localhost:3000/")
 
         # manually navigate to stats page; check that re-route to modules page occurs
         page.goto("http://localhost:3000/stats")
-        page.wait_for_url("http://localhost:3000/modules")
-        expect(page).to_have_url("http://localhost:3000/modules")
+        page.wait_for_url("http://localhost:3000/")
+        expect(page).to_have_url("http://localhost:3000/")
 
         # manually navigate to admin page; check that user is not allowed in
         page.goto("http://localhost:8000/admin/login/?next=/admin/")

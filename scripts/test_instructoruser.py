@@ -10,12 +10,11 @@ def test_instructor_workflow() -> None:
         page.goto("http://localhost:3000/")
 
         # log in
-        page.get_by_role("link", name="Start").click()
-        page.get_by_placeholder("Enter your username").click()
-        page.get_by_placeholder("Enter your username").fill("TaliaSinegold")
-        page.get_by_placeholder("Enter your password").click()
-        page.get_by_placeholder("Enter your password").fill("ruminant.3Dethrone")
-        page.get_by_placeholder("Enter your password").press("Enter")
+        page.get_by_label("Username:").click()
+        page.get_by_label("Username:").fill("TaliaSinegold")
+        page.get_by_label("Password:").click()
+        page.get_by_label("Password:").fill("ruminant.3Dethrone")
+        page.get_by_role("button", name="Login").click()
 
         # navigate to module CS158
         page.get_by_role(
@@ -44,9 +43,17 @@ def test_instructor_workflow() -> None:
         # check for graph here
         expect(
             page.locator(
-                ".container > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)"
+                ".col-10 > div:nth-child(2) > div:nth-child(1) > div:nth-child(4) > div:nth-child(4)"
             )
         ).to_be_visible()
+
+        # open and close ping table
+        page.get_by_text("Show Ping Table").click()
+        page.get_by_text("Show Ping Table").click()
+
+        # download csv
+        with page.expect_download() as download_info:
+            page.get_by_role("button", name="Download Ping Data").click()
 
         # navigate to admin page and log in
         page.get_by_role("link", name="Admin").click()
@@ -75,7 +82,7 @@ def test_instructor_workflow() -> None:
         expect(locator).to_contain_text("necessary")
 
         # log out
-        page.get_by_role("button", name="Log out").click()
+        page.get_by_text("Log Out").click()
 
         # ---------------------
         context.close()
