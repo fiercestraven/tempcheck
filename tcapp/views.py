@@ -57,14 +57,18 @@ class LectureViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_superuser:
             # return all lectures
-            return Lecture.objects.all()
+            return Lecture.objects.all().order_by("lecture_name")
         elif user.is_staff:
             # return only lectures for active modules that the instructor teaches
-            return Lecture.objects.filter(module__instructor=user)
+            return Lecture.objects.filter(module__instructor=user).order_by(
+                "lecture_name"
+            )
         else:
             # return lectures for active modules for which the user is enrolled
             # query constructed using shell
-            return Lecture.objects.filter(module__user_module__user=user)
+            return Lecture.objects.filter(module__user_module__user=user).order_by(
+                "lecture_name"
+            )
 
     lookup_field = "lecture_shortname"
     serializer_class = LectureSerializer
