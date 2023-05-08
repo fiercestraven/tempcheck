@@ -16,6 +16,7 @@ export default function ModuleList() {
                 },
             });
             let data = await res.json();
+            data = data.filter((module) => module.is_active)
             setModuleData(data);
         }
 
@@ -45,11 +46,11 @@ export default function ModuleList() {
             <div className="content">
                 <h1>modules</h1>
 
-                {(userData.username && moduleData.length) &&
+                {(userData.username && !!moduleData.length) &&
                     <div>
                         <section>
                             <ul>
-                                {moduleData.filter((module) => module.is_active).map((module) => (
+                                {moduleData.map((module) => (
                                     <li key={module.module_shortname}>
                                         <a className="fancy-link" href={`modules/${module.module_shortname}`}>{module.module_shortname}: {module.module_name}</a>
                                     </li>
