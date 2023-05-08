@@ -32,6 +32,8 @@ The front end work, based in React/Next.js, is found in the tc-frontend folder. 
 ### IMPLEMENTATION
 _lightbulb stuff here, too__
 
+It is worth noting that colour changes will happen rapidly for lectures with small enrollment numbers. If only a handful of students are registered for a module, each threshold will be reached faster than it would be with a larger class.
+
 ### PASSWORD RECOMMENDATIONS
 User passwords are recommended to be between 8-20 characters and contain at least one number and one uppercase letter.
 
@@ -74,11 +76,9 @@ Playwright tests are located in the scripts folder and all begin with test_. A s
 - CSS
 
 ## ACKNOWLEDGEMENTS
-
 Many thanks to Aidan McGowan, supervisor and mentor for this project. Thanks also to Queen's University Belfast.
 
 ## FEEDBACK/CONTACT
-
 [Frances Veit](fveit01@qub.ac.uk)
 
 ## LICENSE

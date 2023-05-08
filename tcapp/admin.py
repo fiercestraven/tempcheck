@@ -286,7 +286,7 @@ class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
             return request.user == obj.instructor
 
 
-# instructors can only view pings and do not have add, change, or delete access to pings. This is reserved for the superuser.
+# instructors can only view pings and do not have add, change, or delete access to pings. This is reserved for the superuser status.
 class PingAdmin(admin.ModelAdmin):
     fields = ["student", "lecture", "ping_date"]
     list_display = ("student", "lecture", "ping_date")
