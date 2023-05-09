@@ -244,6 +244,26 @@ class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
         else:
             return request.user == obj.instructor
 
+    # return only the instructor's threshold
+    # https://docs.djangoproject.com/en/4.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_queryset
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(instructor=request.user)
+
+    # let instructor change own thresholds but not others
+    # https://stackoverflow.com/questions/44036138/django-admin-limiting-foreignkey-fields-choices
+    def render_change_form(self, request, context, *args, **kwargs):
+        if not request.user.is_superuser:
+            context["adminform"].form.fields[
+                "instructor"
+            ].queryset = User.objects.filter(pk=request.user.pk)
+            context["adminform"].form.fields["instructor"].initial = request.user
+        return super(ThresholdAdmin, self).render_change_form(
+            request, context, args, kwargs
+        )
+
 
 class ResetAdmin(admin.ModelAdmin):
     fields = ["reset_time", "lecture"]
