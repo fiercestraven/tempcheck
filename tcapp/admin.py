@@ -218,41 +218,6 @@ class LectureAdmin(StaffPermission, admin.ModelAdmin):
             return request.user == obj.module.instructor
 
 
-class ResetAdmin(StaffPermission, admin.ModelAdmin):
-    fields = ["reset_time", "lecture"]
-    list_display = ("reset_time", "lecture")
-
-    # only admin users can add resets
-    def has_add_permission(self, request, obj=None):
-        if request.user.is_superuser:
-            return True
-
-    # let instructors view, change and delete only resets that are part of lectures that they teach
-    def has_view_permission(self, request, obj=None):
-        if request.user.is_superuser:
-            return True
-        if obj is None:
-            return request.user.is_staff
-        else:
-            return request.user == obj.lecture.module.instructor
-
-    def has_change_permission(self, request, obj=None):
-        if request.user.is_superuser:
-            return True
-        if obj is None:
-            return request.user.is_staff
-        else:
-            return request.user == obj.lecture.module.instructor
-
-    def has_delete_permission(self, request, obj=None):
-        if request.user.is_superuser:
-            return True
-        if obj is None:
-            return request.user.is_staff
-        else:
-            return request.user == obj.lecture.module.instructor
-
-
 class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
     fields = ["instructor", "yellow_percentage", "orange_percentage", "red_percentage"]
     list_display = (
@@ -280,7 +245,30 @@ class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
             return request.user == obj.instructor
 
 
-# instructors can only view pings and do not have add, change, or delete access to pings. This is reserved for the superuser status.
+class ResetAdmin(admin.ModelAdmin):
+    fields = ["reset_time", "lecture"]
+    list_display = ("reset_time", "lecture")
+
+    def has_module_permission(self, request):
+        return request.user.is_staff
+
+    # instructors can only view resets for their own lectures and do not have add, change, or delete access to pings. This is reserved for the superuser status.
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return request.user.is_staff
+        else:
+            return request.user == obj.lecture.module.instructor
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(lecture__module__instructor=request.user)
+
+
+# instructors can only view pings for their own lectures and do not have add, change, or delete access to pings. This is reserved for the superuser status.
 class PingAdmin(admin.ModelAdmin):
     fields = ["student", "lecture", "ping_date"]
     list_display = ("student", "lecture", "ping_date")
@@ -295,6 +283,14 @@ class PingAdmin(admin.ModelAdmin):
             return request.user.is_staff
         else:
             return request.user == obj.lecture.module.instructor
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(lecture__module__instructor=request.user)
+
+        # https://docs.djangoproject.com/en/4.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_queryset
 
 
 # Register models

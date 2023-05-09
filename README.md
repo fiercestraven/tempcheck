@@ -37,7 +37,7 @@ Tempcheck is built on the back end with Django and Python. It is set up in the t
 
 The front end work, based in React/Next.js, is found in the tc-frontend folder. There are two folders that contain component pieces of pages: one is the Lib folder, which contains files that are pure JS, and the other is the Component folder, which contains files whose return includes HTML. A context folder holds the auth.js file, which handles fetching and storing the user's authentication information in local storage. A pages folder holds files for the actual web pages the user encounters, while a public -> images folder holds all the images used on the site. A styles folder holds the CSS file for Tempcheck.
 
-## INSTALLATION AND IMPLEMENTATION
+## PREREQUISITES, INSTALLATION AND IMPLEMENTATION
 _lightbulb stuff here, too__
 
 It is worth noting that colour changes will happen rapidly for lectures with small enrollment numbers. If only a handful of students are registered for a module, each threshold will be reached faster than it would be with a larger class.
@@ -55,8 +55,8 @@ Passwords can be added through the Django interface as desired and are recommend
 ## TESTING
 Tempcheck has two forms of automated testing set up:
 
-1. Integration testing through Django to test API access parameters
-2. Web automation testing through Playwright to check for end-to-end user functionality
+1. Unit and integration testing through Django to test API access parameters
+2. Web automation testing through Playwright to check for end-to-end user functionality by driving a real browser like Firefox or Chrome
 
 Integration tests are located at tcapp/tests.py and can be run in the terminal:
 > python manage.py test tcapp
