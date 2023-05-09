@@ -261,6 +261,7 @@ class ResetAdmin(admin.ModelAdmin):
         else:
             return request.user == obj.lecture.module.instructor
 
+    # https://docs.djangoproject.com/en/4.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_queryset
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
@@ -284,6 +285,7 @@ class PingAdmin(admin.ModelAdmin):
         else:
             return request.user == obj.lecture.module.instructor
 
+    # https://docs.djangoproject.com/en/4.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_queryset
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:

@@ -25,17 +25,24 @@ Tempcheck is a web app designed to be minimally intrusive to students and instru
 Tempcheck is designed to be flexible. Instructors can adjust their threshold settings, choose whether to include a lightbulb, and reset the temperature at any time during the lecture. While Tempcheck is designed to be used in lectures, it works equally well in other settings, such as a group lab session.
 
 ## CODE OVERVIEW
-<!-- break this down by bits of application (back end everything but tc-frontend folder, front end everything in tc-frontend is a stand-alone next.js application, lightbulb with script) -->
-<!-- completely separate back and front end communicating over api, never directly communicating with database (headless architecture) - call this out-->
-<!-- web app is just one possible embodiment of this - could also do other clients, native iOS or Android using same API - call this out -->
-<!-- using Django-Rest-Framework - call this out (also in report) -->
-<!-- could include screenshots of file trees -->
-<!-- mention that the api is authenticated with a bearer token -->
-<!-- lightbulb integration currently coupled to the back end but could be implemented completely through public APIs (for report)-->
+Tempcheck utilises a headless architecture with a completely separate front and back end. Because the front end communicates only through the API and not directly with the database, this web app is only one possible embodiment of Tempcheck. It is poised to be implemented on other clients, such as native iOS or Android systems, using the same API.
 
-Tempcheck is built on the back end with Django and Python. It is set up in the tcapp folder and includes admin templates (such as the CSV upload tool), the system files (set aside in a folder called "tempcheck"), and the main back end production files, which are housed in a folder called "tcapp". This includes the models.py, views.py, serializers.py, and urls.py, which form the backbone of the Python/Django structure. 
+### BACK END
+Tempcheck is built on the back end with Django and Python. A customised Django-Rest-Framework API provides the endpoints necessary to run Tempcheck. The API is authenticated with a bearer token. Associated code is found in views.py, serializers.py and urls.py. 
 
-The front end work, based in React/Next.js, is found in the tc-frontend folder. There are two folders that contain component pieces of pages: one is the Lib folder, which contains files that are pure JS, and the other is the Component folder, which contains files whose return includes HTML. A context folder holds the auth.js file, which handles fetching and storing the user's authentication information in local storage. A pages folder holds files for the actual web pages the user encounters, while a public -> images folder holds all the images used on the site. A styles folder holds the CSS file for Tempcheck.
+Additionally, the back end manages and runs a site for administrative access for the database. This admin site has been customised for superusers, who have full admin privileges, and instructors, who can perform more limited tasks such as adding or editing student users; creating, modifying or deleting their own modules and lectures; setting their desired ping thresholds; and more.
+
+The back end files consist of everything not in the tc-frontend folder and includes admin templates (such as the CSV upload tool), the system files (set aside in a folder called "tempcheck"), and the main back end production files, which are housed in a folder called "tcapp". This includes the models.py, views.py, serializers.py, and urls.py, which form the backbone of the Python/Django structure and the API.
+
+### FRONT END
+The front end work is a stand-alone Next.js application and is designed to be a simple, streamlined place for students and instructors to access the necessary parts of Tempcheck. Students see a page with all of their currently active, enrolled modules. From there they can select a module and select a given lecture, where they are then given the option to ping when they are feeling stuck or confused about the lecture material.
+
+Instructors also see their currently active modules and can select a module and lecture in order to push a button to reset the colour change any time they wish. Additionally, instructors have access to the Stats page, where they can run graphs of any module or lecture, past or present, that they have been assigned to teach. Instructors are also shown a link to the admin site, where they can access further data and perform administrative tasks to update the database.
+
+The front end files are located in the tc-frontend folder. There are two folders that contain component pieces of pages: the Lib folder, which contains files that are pure JS, and the Component folder, which contains files whose return includes HTML. A context folder holds the auth.js file, which handles fetching and storing the user's authentication information in local storage. A pages folder holds files for the actual web pages the user encounters, while a public -> images folder holds all the images used on the site. A styles folder holds the CSS file for Tempcheck. 
+
+### LIGHTBULB
+A LIFX bulb is used as an optional addition for Tempcheck and allows for more prominent visibility of the colour changes. The lightbulb can be set up at the front of a lecture hall, or positioned to be captured by a camera for online lectures. The lightbulb is currently coupled to the back end and run through the script lightbulb.py, which asks the user to select a bulb, a module, and a lecture, and then is responsive to changes in the temperature by accessing the temperature API on a loop.
 
 ## PREREQUISITES, INSTALLATION AND IMPLEMENTATION
 _lightbulb stuff here, too__
