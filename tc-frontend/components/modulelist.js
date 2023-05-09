@@ -46,6 +46,7 @@ export default function ModuleList() {
             <div className="content">
                 <h1>modules</h1>
 
+                {/* !! prevents this block from defaulting to (and printing out) 0 if no modules are returned */}
                 {(userData.username && !!moduleData.length) &&
                     <div>
                         <section>
