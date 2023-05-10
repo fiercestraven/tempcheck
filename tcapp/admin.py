@@ -160,6 +160,23 @@ class ModuleAdmin(StaffPermission, admin.ModelAdmin):
         else:
             return request.user == obj.instructor
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(instructor=request.user)
+
+    # https://stackoverflow.com/questions/44036138/django-admin-limiting-foreignkey-fields-choices
+    def render_change_form(self, request, context, *args, **kwargs):
+        if not request.user.is_superuser:
+            context["adminform"].form.fields[
+                "instructor"
+            ].queryset = User.objects.filter(pk=request.user.pk)
+            context["adminform"].form.fields["instructor"].initial = request.user
+        return super(ModuleAdmin, self).render_change_form(
+            request, context, args, kwargs
+        )
+
 
 class User_ModuleAdmin(StaffPermission, admin.ModelAdmin):
     fields = ["module", "user"]
@@ -216,6 +233,22 @@ class LectureAdmin(StaffPermission, admin.ModelAdmin):
             return request.user.is_staff
         else:
             return request.user == obj.module.instructor
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(module__instructor=request.user)
+
+    # https://stackoverflow.com/questions/44036138/django-admin-limiting-foreignkey-fields-choices
+    def render_change_form(self, request, context, *args, **kwargs):
+        if not request.user.is_superuser:
+            context["adminform"].form.fields["module"].queryset = Module.objects.filter(
+                instructor=request.user
+            )
+        return super(LectureAdmin, self).render_change_form(
+            request, context, args, kwargs
+        )
 
 
 class ThresholdAdmin(StaffPermission, admin.ModelAdmin):
@@ -289,11 +322,11 @@ class ResetAdmin(admin.ModelAdmin):
         return qs.filter(lecture__module__instructor=request.user)
 
 
-# instructors can only view pings for their own lectures and do not have add, change, or delete access to pings. This is reserved for the superuser status.
 class PingAdmin(admin.ModelAdmin):
     fields = ["student", "lecture", "ping_date"]
     list_display = ("student", "lecture", "ping_date")
 
+    # instructors can only view pings for their own lectures and do not have add, change, or delete access to pings. This is reserved for the superuser status.
     def has_module_permission(self, request):
         return request.user.is_staff
 
