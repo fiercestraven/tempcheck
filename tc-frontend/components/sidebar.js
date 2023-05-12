@@ -10,7 +10,7 @@ export default function Sidebar() {
                     priority
                     src={imageURL}
                     width={420}
-                    height={800}
+                    height={950}
                     alt="thermometer showing a red to green colour gradient"
                 />
             </a>

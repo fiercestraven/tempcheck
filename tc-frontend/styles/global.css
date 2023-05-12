@@ -270,6 +270,7 @@ a.btn-start {
 }
 
 .user-message {
+  margin-top: 0.75rem;
   color: rgb(226, 36, 36);
 }
 
@@ -293,6 +294,7 @@ a.btn-start {
 }
 
 .side-img {
+  margin-top: 2rem;
   position: absolute;
   display: inline-block;
 }

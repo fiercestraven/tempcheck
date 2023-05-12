@@ -119,7 +119,7 @@ export default function Stats() {
                   <div>
                     <p></p>
                     <select
-                      className="form-select"
+                      className="mb-4 form-select"
                       aria-label="Lecture selection"
                       onChange={(event) => { setSelectedLecture(event.target.value) }}
                     >

@@ -149,11 +149,6 @@ export default function Lecture() {
                             <div>
                                 <p>{lectureData.lecture_date}: {lectureData.lecture_description}</p>
 
-                                {/* show success message if reset complete */}
-                                {resetComplete &&
-                                    <p className="user-message">You have successfully reset to the baseline temperature.</p>
-                                }
-
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <div>
                                         <input
@@ -168,16 +163,21 @@ export default function Lecture() {
 
                                     {/* show different buttons based on staff status */}
                                     {profileData?.is_staff &&
-                                        <button className="w-30 mt-2 mb-3 btn btn-md" type="submit">Reset Temp</button>
+                                        <button className="w-30 mt-2 mb-1 btn btn-md" type="submit">Reset Temp</button>
                                     }
 
                                     {/* https://sebhastian.com/react-disable-button/ */}
                                     {!profileData?.is_staff &&
-                                        <button className="w-30 mt-4 mb-5 btn btn-md" type="submit" disabled={pingComplete}>Ping</button>
+                                        <button className="w-30 mt-4 mb-1 btn btn-md" type="submit" disabled={pingComplete}>Ping</button>
                                     }
 
                                     {/* timer here */}
                                     {pingComplete && < Timer onComplete={handleTimerComplete} />}
+
+                                    {/* show success message if reset complete */}
+                                    {resetComplete &&
+                                        <p className="user-message">You have successfully reset to the baseline temperature.</p>
+                                    }
 
                                     {userMessage &&
                                         <p className="user-message">Too many submissions. One ping allowed every two mintues.</p>

@@ -108,7 +108,7 @@ export default function LecturePingChart({ lectureName }) {
     return (
         <>
             <p></p>
-            <div ref={dotChartRef}></div>
+            <div className="mb-4" ref={dotChartRef}></div>
             {/* show/hide ping data table */}
             <details>
                 <summary>Show Ping Table</summary>
