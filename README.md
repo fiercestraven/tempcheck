@@ -34,6 +34,14 @@ Additionally, the back end manages and runs a site for administrative access for
 
 The back end files consist of everything not in the tc-frontend folder and includes admin templates (such as the CSV upload tool), the system files (set aside in a folder called "tempcheck"), and the main back end production files, which are housed in a folder called "tcapp". This includes the models.py, views.py, serializers.py, and urls.py, which form the backbone of the Python/Django structure and the API.
 
+#### BATCH USER UPLOAD VIA CSV
+There is a csv file upload available through the Django admin interface to facilitate batch importing student and/or staff data. This file must be of type .csv and should follow the following format:
+
+- username,first_name,last_name,email,is_staff
+
+Passwords can be added through the Django interface as desired and are recommended to be between 8-20 characters and contain at least one number and one uppercase letter.
+
+
 ### FRONT END
 The front end work is a stand-alone Next.js application and is designed to be a simple, streamlined place for students and instructors to access the necessary parts of Tempcheck. Students see a page with all of their currently active, enrolled modules. From there they can select a module and select a given lecture, where they are then given the option to ping when they are feeling stuck or confused about the lecture material.
 
@@ -42,13 +50,6 @@ Instructors also see their currently active modules and can select a module and 
 The front end files are located in the tc-frontend folder. There are two folders that contain component pieces of pages: the Lib folder, which contains files that are pure JS, and the Component folder, which contains files whose return includes HTML. A context folder holds the auth.js file, which handles fetching and storing the user's authentication information in local storage. A pages folder holds files for the actual web pages the user encounters, while a public -> images folder holds all the images used on the site. A styles folder holds the CSS file for Tempcheck. 
 
 It is worth noting that colour changes will happen rapidly for lectures with small enrollment numbers. If only a handful of students are registered for a module, each threshold will be reached faster than it would be with a larger class.
-
-### BATCH USER UPLOAD VIA CSV
-There is a csv file upload available through the Django admin interface to facilitate batch importing student and/or staff data. This file must be of type .csv and should follow the following format:
-
-- username,first_name,last_name,email,is_staff
-
-Passwords can be added through the Django interface as desired and are recommended to be between 8-20 characters and contain at least one number and one uppercase letter.
 
 ### LIGHTBULB
 A LIFX bulb is used as an optional addition for Tempcheck and allows for more prominent visibility of the colour changes. The lightbulb can be set up at the front of a lecture hall, or positioned to be captured by a camera for online lectures. The lightbulb is currently coupled to the back end and run through the script lightbulb.py, which asks the user to select a bulb, a module, and a lecture, and then is responsive to changes in the temperature by accessing the temperature API on a loop.
@@ -115,10 +116,10 @@ From the same computer as the back end server:
 3. When done, press ctrl-C to disconnect the lightbulb and stop the script
 
 ## DEMO
-[Video demonstration of Tempcheck](https://youtu.be/syu7XgS3O20)
+[Video demonstration](https://youtu.be/syu7XgS3O20)
 
 ## TESTING
-Tempcheck has two forms of automated testing set up:
+Tempcheck includes two forms of automated testing:
 
 1. Unit and integration testing through Django to test API access parameters
 2. Web automation testing through Playwright to check for end-to-end user functionality by driving a real browser like Firefox or Chrome
