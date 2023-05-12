@@ -102,7 +102,7 @@ Start the server:
 1. Run `npm run dev`
 2. Visit http://localhost:3000/ to log in and use the application.
 
-### (OPTIONAL) SMART LIGHTBULB
+### (OPTIONAL) LIGHTBULB
 
 Prerequisites:
 
