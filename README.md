@@ -41,12 +41,6 @@ Instructors also see their currently active modules and can select a module and 
 
 The front end files are located in the tc-frontend folder. There are two folders that contain component pieces of pages: the Lib folder, which contains files that are pure JS, and the Component folder, which contains files whose return includes HTML. A context folder holds the auth.js file, which handles fetching and storing the user's authentication information in local storage. A pages folder holds files for the actual web pages the user encounters, while a public -> images folder holds all the images used on the site. A styles folder holds the CSS file for Tempcheck. 
 
-### LIGHTBULB
-A LIFX bulb is used as an optional addition for Tempcheck and allows for more prominent visibility of the colour changes. The lightbulb can be set up at the front of a lecture hall, or positioned to be captured by a camera for online lectures. The lightbulb is currently coupled to the back end and run through the script lightbulb.py, which asks the user to select a bulb, a module, and a lecture, and then is responsive to changes in the temperature by accessing the temperature API on a loop.
-
-## PREREQUISITES, INSTALLATION AND IMPLEMENTATION
-_lightbulb stuff here, too__
-
 It is worth noting that colour changes will happen rapidly for lectures with small enrollment numbers. If only a handful of students are registered for a module, each threshold will be reached faster than it would be with a larger class.
 
 ### BATCH USER UPLOAD VIA CSV
@@ -56,8 +50,72 @@ There is a csv file upload available through the Django admin interface to facil
 
 Passwords can be added through the Django interface as desired and are recommended to be between 8-20 characters and contain at least one number and one uppercase letter.
 
+### LIGHTBULB
+A LIFX bulb is used as an optional addition for Tempcheck and allows for more prominent visibility of the colour changes. The lightbulb can be set up at the front of a lecture hall, or positioned to be captured by a camera for online lectures. The lightbulb is currently coupled to the back end and run through the script lightbulb.py, which asks the user to select a bulb, a module, and a lecture, and then is responsive to changes in the temperature by accessing the temperature API on a loop.
+
+## GETTING STARTED
+
+### BACK END
+
+Prerequisites:
+
+- Python >= 3.10
+- PostgreSQL >= 14
+    With an empty database for tempcheck
+
+Installation, from within the repository root:
+
+1. Create a Python virtualenv: `python3 -m venv ./venv`
+2. Install Python dependencies: `./venv/bin/pip install -r requirements-freeze.txt`
+
+Configuration, editing `tempcheck/settings.py`:
+
+1. Adjust the `DATABASES` setting to match your PostgreSQL database's `USER`, `PASSWORD`, `HOST` and `PORT`
+
+Verify installation:
+
+1. Run: `./venv/bin/python3 ./manage.py test`
+
+Set up the database:
+
+1. Apply schema migrations:  `./venv/bin/python ./manage.py migrate`
+2. Create an admin user: `./venv/bin/python ./manage.py createsuperuser`
+
+Start the server:
+
+1. Run: `./venv/bin/python ./manage.py runserver`
+2. Visit http://localhost:8000/admin/ to log into the back end admin area and manually populate data.
+
+### FRONT END
+
+Prerequisites:
+
+- Node.js >= 18
+
+Setup, from within the `tc-frontend/` directory:
+
+1. Install the Node.js dependencies: `npm install`
+
+Start the server:
+
+1. Run `npm run dev`
+2. Visit http://localhost:3000/ to log in and use the application.
+
+### (OPTIONAL) SMART LIGHTBULB
+
+Prerequisites:
+
+- LIFX brand light with support for RGB colours.
+    Connected to the same network as the Tempcheck back end server.
+
+From the same computer as the back end server:
+
+1. Run `./venv/bin/python ./manage.py runscript lightbulb`
+2. Select a module and lecture for the lightbulb to monitor
+3. When done, press ctrl-C to disconnect the lightbulb and stop the script
+
 ## DEMO
-<!-- fv link to video here -->
+[Video demonstration of Tempcheck](https://youtu.be/syu7XgS3O20)
 
 ## TESTING
 Tempcheck has two forms of automated testing set up:
