@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 export default function Thermometer({ lectureShortName }) {
     const { userData, userDataLoaded } = useContext(CurrentUserContext);
     const [imageURL, setImageURL] = useState("/images/thermometerGreen.png");
+    const [altText, setAltText] = useState("thermometer reflecting the current mood temperature of the group");
 
     useEffect(() => {
         let interval;
@@ -26,15 +27,19 @@ export default function Thermometer({ lectureShortName }) {
                 switch (data) {
                     case '0':
                         setImageURL("/images/thermometerGreen.png");
+                        setAltText("Thermometer showing a green colour to represent a low level of pinging");
                         break;
                     case '1':
                         setImageURL("/images/thermometerYellow.png");
+                        setAltText("Thermometer showing a yellow colour to represent the first threshold level of pinging");
                         break;
                     case '2':
                         setImageURL("/images/thermometerOrange.png");
+                        setAltText("Thermometer showing an orange colour to represent the second threshold level of pinging");
                         break;
                     case '3':
                         setImageURL("/images/thermometerRed.png");
+                        setAltText("Thermometer showing a red colour to represent the highest level of pinging");
                         break;
                 }
             }, 2000);
@@ -63,7 +68,7 @@ export default function Thermometer({ lectureShortName }) {
             src={imageURL}
             width={280}
             height={700}
-            alt="thermometer reflecting the current mood temperature of the group"
+            alt={altText}
         />
     );
 }
