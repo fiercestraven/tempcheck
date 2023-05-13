@@ -1,7 +1,7 @@
 [
   {
     "_comment_": "Sample user credentials for Tempcheck, including a superuser, a test instructor, a named instructor, a test student, and a named student."
-  }
+  },
   {
     "model": "auth.user",
     "pk": 3,
@@ -91,5 +91,5 @@
       "groups": [],
       "user_permissions": []
     }
-  },
+  }
 ]
