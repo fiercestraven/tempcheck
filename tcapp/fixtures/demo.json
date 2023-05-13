@@ -1,0 +1,95 @@
+[
+  {
+    "_comment_": "Sample user credentials for Tempcheck, including a superuser, a test instructor, a named instructor, a test student, and a named student."
+  }
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$Da0Cfc6ClTGzPsloO4bgrz$4J2m1mPtTbDhT+ungG7SZMgE1EWXYpafpmBadwIIVIw=",
+      "last_login": "2023-05-10T09:48:53.797Z",
+      "is_superuser": true,
+      "username": "tcadmin",
+      "first_name": "",
+      "last_name": "",
+      "email": "fveit01@qub.ac.uk",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2022-10-29T13:53:51.605Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 445,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$DcXMrjYVTElK1Cc7G1GKFk$UE3ezpVsyluok2CP9DJRjm5DYzSQOAHtOPWs+xsw4Mg=",
+      "last_login": "2023-05-09T11:15:55.656Z",
+      "is_superuser": false,
+      "username": "testinstructor",
+      "first_name": "Test",
+      "last_name": "Instructor",
+      "email": "test.instructor@yopmail.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-05-07T13:41:18Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 442,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$1od1OCi6mAYh6qvYiSZjh1$Yhzr2WqJMjH9odgtFB3ApYTbvopGeukm5X+ddLVuoM8=",
+      "last_login": "2023-05-10T18:23:15.919Z",
+      "is_superuser": false,
+      "username": "TaliaSinegold",
+      "first_name": "Talia",
+      "last_name": "Sinegold",
+      "email": "Talia.Sinegold@yopmail.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-01-15T21:23:47.967Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 446,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$FMJkCKhI8nX1pl8b8K7VxX$saQqaPe2Iif939vCFm6C/8U2d+aHCxhwXGCFsBRvL8o=",
+      "last_login": "2023-05-10T15:35:56.545Z",
+      "is_superuser": false,
+      "username": "teststudent",
+      "first_name": "Test",
+      "last_name": "Student",
+      "email": "test.student@yopmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-05-07T13:42:07.865Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 100,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$o3a4fOkWi6sOBiFEXX6rfQ$tfvmD9Bae2EYVmYVF6LFiCBfrL5RlOkTCFmVtsY1TSk=",
+      "last_login": "2023-05-10T15:36:07.860Z",
+      "is_superuser": false,
+      "username": "AlejandraLeopold",
+      "first_name": "Alejandra",
+      "last_name": "Leopold",
+      "email": "Alejandra.Leopold@yopmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-01-15T21:23:08.807Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+]
