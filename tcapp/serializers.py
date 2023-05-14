@@ -21,6 +21,18 @@ class LectureSerializer(serializers.ModelSerializer):
         ]
 
 
+class AbbreviatedLectureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lecture
+        fields = [
+            "lecture_shortname",
+            "lecture_name",
+            "lecture_description",
+            "lecture_date",
+            "module",
+        ]
+
+
 class ModuleSerializer(serializers.ModelSerializer):
     # explicitly using ProfileSerializer rather than the generic User here so that only desired fields are displayed
     instructor = ProfileSerializer()
@@ -42,7 +54,7 @@ class ModuleSerializer(serializers.ModelSerializer):
 
     def get_lectures(self, obj):
         lectures = obj.lecture_set.all().order_by("lecture_shortname")
-        return LectureSerializer(lectures, many=True).data
+        return AbbreviatedLectureSerializer(lectures, many=True).data
 
 
 class PingSerializer(serializers.ModelSerializer):
