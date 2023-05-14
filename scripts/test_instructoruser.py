@@ -21,8 +21,8 @@ def test_instructor_workflow() -> None:
             "link", name="CS158_2023_SUM: Mathematical Algorithms in C"
         ).click()
 
-        # navigate to lecture 1 for week 2
-        page.get_by_role("link", name="Week 2, Lecture 1").click()
+        # navigate to lecture 1 for week 1
+        page.get_by_role("link", name="Week 1, Lecture 1").click()
 
         # reset temp
         page.get_by_role("button", name="Reset Temp").click()
