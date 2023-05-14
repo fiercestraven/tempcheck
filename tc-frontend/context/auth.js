@@ -10,7 +10,6 @@ export function CurrentUserContextWrapper({ children }) {
         const data = JSON.parse(localStorage.getItem('userData'));
         setUserData(data || {});
         setUserDataLoaded(true);
-        // fv - consider adding [userData] as a dependency for useEffect function in order to optimize calls to local storage
     }, []);
 
     async function loginUser(username, password) {
@@ -50,7 +49,6 @@ export function CurrentUserContextWrapper({ children }) {
         localStorage.removeItem('userData');
         // Empty user data state
         setUserData({});
-        // fv - add user message here
     };
 
     return (

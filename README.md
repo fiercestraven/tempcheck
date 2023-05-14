@@ -85,7 +85,7 @@ Set up the database:
 Start the server:
 
 1. Run: `./venv/bin/python ./manage.py runserver`
-2. run: manage.py loaddata demo (to load demo user data)
+2. run: manage.py loaddata demo (to load demo user and testing data)
 3. Visit http://localhost:8000/admin/ to log into the back end admin area and manually populate data.
 
 ### FRONT END
