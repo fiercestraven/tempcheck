@@ -12,7 +12,6 @@ export default function Login() {
     async function onSubmit(data) {
         try {
             await loginUser(data.username, data.password);
-            console.log("Login complete!");
         } catch (e) {
             console.error("Login failed: ", e.message);
             // print message to user

@@ -71,7 +71,6 @@ export default function Stats() {
       });
       const data = await res.json();
       setLectureData(data);
-      console.log("Lecture data is ", data);
     }
   }
 

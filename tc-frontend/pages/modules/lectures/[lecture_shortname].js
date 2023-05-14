@@ -74,9 +74,7 @@ export default function Lecture() {
     }
 
     async function onSubmit(data) {
-        console.log(data);
         try {
-            console.log('fetching');
             let url = profileData.is_staff ? `http://localhost:8000/tcapp/api/lectures/${lecture_shortname}/resets/` : `http://localhost:8000/tcapp/api/lectures/${lecture_shortname}/pings/`
             let res = await fetch(url, {
                 method: 'POST',
@@ -89,7 +87,6 @@ export default function Lecture() {
                 },
                 // no body necessary as date/time, lecture and student/instructor info is all set on the back end
             });
-            console.log('checking status');
             if (res.status == 400) {
                 throw new Error("An error occurred with the submission");
             }
@@ -98,7 +95,6 @@ export default function Lecture() {
                 throw new Error("Too many submissions. One ping is allowed every two minutes.");
             }
             const result = await res.json();
-            console.log(result);
 
             // Disable the button and timer for pings
             if (!profileData.is_staff) {

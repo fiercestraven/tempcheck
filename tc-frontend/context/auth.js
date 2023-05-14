@@ -10,12 +10,10 @@ export function CurrentUserContextWrapper({ children }) {
         const data = JSON.parse(localStorage.getItem('userData'));
         setUserData(data || {});
         setUserDataLoaded(true);
-        console.debug('Got user data.', data);
-    // fv - consider adding [userData] as a dependency for useEffect function in order to optimize calls to local storage
+        // fv - consider adding [userData] as a dependency for useEffect function in order to optimize calls to local storage
     }, []);
 
     async function loginUser(username, password) {
-        console.debug('Attempting a login...');
         let res = await fetch('http://localhost:8000/tcapp/dj-rest-auth/login/', {
             method: 'POST',
             credentials: 'omit',
@@ -57,11 +55,11 @@ export function CurrentUserContextWrapper({ children }) {
 
     return (
         <CurrentUserContext.Provider value={{
-            userData, 
+            userData,
             userDataLoaded,
-            loginUser, 
-            logoutUser, 
-            }}
+            loginUser,
+            logoutUser,
+        }}
         >
             {children}
         </CurrentUserContext.Provider>
