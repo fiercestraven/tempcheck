@@ -2,9 +2,9 @@
 function Copyright() {
     return (
         <div>
-            {/* {'©'} */}
+
             <a className="fancy-link" href="https://github.com/fiercestraven/tempcheck/">Frances Veit </a>
-            <>| {new Date().getFullYear()}</>
+            <>|{' ©'} {new Date().getFullYear()}</>
         </div>
     );
 }
