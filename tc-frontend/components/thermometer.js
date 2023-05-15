@@ -41,7 +41,7 @@ export default function Thermometer({ lectureShortName }) {
                         setAltText("Thermometer showing a red colour to represent the highest level of pinging");
                         break;
                 }
-            }, 2000);
+            }, 1000);
         }
 
         if (userDataLoaded && userData.username) {

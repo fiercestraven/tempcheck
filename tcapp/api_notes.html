@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+{
+username* string
+password* string
+}
+
+Example:
+{
+“username”: “CarmenRosenbaum”,
+“password”: “Ex@mple!Password”
+}
+
+-----
+
+{
+access_token string(JWT)
+user {
+pk integer
+username string
+email string
+first_name string
+last_name string
+}
+}
+
+Example:
+{
+access_token: EJI8734nj02lk3nk2lnknlkwenkltinCD2lk
+user {
+“pk”: 43,
+“username”: “CarmenRosenbaum”,
+“email”: “Carmen.Rosenbaum@yopmail.com”,
+“first_name”: “Carmen”,
+“last_name”: ”Rosenbaum”
+}
+}
+
+----
+
+{
+username string
+first_name string
+last_name string
+is_staff boolean
+}
+
+Example:
+{
+"username": "CarmenRosenbaum",
+"first_name": "Carmen",
+"last_name": "Rosenbaum",
+"is_staff": false
+}
+
+-----
+
+{
+lecture_shortname string
+lecture_name string
+lecture_description string
+lecture_date string
+module {
+id integer
+module_shortname string
+module_name string
+module_description string
+is_active boolean
+instructor integer
+}
+}
+
+Example:
+{
+"lecture_shortname": "CS270_W1_L1_2023_SUM",
+"lecture_name": "Week 1, Lecture 1",
+"lecture_description": "Intro to coding with Python",
+"lecture_date": "06-26-2023",
+"module" {
+"id": 27,
+"module_shortname": "CS270_2023_SUM",
+"module_name": "Intro to Python",
+"module_description": "Coding and testing using Python3",
+"is_active": true,
+"instructor": 31
+}
+}
+
+------
+
+[{
+Array of object:
+module_shortname string
+module_name string
+module_description string
+instructor {
+username string
+first_name string
+last_name string
+is_staff boolean
+}
+is_active boolean
+lectures [{
+Array of object:
+lecture_shortname string
+lecture_name string
+lecture_description string
+lecture_date string
+}]
+}]
+
+Example:
+[{
+Array of object:
+"module_shortname": "CS270_2023_SUM",
+"module_name": "Intro to Python",
+"module_description": "Coding and testing using Python3",
+instructor {
+"username": "BeatriceHoolian",
+"first_name": "Beatrice",
+"last_name": "Hoolian",
+"is_staff": true
+},
+"is_active": true,
+lectures [{
+Array of object:
+"lecture_shortname": "CS270_W1_L1_2023_SUM",
+"lecture_name": "Week 1, Lecture 1",
+"lecture_description": "Intro to coding with Python",
+"lecture_date": "06-26-2023",
+}]
+}]
+
+-----
+
+{
+module_shortname string
+module_name string
+module_description string
+instructor {
+username string
+first_name string
+last_name string
+is_staff boolean
+}
+is_active boolean
+lectures [{
+Array of object:
+lecture_shortname string
+lecture_name string
+lecture_description string
+lecture_date string
+}]
+}
+
+Example:
+{
+"module_shortname": "CS270_2023_SUM",
+"module_name": "Intro to Python",
+"module_description": "Coding and testing using Python3",
+instructor {
+"username": "BeatriceHoolian",
+"first_name": "Beatrice",
+"last_name": "Hoolian",
+"is_staff": true
+}
+"is_active": true,
+lectures [{
+Array of object:
+"lecture_shortname": "CS270_W1_L1_2023_SUM",
+"lecture_name": "Week 1, Lecture 1",
+"lecture_description": "Intro to coding with Python",
+"lecture_date": "06-26-2023",
+}]
+}
+
+-----
+
+[{
+Array of object:
+ping_date string
+student string
+lecture string
+}]
+
+Example:
+[{
+Array of object:
+"ping_date": "2023-04-19T19:28:07.284176+01:00",
+"student": "CarmenRosenbaum",
+"lecture": "CS270_W1_L1_2023_SUM"
+}]
+
+----
+
+{
+ping_date string
+student string
+lecture string
+}
+STATUS CODE - 429: Too Many Requests
+
+Example:
+{
+"ping_date": "2023-04-19T19:28:07.284176+01:00",
+"student": "CarmenRosenbaum",
+"lecture": "CS270_W1_L1_2023_SUM"
+}
+
+-----
+
+{
+reset_time string
+instructor integer
+lecture integer
+}
+
+Example:
+
+{
+"reset_date": "2023-04-19T19:28:07.284176+01:00",
+"instructor": 43,
+"lecture": 152
+}
+
+-----

@@ -32,7 +32,7 @@ export default function ModuleList() {
     }
 
     if (!userData.username) {
-        router.push("/modules");
+        router.push("/");
     }
 
     return (

@@ -78,6 +78,7 @@ class PingSerializer(serializers.ModelSerializer):
 
 class ResetSerializer(serializers.ModelSerializer):
     # could do same as pings above if this information is ever needed for export or if returning usernames and lecture names is desirable in future
+
     class Meta:
         model = Reset
         fields = ["reset_time", "instructor", "lecture"]

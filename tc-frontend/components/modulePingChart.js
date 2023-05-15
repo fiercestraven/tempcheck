@@ -1,10 +1,7 @@
 import * as Plot from '@observablehq/plot';
-import * as d3 from "d3";
 import { addTooltips } from '../lib/plotTooltips';
 import { CurrentUserContext } from '../context/auth';
 import { useContext, useEffect, useState, useRef } from 'react';
-// https://www.npmjs.com/package/react-csv-downloader
-import CsvDownloader from 'react-csv-downloader';
 
 export default function ModulePingChart({ lectures }) {
     const { userData, userDataLoaded } = useContext(CurrentUserContext);
