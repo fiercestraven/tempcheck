@@ -67,10 +67,7 @@ def test_instructor_workflow() -> None:
         page.get_by_role("link", name="Lectures").click()
 
         # select lecture to edit
-        page.get_by_role(
-            "row",
-            name="Mathematical Algorithms in C CS158_W1_L1_2023_SUM Week 1, Lecture 1 Intro July 10, 2023",
-        ).get_by_role("link", name="Mathematical Algorithms in C").click()
+        page.get_by_role("link", name="Mathematical Algorithms in C").click()
         page.get_by_label("Lecture description:").click()
         page.get_by_label("Lecture description:").fill("Intro and necessary paperwork")
         page.get_by_role("button", name="Save", exact=True).click()

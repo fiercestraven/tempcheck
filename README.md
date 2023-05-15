@@ -80,13 +80,13 @@ Verify installation:
 Set up the database:
 
 1. Apply schema migrations:  `./venv/bin/python ./manage.py migrate`
-2. Create an admin user: `./venv/bin/python ./manage.py createsuperuser`
+2. (Optional) run: `./venv/bin/python ./manage.py loaddata demo` (to load demo user and testing data)
+3. Create an admin user: `./venv/bin/python ./manage.py createsuperuser`
 
 Start the server:
 
 1. Run: `./venv/bin/python ./manage.py runserver`
-2. run: manage.py loaddata demo (to load demo user and testing data)
-3. Visit http://localhost:8000/admin/ to log into the back end admin area and manually populate data.
+2. Visit http://localhost:8000/admin/ to log into the back end admin area and manually populate data.
 
 ### FRONT END
 
@@ -126,10 +126,12 @@ Tempcheck includes two forms of automated testing:
 2. Web automation testing through Playwright to check for end-to-end user functionality by driving a real browser like Firefox or Chrome
 
 Integration tests are located at tcapp/tests.py and can be run in the terminal:
-> python manage.py test tcapp
+> ./venv/bin/python manage.py test tcapp
 
 Playwright tests are located in the scripts folder and all begin with test_. A simple command in the terminal will run these tests:
-> pytest
+> ./venv/bin/pytest
+
+The back end and front end must be running for the Playwright tests to work, and the 'loaddata demo' command from setup must have been run.
 
 ## FUTURE FEATURES
 - Official deployment!

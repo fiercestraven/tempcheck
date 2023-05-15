@@ -1,12 +1,9 @@
 [
   {
-    "_comment_": "Data for sample users and module/lecture/user_module data necesaryfor running the Playwright tests for Tempcheck"
-  },
-  {
     "model": "auth.user",
     "pk": 3,
     "fields": {
-      "password": "donor.toolkit3",
+      "password": "pbkdf2_sha256$390000$f9SIDiWNUYjUhABebZC9bp$nApi4YRzsHJOIKT0AF37bIc9MA9uGqyTNISHOLGupC0=",
       "last_login": "2023-05-10T09:48:53.797Z",
       "is_superuser": true,
       "username": "tcadmin",
@@ -24,7 +21,7 @@
     "model": "auth.user",
     "pk": 445,
     "fields": {
-      "password": "destruct1",
+      "password": "pbkdf2_sha256$390000$HsrXlZAZojiSbKDy9i47p6$LDeFhpsTVIvQmW4BK1CesqG5cv0krg4NlXUVW6VOILU=",
       "last_login": "2023-05-09T11:15:55.656Z",
       "is_superuser": false,
       "username": "testinstructor",
@@ -42,7 +39,7 @@
     "model": "auth.user",
     "pk": 442,
     "fields": {
-      "password": "ruminant.3Dethrone",
+      "password": "pbkdf2_sha256$390000$FCijPxzFZBENQmD6rP4nWF$5kzBxLtM0Smh96Ercud1NiGfV+2TnvD+vkSLRS5zx2Y=",
       "last_login": "2023-05-10T18:23:15.919Z",
       "is_superuser": false,
       "username": "TaliaSinegold",
@@ -60,7 +57,7 @@
     "model": "auth.user",
     "pk": 446,
     "fields": {
-      "password": "teachme2",
+      "password": "pbkdf2_sha256$390000$xDVaF2yZcqJPztbcHLEw4r$5oaLFmbKaDhVtT6/McCQPF/Y+Z5L5eDdqnBnzLJg/c0=",
       "last_login": "2023-05-10T15:35:56.545Z",
       "is_superuser": false,
       "username": "teststudent",
@@ -78,7 +75,7 @@
     "model": "auth.user",
     "pk": 100,
     "fields": {
-      "password": "1nap.vale.Musty",
+      "password": "pbkdf2_sha256$390000$IKveYEV0wT6ZcN2BSoZnJa$YVJpWfMc06OZ0HFsTntMnrVZCIS0hV2g3kKvbkD2Vf4=",
       "last_login": "2023-05-10T15:36:07.860Z",
       "is_superuser": false,
       "username": "AlejandraLeopold",
@@ -129,7 +126,7 @@
       "module_shortname": "CS270_2023_SUM",
       "module_name": "Computer Organisation",
       "module_description": "Data representation, arithmetic, assembly and C language, digital logic and systems, Boolean algebra, circuits, CPU and memory models, state machines.",
-      "instructor": 438,
+      "instructor": 445,
       "is_active": true
     }
   },
@@ -165,6 +162,17 @@
   },
   {
     "model": "tcapp.lecture",
+    "pk": 30,
+    "fields": {
+      "lecture_shortname": "CS155_W1_L1_2023_SUM",
+      "lecture_name": "Week 1, Lecture 1",
+      "lecture_description": "Intro to course, workload expectation, group selection",
+      "lecture_date": "2023-07-11",
+      "module": 17
+    }
+  },
+  {
+    "model": "tcapp.lecture",
     "pk": 31,
     "fields": {
       "lecture_shortname": "CS155_W1_L2_2023_SUM",
@@ -172,6 +180,15 @@
       "lecture_description": "Overview of final project",
       "lecture_date": "2023-07-13",
       "module": 17
+    }
+  },
+  {
+    "model": "tcapp.ping",
+    "pk": 1,
+    "fields": {
+      "ping_date": "2023-07-11T09:32:15.396521Z",
+      "student": 100,
+      "lecture": 31
     }
   }
 ]
