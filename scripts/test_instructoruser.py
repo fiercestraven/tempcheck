@@ -76,10 +76,7 @@ def test_instructor_workflow() -> None:
         page.get_by_role("button", name="Save", exact=True).click()
 
         # check that update took effect
-        locator = page.locator(
-            "#result_list > tbody:nth-child(2) > tr:nth-child(35) > td:nth-child(5)"
-        )
-        expect(locator).to_contain_text("necessary")
+        expect(page.get_by_text("necessary")).to_be_visible()
 
         # log out
         page.get_by_text("Log Out").click()
