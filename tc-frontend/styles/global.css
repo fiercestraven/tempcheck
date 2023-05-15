@@ -14,7 +14,6 @@ body {
   line-height: 1.4;
   font-size: 18px;
   box-sizing: border-box;
-  /* background-color: rgb(241, 240, 240); */
   background-color: rgb(246, 249, 225)
 }
 
@@ -36,7 +35,6 @@ p {
 /* fancy link stuff */
 /* https://codepen.io/eehayman/pen/WoWzWd */
 .fancy-link {
-  /* transition: background-size .4s ease; */
   background: linear-gradient(to bottom, transparent 62%, #f3ea6d 0) center/0% 75% no-repeat;
   padding: 0 6px 2px 6px;
   cursor: pointer;
@@ -254,7 +252,6 @@ a.btn-start {
   padding: 10px;
   border: 1px solid #bbb9b9;
   border-radius: 10px;
-  /* box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.06); */
 }
 
 .index-header {
@@ -281,7 +278,6 @@ a.btn-start {
 }
 
 #header-img {
-  /* margin: 20px; */
   float: left;
 }
 
